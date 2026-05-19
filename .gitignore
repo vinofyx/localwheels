@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build
+frontend/dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime / OS
+.DS_Store
+Thumbs.db
+*.db
+*.db-shm
+*.db-wal
+
+# Uploads (large binary files — serve from object storage in prod)
+backend/uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# Test artefacts
+e2e_test.js

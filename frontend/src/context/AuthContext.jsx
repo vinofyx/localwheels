@@ -1,0 +1,42 @@
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import api from '../api/client';
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('lw_user')); } catch { return null; }
+  });
+  const [branch, setBranch] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('lw_branch')); } catch { return null; }
+  });
+
+  const login = useCallback(async (username, password) => {
+    const { data } = await api.post('/auth/login', { username, password });
+    localStorage.setItem('lw_token', data.token);
+    localStorage.setItem('lw_user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
+  }, []);
+
+  const selectBranch = useCallback((b) => {
+    localStorage.setItem('lw_branch', JSON.stringify(b));
+    setBranch(b);
+  }, []);
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('lw_token');
+    localStorage.removeItem('lw_user');
+    localStorage.removeItem('lw_branch');
+    setUser(null);
+    setBranch(null);
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, branch, login, selectBranch, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);
