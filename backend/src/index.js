@@ -45,13 +45,25 @@ app.use('/api/*', (_req, res) => {
 });
 
 // ── Serve built React frontend (production) ───────────────────────────────────
+const fs   = require('fs');
 const DIST = path.join(__dirname, '../../frontend/dist');
-app.use(express.static(DIST));
+const DIST_INDEX = path.join(DIST, 'index.html');
 
-// SPA catch-all — serves index.html for every non-API path
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(DIST, 'index.html'));
-});
+if (fs.existsSync(DIST)) {
+  app.use(express.static(DIST));
+  // SPA catch-all — serves index.html for every non-API path
+  app.get('*', (_req, res) => {
+    if (fs.existsSync(DIST_INDEX)) {
+      res.sendFile(DIST_INDEX);
+    } else {
+      res.status(503).json({ error: 'Frontend not built. Run: cd frontend && npm run build' });
+    }
+  });
+} else {
+  app.get('*', (_req, res) => {
+    res.status(503).json({ error: 'Frontend dist not found. Run: cd frontend && npm run build' });
+  });
+}
 
 // ── Global error handler ──────────────────────────────────────────────────────
 // eslint-disable-next-line no-unused-vars
