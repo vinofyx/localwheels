@@ -2,7 +2,15 @@ require('dotenv').config();
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
+const fs       = require('fs');
 const connectDB = require('./db/connect');
+
+// ── Ensure uploads directory exists (it is gitignored; must create on fresh deploy) ──
+const UPLOADS_DIR = path.join(__dirname, '../uploads');
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  console.log('📁 Created uploads directory:', UPLOADS_DIR);
+}
 
 const app = express();
 
