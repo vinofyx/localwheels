@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+// In production (Vercel), VITE_API_URL = https://your-backend.onrender.com/api
+// In development, Vite proxy forwards /api → localhost:5000/api
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
-// Attach token to every request
+const api = axios.create({ baseURL: BASE_URL });
+
+// Attach JWT token to every request
 api.interceptors.request.use(cfg => {
   const token = localStorage.getItem('lw_token');
   if (token) cfg.headers.Authorization = `Bearer ${token}`;
