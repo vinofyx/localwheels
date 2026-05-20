@@ -1,0 +1,13 @@
+{
+  "name": "localwheels",
+  "version": "1.0.0",
+  "description": "LocalWheels Logistics SaaS — monorepo root",
+  "private": true,
+  "scripts": {
+    "dev": "cd backend && npx concurrently --names \"API,UI\" --prefix-colors \"cyan,magenta\" \"npm run dev\" \"cd ../frontend && npm run dev\"",
+    "dev:backend":  "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build":        "cd frontend && npm install && npm run build",
+    "install:all":  "cd backend && npm install && cd ../frontend && npm install"
+  }
+}

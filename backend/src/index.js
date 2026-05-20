@@ -47,9 +47,15 @@ app.use('/api/payments',       require('./routes/payments'));
 app.use('/api/users',          require('./routes/users'));
 app.use('/api/route-expenses', require('./routes/routeExpenseRoutes'));
 
-// ── 404 for any unmatched route ───────────────────────────────────────────────
-app.use((_req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// ── Non-API routes ────────────────────────────────────────────────────────────
+// In dev: redirect browser to Vite frontend (localhost:8080)
+// In production on Render: the frontend lives on Vercel, so just say so
+app.get('*', (req, res) => {
+  if (process.env.NODE_ENV !== 'production') {
+    // Redirect any non-API browser request to the Vite dev server
+    return res.redirect(`http://localhost:8080${req.path}`);
+  }
+  res.status(404).json({ error: 'Route not found. Frontend is hosted on Vercel.' });
 });
 
 // ── Global error handler ──────────────────────────────────────────────────────
