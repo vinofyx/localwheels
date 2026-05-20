@@ -6,6 +6,7 @@ export default defineConfig({
 
   server: {
     port: 8080,
+    host: '0.0.0.0',   // Listen on all interfaces (IPv4 + IPv6) — fixes ::1 vs 127.0.0.1 issue
     // Dev proxy: forwards /api/* → localhost:5000/api/* so you don't need VITE_API_URL locally
     proxy: {
       '/api': {

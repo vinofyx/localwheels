@@ -4,7 +4,8 @@ const Payment = require('../models/Payment');
 const { authenticate, requireBranchAccess } = require('../middleware/auth');
 
 const router = express.Router();
-const ObjId = id => mongoose.Types.ObjectId.createFromHexString(id);
+const ObjId    = id => new mongoose.Types.ObjectId(id);
+const isValidId = id => id && mongoose.Types.ObjectId.isValid(id);
 
 function fmtDate(d) {
   if (!d) return null;
@@ -67,6 +68,7 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
 // ── PATCH /api/payments/:id/collect ──────────────────────────────────────────
 router.patch('/:id/collect', authenticate, async (req, res, next) => {
   try {
+    if (!isValidId(req.params.id)) return res.status(400).json({ error: 'Invalid payment ID' });
     const updated = await Payment.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
       { status: 'paid', paid_date: new Date() }

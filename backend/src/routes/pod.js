@@ -5,7 +5,9 @@ const POD = require('../models/POD');
 const Shipment = require('../models/Shipment');
 const { authenticate, requireBranchAccess } = require('../middleware/auth');
 
+const mongoose = require('mongoose');
 const router = express.Router();
+const isValidId = id => id && mongoose.Types.ObjectId.isValid(id);
 
 function fmtDate(d) {
   if (!d) return null;
@@ -74,6 +76,7 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
 // ── POST /api/pod/:shipmentId/upload ─────────────────────────────────────────
 router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
+    if (!isValidId(req.params.shipmentId)) return res.status(400).json({ error: 'Invalid shipment ID' });
     const { receiver_name, delivery_date } = req.body;
     const filePath = req.file ? `/uploads/${req.file.filename}` : null;
 
@@ -100,6 +103,7 @@ router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (r
 // ── PATCH /api/pod/:shipmentId/verify ────────────────────────────────────────
 router.patch('/:shipmentId/verify', authenticate, async (req, res, next) => {
   try {
+    if (!isValidId(req.params.shipmentId)) return res.status(400).json({ error: 'Invalid shipment ID' });
     const pod = await POD.findOneAndUpdate(
       { shipment_id: req.params.shipmentId },
       { status: 'verified' }

@@ -6,7 +6,7 @@ const Payment = require('../models/Payment');
 const { authenticate, requireBranchAccess } = require('../middleware/auth');
 
 const router = express.Router();
-const ObjId = id => mongoose.Types.ObjectId.createFromHexString(id);
+const ObjId = id => new mongoose.Types.ObjectId(id);
 
 router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
   try {
