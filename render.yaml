@@ -2,17 +2,17 @@ services:
   - type: web
     name: localwheels-backend
     env: node
-    rootDir: backend
-    buildCommand: npm install
-    startCommand: node src/index.js
+    rootDir: .
+    buildCommand: cd backend && npm install
+    startCommand: node backend/src/index.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
       - key: MONGODB_URI
-        sync: false          # Set this in Render dashboard
+        sync: false
       - key: JWT_SECRET
-        sync: false          # Set this in Render dashboard
+        sync: false
       - key: ALLOWED_ORIGINS
-        sync: false          # Set to your Vercel URL e.g. https://localwheels.vercel.app
+        sync: false
