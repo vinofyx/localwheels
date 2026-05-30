@@ -7,7 +7,9 @@ const Branch = require('../models/Branch');
 const User = require('../models/User');
 
 async function seed() {
-  await mongoose.connect(process.env.MONGO_URI);
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  if (!uri) throw new Error('Set MONGODB_URI or MONGO_URI in your environment');
+  await mongoose.connect(uri);
   console.log('Connected to MongoDB. Seeding...');
 
   // Company

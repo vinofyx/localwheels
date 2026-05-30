@@ -4,6 +4,13 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
 
+  // base: '/' ensures all asset URLs start with '/' (absolute paths).
+  // Required for:
+  //   • React Router — sub-route navigation (e.g. /dashboard/settings)
+  //   • Hostinger — assets must be addressable from any depth of the URL tree
+  //   • Nginx / Apache reverse-proxies serving from document root
+  base: '/',
+
   server: {
     port: 8080,
     host: '0.0.0.0',   // Listen on all interfaces (IPv4 + IPv6) — fixes ::1 vs 127.0.0.1 issue
@@ -21,6 +28,8 @@ export default defineConfig({
   },
 
   build: {
+    // Emit source maps in production for easier debugging (optional — remove for smaller deploy)
+    sourcemap: false,
     chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {

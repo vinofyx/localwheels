@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
   full_name: String,
   email: String,
   phone: String,
-  role: { type: String, enum: ['superadmin', 'admin', 'manager', 'staff'], default: 'staff' },
+  // 'operator' kept for backward-compat with legacy data that may exist in the DB.
+  // New users can only be created with admin-validated roles (enforced in routes/users.js).
+  role: { type: String, enum: ['superadmin', 'admin', 'manager', 'staff', 'operator'], default: 'staff' },
   branch_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' }],
   is_active: { type: Boolean, default: true },
 }, { timestamps: true });

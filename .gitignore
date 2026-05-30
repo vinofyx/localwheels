@@ -5,12 +5,15 @@ node_modules/
 
 # Production build
 frontend/dist/
+frontend/dist.zip
+*.zip
 
-# Environment variables
+# Environment variables — never commit real secrets
 .env
 .env.local
 .env.*.local
 backend/.env
+frontend/.env.production
 
 # Logs
 logs/

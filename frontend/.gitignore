@@ -1,0 +1,20 @@
+# Build output
+dist/
+dist.zip
+
+# Environment — never commit real secrets
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

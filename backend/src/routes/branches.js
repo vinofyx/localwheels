@@ -5,7 +5,8 @@ const User = require('../models/User');
 const { authenticate, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
-const ObjId = id => mongoose.Types.ObjectId.createFromHexString(id);
+const ObjId    = id => new mongoose.Types.ObjectId(id);
+const isValidId = id => id && mongoose.Types.ObjectId.isValid(id);
 
 // ── GET /api/branches/user — branches the current user can access ─────────────
 router.get('/user', authenticate, async (req, res, next) => {
@@ -64,6 +65,7 @@ router.post('/', authenticate, requireRole('admin', 'superadmin'), async (req, r
 // ── PUT /api/branches/:id ─────────────────────────────────────────────────────
 router.put('/:id', authenticate, requireRole('admin', 'superadmin'), async (req, res, next) => {
   try {
+    if (!isValidId(req.params.id)) return res.status(400).json({ error: 'Invalid branch ID' });
     const { branch_name, location, phone, address, is_active } = req.body;
     await Branch.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
