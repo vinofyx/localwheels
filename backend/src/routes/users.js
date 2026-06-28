@@ -1,6 +1,7 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+const express  = require('express');
+const bcrypt   = require('bcryptjs');
+const mongoose = require('mongoose');
+const User     = require('../models/User');
 const { authenticate, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
@@ -41,7 +42,7 @@ router.post('/', authenticate, requireRole('admin', 'superadmin'), async (req, r
     const existing = await User.findOne({ username: username.trim().toLowerCase() });
     if (existing) return res.status(409).json({ error: 'Username already exists' });
 
-    const hash = bcrypt.hashSync(password, 10);
+    const hash = await bcrypt.hash(password, 10);
     const user = await User.create({
       company_id: req.user.company_id,
       username:   username.toLowerCase().trim(),
@@ -62,6 +63,9 @@ router.post('/', authenticate, requireRole('admin', 'superadmin'), async (req, r
 // ── PUT /api/users/:id ────────────────────────────────────────────────────────
 router.put('/:id', authenticate, requireRole('admin', 'superadmin'), async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid user ID' });
+    }
     const { full_name, email, phone, role, is_active, branch_ids, password } = req.body;
 
     const validRoles = ['superadmin', 'admin', 'manager', 'staff'];
@@ -69,11 +73,21 @@ router.put('/:id', authenticate, requireRole('admin', 'superadmin'), async (req,
       return res.status(400).json({ error: `role must be one of: ${validRoles.join(', ')}` });
     }
 
-    const update = { full_name, email, phone, role, is_active };
-    if (branch_ids) update.branch_ids = branch_ids;
-    if (password)   update.password = bcrypt.hashSync(password, 10);
+    // Only include fields actually sent — avoids writing undefined over existing data
+    const $set = {};
+    if (full_name  !== undefined) $set.full_name  = full_name;
+    if (email      !== undefined) $set.email      = email;
+    if (phone      !== undefined) $set.phone      = phone;
+    if (role       !== undefined) $set.role       = role;
+    if (is_active  !== undefined) $set.is_active  = is_active;
+    if (branch_ids !== undefined) $set.branch_ids = branch_ids;
+    if (password)                 $set.password   = await bcrypt.hash(password, 10);
 
-    await User.findOneAndUpdate({ _id: req.params.id, company_id: req.user.company_id }, update);
+    const updated = await User.findOneAndUpdate(
+      { _id: req.params.id, company_id: req.user.company_id },
+      { $set }
+    );
+    if (!updated) return res.status(404).json({ error: 'User not found' });
     res.json({ success: true });
   } catch (err) {
     next(err);
@@ -83,13 +97,17 @@ router.put('/:id', authenticate, requireRole('admin', 'superadmin'), async (req,
 // ── DELETE /api/users/:id ─────────────────────────────────────────────────────
 router.delete('/:id', authenticate, requireRole('admin', 'superadmin'), async (req, res, next) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid user ID' });
+    }
     if (req.params.id === req.user.id) {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
-    await User.findOneAndUpdate(
+    const updated = await User.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
       { is_active: false }
     );
+    if (!updated) return res.status(404).json({ error: 'User not found' });
     res.json({ success: true });
   } catch (err) {
     next(err);

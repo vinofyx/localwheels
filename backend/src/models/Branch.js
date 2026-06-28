@@ -11,4 +11,8 @@ const branchSchema = new mongoose.Schema({
 
 branchSchema.index({ company_id: 1, branch_name: 1 }, { unique: true });
 
+// Ensure virtual `id` is included in toJSON / toObject output
+branchSchema.set('toJSON',   { virtuals: true });
+branchSchema.set('toObject', { virtuals: true });
+
 module.exports = mongoose.model('Branch', branchSchema);

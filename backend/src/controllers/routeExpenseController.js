@@ -59,9 +59,10 @@ const updateRouteExpense = async (req, res, next) => {
     if (!isValidId(req.params.id)) {
       return res.status(400).json({ success: false, message: 'Invalid route expense ID' });
     }
+    const { routeName, loadType, transitPeriodDays, routeDiesel, routeAdvance, tollAmount, expenses } = req.body;
     const data = await RouteExpense.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      req.body,
+      { routeName, loadType, transitPeriodDays, routeDiesel, routeAdvance, tollAmount, expenses },
       { new: true, runValidators: true }
     );
     if (!data) return res.status(404).json({ success: false, message: 'Not found' });

@@ -443,6 +443,42 @@ const NAV_MENUS = [
     ],
   },
   {
+    name: '🚛 Dispatch Center',
+    path: '/dispatch',
+  },
+  {
+    name: '🤖 AI Dashboard',
+    path: '/ai-dashboard',
+  },
+  {
+    name: 'AI Suite',
+    children: [
+      { name: '🖥️ Control Room',         path: '/ai/control-room' },
+      { name: '🚛 Fleet Command',        path: '/ai/fleet-command-center' },
+      { name: '📦 Shipment Intel',       path: '/ai/shipment-intelligence' },
+      { name: '🧠 Decision Center',      path: '/ai/decision-center' },
+      { name: '👔 Executive Dashboard',  path: '/ai/executive-dashboard' },
+      { name: '👤 Driver Command',       path: '/ai/driver-command' },
+      { name: '💹 Finance Analytics',    path: '/ai/finance' },
+      { name: '🤖 AI Dashboard',        path: '/ai/dashboard' },
+      { name: '📊 AI Analytics',        path: '/ai/analytics' },
+      { name: '🔔 AI Notifications',    path: '/ai/notifications' },
+      { name: '📋 AI Reports',          path: '/ai/reports' },
+      { name: '🗺️ Route Optimization',  path: '/ai/route-optimization' },
+      { name: '📍 GPS Tracking',        path: '/ai/gps-tracking' },
+      { name: '🔄 Load Matching',       path: '/ai/load-matching' },
+      { name: '✅ Digital POD',         path: '/ai/digital-pod' },
+      { name: '🔧 Fleet Maintenance',   path: '/ai/fleet-maintenance' },
+      { name: '👤 Driver Management',   path: '/ai/driver-management' },
+      { name: '🏭 Warehouse Mgmt',      path: '/ai/warehouse' },
+      { name: '⛽ Fuel Monitoring',      path: '/ai/fuel-monitoring' },
+      { name: '🌐 Customer Portal',     path: '/ai/customer-portal' },
+      { name: '🤖 AI Chatbot',          path: '/ai/chatbot' },
+      { name: '📄 Auto Documentation',  path: '/ai/auto-docs' },
+      { name: '📈 Demand Forecasting',  path: '/ai/demand-forecast' },
+    ],
+  },
+  {
     name: 'Switch',
     children: [
       { name: 'Branch', path: '/switch/branch' },
@@ -522,6 +558,7 @@ function MenuItem({ item, depth = 0 }) {
 // ─── Top-level nav item ───────────────────────────────────────────────────────
 function TopNavItem({ menu }) {
   const [open, setOpen] = useState(false);
+  const [alignRight, setAlignRight] = useState(false);
   const ref = useRef(null);
   const navigate = useNavigate();
 
@@ -531,6 +568,13 @@ function TopNavItem({ menu }) {
     }
     document.addEventListener('mousedown', close);
     return () => document.removeEventListener('mousedown', close);
+  }, []);
+
+  // Flip dropdown to right-aligned when the item is in the right half of the screen
+  useEffect(() => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setAlignRight(rect.left > window.innerWidth * 0.55);
   }, []);
 
   return (
@@ -545,7 +589,7 @@ function TopNavItem({ menu }) {
           if (!menu.children && menu.path) navigate(menu.path);
           else setOpen(!open);
         }}
-        className={`flex items-center gap-0.5 px-3 py-[9px] text-white text-sm font-medium transition-colors whitespace-nowrap ${open ? 'bg-white/25' : 'hover:bg-white/20'}`}
+        className={`flex items-center gap-0.5 px-2 py-[9px] text-white text-[13px] font-medium transition-colors whitespace-nowrap ${open ? 'bg-white/25' : 'hover:bg-white/20'}`}
       >
         {menu.name}
         {menu.children && (
@@ -556,7 +600,7 @@ function TopNavItem({ menu }) {
       </button>
 
       {open && menu.children && (
-        <div className="absolute top-full left-0 z-[999] bg-[#0b8fd3] shadow-2xl min-w-[160px]">
+        <div className={`absolute top-full z-[999] bg-[#0b8fd3] shadow-2xl min-w-[160px] ${alignRight ? 'right-0' : 'left-0'}`}>
           {menu.children.map(item => (
             <MenuItem key={item.name} item={item} />
           ))}

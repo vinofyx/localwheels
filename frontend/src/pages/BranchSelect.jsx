@@ -4,33 +4,23 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import toast from 'react-hot-toast';
 
-/* Full branch list (used as fallback when API is unavailable) */
-const MOCK_BRANCHES = [
-  'ADILABAD', 'ANANTHAPUR', 'CUDDAPAH', 'GUNTUR',
-  'HYDERABAD', 'HYDERABAD-HEAD OFFICE', 'HYDERABAD1',
-  'KARIMNAGAR', 'KHAMMAM', 'KURNOOL', 'MAHBUBNAGAR',
-  'MANCHERIAL', 'NALGONDA', 'NELLORE', 'NIZAMABAD',
-  'ONGOLE', 'RAJAHMUNDRY', 'SANGAREDDY', 'TAMILNADU',
-  'TEST_API_2', 'TEST_API_BRANCH', 'TIRUPATHI',
-  'VIJAYAWADA', 'VIKARABAD', 'VISAKHAPATNAM', 'WARANGAL',
-].map((name, i) => ({ _id: String(i + 1), branch_name: name }));
-
 export default function BranchSelect() {
   const { selectBranch, logout } = useAuth();
   const navigate = useNavigate();
   const [branches, setBranches] = useState([]);
   const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(false);
   const [selected, setSelected] = useState('');
 
   useEffect(() => {
     api.get('/branches/user')
       .then(r => {
         setBranches(r.data);
-        if (r.data.length === 1) setSelected(String(r.data[0]._id));
+        if (r.data.length === 1) setSelected(String(r.data[0]._id || r.data[0].id));
       })
       .catch(() => {
-        setBranches(MOCK_BRANCHES);
-        if (MOCK_BRANCHES.length === 1) setSelected(String(MOCK_BRANCHES[0]._id));
+        setError(true);
+        toast.error('Could not load branches — please try again.');
       })
       .finally(() => setLoading(false));
   }, []);
@@ -70,6 +60,17 @@ export default function BranchSelect() {
             <div className="flex items-center justify-center py-4">
               <div className="w-5 h-5 border-2 border-[#3bb5cc] border-t-transparent rounded-full animate-spin" />
             </div>
+          ) : error ? (
+            <div className="text-center py-4">
+              <p className="text-red-500 text-sm font-medium mb-3">
+                Failed to load branches. Check your connection.
+              </p>
+              <button
+                onClick={() => { setError(false); setLoading(true); api.get('/branches/user').then(r => { setBranches(r.data); if (r.data.length === 1) setSelected(String(r.data[0]._id || r.data[0].id)); }).catch(() => { setError(true); toast.error('Still unavailable — please try again.'); }).finally(() => setLoading(false)); }}
+                className="text-[#3bb5cc] underline text-sm font-semibold">
+                Retry
+              </button>
+            </div>
           ) : (
             <select
               value={selected}
@@ -79,7 +80,7 @@ export default function BranchSelect() {
                          focus:border-[#3bb5cc]">
               <option value="">--Select--</option>
               {branches.map(b => (
-                <option key={b._id} value={String(b._id)}>{b.branch_name}</option>
+                <option key={b._id || b.id} value={String(b._id || b.id)}>{b.branch_name}</option>
               ))}
             </select>
           )}

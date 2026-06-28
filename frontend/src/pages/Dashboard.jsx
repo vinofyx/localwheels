@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
+import toast from 'react-hot-toast';
 
 // ─── Inline SVG icons (no external dependency) ───────────────────────────────
 const Icons = {
@@ -108,7 +109,10 @@ export default function Dashboard() {
         const defaultId = branch?._id || branch?.id || r.data[0]._id || r.data[0].id;
         setFilterBranchId(String(defaultId));
       }
-    }).catch(() => {});
+    }).catch(() => {
+      toast.error('Failed to load branch list');
+      setLoading(false);
+    });
   }, [branch]);
 
   const fetchMetrics = useCallback(() => {
@@ -188,6 +192,7 @@ export default function Dashboard() {
             ))}
           </div>
         )}
+
       </div>
     </div>
   );

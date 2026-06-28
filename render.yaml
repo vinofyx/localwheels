@@ -4,15 +4,29 @@ services:
     env: node
     plan: free
     rootDir: .
-    buildCommand: cd backend && npm install --production=false
+    buildCommand: cd backend && npm ci --omit=dev
     startCommand: node backend/src/index.js
     healthCheckPath: /api/health
+
+    # Auto-deploy on push to main
+    autoDeploy: true
+
     envVars:
       - key: NODE_ENV
         value: production
+
+      # Set these in the Render dashboard — never commit real values here
       - key: MONGODB_URI
-        sync: false
+        sync: false          # marked sync:false so Render won't try to read from repo
+
       - key: JWT_SECRET
-        sync: false
+        sync: false          # generate: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+      - key: JWT_EXPIRES_IN
+        value: 7d
+
       - key: ALLOWED_ORIGINS
-        sync: false
+        sync: false          # e.g. https://localwheels.vercel.app
+
+      - key: FRONTEND_URL
+        sync: false          # e.g. https://localwheels.vercel.app  (shown in API root page)

@@ -73,10 +73,12 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-500">
-            <p className="font-semibold mb-1">Demo credentials:</p>
-            <p>dayakar / admin123 &nbsp;·&nbsp; admin / admin123</p>
-          </div>
+          {import.meta.env.DEV && (
+            <div className="mt-6 p-3 bg-gray-50 rounded-lg text-xs text-gray-500">
+              <p className="font-semibold mb-1">Dev credentials:</p>
+              <p>dayakar / admin123 &nbsp;·&nbsp; admin / admin123</p>
+            </div>
+          )}
         </div>
 
         <p className="text-center text-blue-200 text-xs mt-6">

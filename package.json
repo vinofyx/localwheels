@@ -7,7 +7,7 @@
     "dev": "cd backend && npx concurrently --names \"API,UI\" --prefix-colors \"cyan,magenta\" \"npm run dev\" \"cd ../frontend && npm run dev\"",
     "dev:backend":  "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
-    "build":        "cd frontend && npm install && npm run build",
+    "build":        "cd frontend && npm install --legacy-peer-deps && npm run build",
     "install:all":  "cd backend && npm install && cd ../frontend && npm install"
   }
 }

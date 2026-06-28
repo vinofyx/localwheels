@@ -7,6 +7,9 @@ const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Rate limiting for /api/auth/login is applied in index.js via express-rate-limit
+// (loginLimiter middleware is mounted on /api/auth/login before this router).
+
 router.post('/login', async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -15,7 +18,9 @@ router.post('/login', async (req, res, next) => {
     }
 
     const user = await User.findOne({ username: username.trim().toLowerCase(), is_active: true });
-    if (!user || !bcrypt.compareSync(password, user.password)) {
+    // Use async bcrypt.compare — compareSync blocks the event loop for ~100-300 ms
+    const passwordValid = user ? await bcrypt.compare(password, user.password) : false;
+    if (!user || !passwordValid) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 

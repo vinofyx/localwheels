@@ -22,12 +22,19 @@ const storage = multer.diskStorage({
     cb(null, `pod_${req.params.shipmentId}_${Date.now()}${path.extname(file.originalname)}`);
   },
 });
+const ALLOWED_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.pdf']);
+const ALLOWED_MIMETYPES  = new Set(['image/jpeg', 'image/png', 'application/pdf']);
+
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    const allowed = ['.jpg', '.jpeg', '.png', '.pdf'];
-    cb(null, allowed.includes(path.extname(file.originalname).toLowerCase()));
+    const ext  = path.extname(file.originalname).toLowerCase();
+    const mime = file.mimetype.toLowerCase();
+    if (ALLOWED_EXTENSIONS.has(ext) && ALLOWED_MIMETYPES.has(mime)) {
+      return cb(null, true);
+    }
+    cb(new Error(`Invalid file type. Allowed: JPG, PNG, PDF`));
   },
 });
 

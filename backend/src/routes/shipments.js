@@ -9,6 +9,11 @@ const { authenticate, requireBranchAccess } = require('../middleware/auth');
 const router = express.Router();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+/** Escape special regex characters to prevent ReDoS via user-supplied search terms */
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function fmtDate(d) {
   if (!d) return null;
   const dt = new Date(d);
@@ -44,10 +49,11 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
       if (date_to)   filter.booking_date.$lte = new Date(date_to + 'T23:59:59.999Z');
     }
     if (search) {
+      const safeSearch = escapeRegex(search.slice(0, 100)); // cap length + escape
       filter.$or = [
-        { lr_number:     { $regex: search, $options: 'i' } },
-        { sender_name:   { $regex: search, $options: 'i' } },
-        { receiver_name: { $regex: search, $options: 'i' } },
+        { lr_number:     { $regex: safeSearch, $options: 'i' } },
+        { sender_name:   { $regex: safeSearch, $options: 'i' } },
+        { receiver_name: { $regex: safeSearch, $options: 'i' } },
       ];
     }
 
@@ -82,9 +88,18 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
 });
 
 // ── GET /api/shipments/track/:lr (public) ─────────────────────────────────────
+// Requires ?company_id=<id> to scope results to a single tenant and prevent
+// cross-tenant enumeration of LR numbers (which are sequential per company).
 router.get('/track/:lr', async (req, res, next) => {
   try {
-    const shipment = await Shipment.findOne({ lr_number: req.params.lr.toUpperCase() })
+    const { company_id } = req.query;
+    if (!company_id || !isValidId(company_id)) {
+      return res.status(400).json({ error: 'company_id query parameter required' });
+    }
+    const shipment = await Shipment.findOne({
+      lr_number:  req.params.lr.toUpperCase(),
+      company_id, // ← scope to tenant — prevents cross-tenant enumeration
+    })
       .populate('branch_id', 'branch_name')
       .lean();
     if (!shipment) return res.status(404).json({ error: 'LR not found' });

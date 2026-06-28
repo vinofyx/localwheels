@@ -67,11 +67,53 @@ router.put('/:id', authenticate, requireRole('admin', 'superadmin'), async (req,
   try {
     if (!isValidId(req.params.id)) return res.status(400).json({ error: 'Invalid branch ID' });
     const { branch_name, location, phone, address, is_active } = req.body;
-    await Branch.findOneAndUpdate(
+    // Build $set from only the fields the caller actually sent — prevents
+    // undefined values from overwriting existing data when a field is omitted.
+    const $set = {};
+    if (branch_name !== undefined) $set.branch_name = branch_name;
+    if (location    !== undefined) $set.location    = location;
+    if (phone       !== undefined) $set.phone       = phone;
+    if (address     !== undefined) $set.address     = address;
+    if (is_active   !== undefined) $set.is_active   = is_active;
+    const updated = await Branch.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { branch_name, location, phone, address, is_active }
+      { $set }
     );
+    if (!updated) return res.status(404).json({ error: 'Branch not found' });
     res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── DELETE /api/branches/:id — SOFT DELETE ───────────────────────────────────
+//
+// Design decision: branches are NEVER hard-deleted.
+//
+// Rationale
+//   • All historical documents (shipments, PODs, payments, route-expenses) carry
+//     a branch_id foreign key. Removing the branch document would orphan that
+//     data and break audit trails, financial reports, and LR lookups.
+//
+// Behaviour
+//   • Sets is_active=false on the branch document.
+//   • The branch is hidden from GET /api/branches/user (the user-facing selector).
+//   • The branch still appears in GET /api/branches (admin list) with is_active=false,
+//     so admins can see and potentially restore it.
+//   • Existing shipments / payments / PODs remain fully queryable.
+//
+// Restoration
+//   • PUT /api/branches/:id with { is_active: true } re-activates the branch.
+//
+router.delete('/:id', authenticate, requireRole('admin', 'superadmin'), async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.id)) return res.status(400).json({ error: 'Invalid branch ID' });
+    const updated = await Branch.findOneAndUpdate(
+      { _id: req.params.id, company_id: req.user.company_id },
+      { is_active: false }
+    );
+    if (!updated) return res.status(404).json({ error: 'Branch not found' });
+    res.json({ success: true, soft_deleted: true });
   } catch (err) {
     next(err);
   }

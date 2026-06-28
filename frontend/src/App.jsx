@@ -1,5 +1,30 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import AIDashboard        from './pages/ai/AIDashboard';
+import RouteOptimization  from './pages/ai/RouteOptimization';
+import GPSTracking        from './pages/ai/GPSTracking';
+import LoadMatching       from './pages/ai/LoadMatching';
+import DigitalPOD         from './pages/ai/DigitalPOD';
+import FleetMaintenance   from './pages/ai/FleetMaintenance';
+import DriverManagement   from './pages/ai/DriverManagement';
+import WarehouseManagement from './pages/ai/WarehouseManagement';
+import FuelMonitoring     from './pages/ai/FuelMonitoring';
+import CustomerPortal     from './pages/ai/CustomerPortal';
+import AIChatbot          from './pages/ai/AIChatbot';
+import AutoDocumentation  from './pages/ai/AutoDocumentation';
+import DemandForecasting  from './pages/ai/DemandForecasting';
+import AIAnalytics        from './pages/ai/AIAnalytics';
+import AINotifications    from './pages/ai/AINotifications';
+import AIReports          from './pages/ai/AIReports';
+import EnterpriseDashboard from './pages/ai-dashboard/EnterpriseDashboard';
+import ControlRoom         from './pages/ai/ControlRoom';
+import FleetCommand        from './pages/ai/FleetCommand';
+import ShipmentIntelligence from './pages/ai/ShipmentIntelligence';
+import AIDecisionCenter    from './pages/ai/AIDecisionCenter';
+import ExecutiveDashboard  from './pages/ai/ExecutiveDashboard';
+import DriverCommand       from './pages/ai/DriverCommand';
+import FinanceAnalytics    from './pages/ai/FinanceAnalytics';
+import DispatchCenter      from './pages/dispatch/DispatchCenter';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import BranchSelect from './pages/BranchSelect';
@@ -246,6 +271,15 @@ import MemoRegister from './pages/reports/memo/MemoRegister';
 import ZeroFreightMemo from './pages/reports/memo/ZeroFreightMemo';
 import DieselStatement from './pages/reports/DieselStatement';
 import FasTagStatement from './pages/reports/FasTagStatement';
+import LHSSummary from './pages/reports/lhs/LHSSummary';
+import LHSPending from './pages/reports/lhs/LHSPending';
+import LHSRegister from './pages/reports/lhs/LHSRegister';
+import StockDashboard from './pages/reports/stock/StockDashboard';
+import ShortExcessReg from './pages/reports/stock/ShortExcessReg';
+import GodownStock from './pages/reports/stock/GodownStock';
+import GodownStockGrid from './pages/reports/stock/GodownStockGrid';
+import PartialDispatchStock from './pages/reports/stock/PartialDispatchStock';
+import NonSubmitPOD from './pages/reports/pod/NonSubmitPOD';
 
 function RequireAuth({ children }) {
   const { user } = useAuth();
@@ -420,6 +454,15 @@ export default function App() {
           <Route path="reports/memo/summary" element={<MemoSummary />} />
           <Route path="reports/memo/register" element={<MemoRegister />} />
           <Route path="reports/memo/zero-freight" element={<ZeroFreightMemo />} />
+          <Route path="reports/lhs/summary"  element={<LHSSummary />} />
+          <Route path="reports/lhs/pending"  element={<LHSPending />} />
+          <Route path="reports/lhs/register" element={<LHSRegister />} />
+          <Route path="reports/stock/dashboard"        element={<StockDashboard />} />
+          <Route path="reports/stock/short-excess"     element={<ShortExcessReg />} />
+          <Route path="reports/stock/godown"           element={<GodownStock />} />
+          <Route path="reports/stock/godown-grid"      element={<GodownStockGrid />} />
+          <Route path="reports/stock/partial-dispatch" element={<PartialDispatchStock />} />
+          <Route path="reports/pod/non-submit"         element={<NonSubmitPOD />} />
           <Route path="reports/missing-document" element={<MissingDocument />} />
           <Route path="reports/diesel-statement" element={<DieselStatement />} />
           <Route path="reports/fastag-statement" element={<FasTagStatement />} />
@@ -521,6 +564,33 @@ export default function App() {
           <Route path="config/customer"              element={<CustomerConfig />} />
           <Route path="config/auto-mail-setting"   element={<AutoMailSetting />} />
           <Route path="config/complaint-register"  element={<ComplaintRegister />} />
+          {/* ── Dispatch Center ──────────────────────────────────────────── */}
+          <Route path="dispatch" element={<DispatchCenter />} />
+          {/* ── AI Suite ─────────────────────────────────────────────────── */}
+          <Route path="ai/dashboard"          element={<AIDashboard />} />
+          <Route path="ai/route-optimization" element={<RouteOptimization />} />
+          <Route path="ai/gps-tracking"       element={<GPSTracking />} />
+          <Route path="ai/load-matching"      element={<LoadMatching />} />
+          <Route path="ai/digital-pod"        element={<DigitalPOD />} />
+          <Route path="ai/fleet-maintenance"  element={<FleetMaintenance />} />
+          <Route path="ai/driver-management"  element={<DriverManagement />} />
+          <Route path="ai/warehouse"          element={<WarehouseManagement />} />
+          <Route path="ai/fuel-monitoring"    element={<FuelMonitoring />} />
+          <Route path="ai/customer-portal"    element={<CustomerPortal />} />
+          <Route path="ai/chatbot"            element={<AIChatbot />} />
+          <Route path="ai/auto-docs"          element={<AutoDocumentation />} />
+          <Route path="ai/demand-forecast"    element={<DemandForecasting />} />
+          <Route path="ai/analytics"          element={<AIAnalytics />} />
+          <Route path="ai/notifications"      element={<AINotifications />} />
+          <Route path="ai/reports"            element={<AIReports />} />
+          <Route path="ai-dashboard"          element={<EnterpriseDashboard />} />
+          <Route path="ai/control-room"          element={<ControlRoom />} />
+          <Route path="ai/fleet-command-center"  element={<FleetCommand />} />
+          <Route path="ai/shipment-intelligence" element={<ShipmentIntelligence />} />
+          <Route path="ai/decision-center"       element={<AIDecisionCenter />} />
+          <Route path="ai/executive-dashboard"   element={<ExecutiveDashboard />} />
+          <Route path="ai/driver-command"        element={<DriverCommand />} />
+          <Route path="ai/finance"               element={<FinanceAnalytics />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
