@@ -679,7 +679,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eaf0fb] flex flex-col text-[13px]">
+    <div className="min-h-screen w-full bg-[#eaf0fb] flex flex-col text-[13px]">
 
       {/* ═══ HEADER ══════════════════════════════════════════════════════ */}
       <header className="bg-white border-b border-gray-200 px-3 py-1.5">

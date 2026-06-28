@@ -4,7 +4,9 @@
 
 @layer base {
   * { box-sizing: border-box; }
-  body { @apply bg-gray-50 text-gray-900 font-sans; }
+  html { overflow-x: hidden; }
+  body { @apply bg-gray-50 text-gray-900 font-sans overflow-x-hidden; }
+  #root { width: 100%; }
 }
 
 @layer components {
