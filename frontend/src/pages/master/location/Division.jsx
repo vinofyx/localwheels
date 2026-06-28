@@ -8,10 +8,7 @@ const SortIcon    = <svg className="w-3 h-3 inline-block ml-1 opacity-80" fill="
 
 const COLS = ['division', 'createdUser', 'createdDate', 'lastModify', 'modifyDate'];
 
-const INITIAL_ROWS = [
-  { id: 1, division: 'ANDHRAPRADESH',    createdUser: 'D.SUNILKUMAR', createdDate: '23/04/2025 21:57:00', lastModify: '', modifyDate: '' },
-  { id: 2, division: 'TRANSPORT DIVISION', createdUser: '',            createdDate: '',                   lastModify: '', modifyDate: '' },
-];
+const INITIAL_ROWS = [];
 
 function nowStr() {
   return new Date().toLocaleString('en-GB', {
