@@ -515,7 +515,7 @@ function getFinancialYear() {
   return d.getMonth() >= 3 ? `${y}-${y + 1}` : `${y - 1}-${y}`;
 }
 
-// ─── Leaf / flyout menu item ──────────────────────────────────────────────────
+// ─── Desktop: leaf / flyout menu item ────────────────────────────────────────
 function MenuItem({ item, depth = 0 }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -531,7 +531,6 @@ function MenuItem({ item, depth = 0 }) {
     );
   }
 
-  // Has children → show flyout to the right
   return (
     <div
       className="relative"
@@ -555,7 +554,7 @@ function MenuItem({ item, depth = 0 }) {
   );
 }
 
-// ─── Top-level nav item ───────────────────────────────────────────────────────
+// ─── Desktop: top-level nav item ─────────────────────────────────────────────
 function TopNavItem({ menu }) {
   const [open, setOpen] = useState(false);
   const [alignRight, setAlignRight] = useState(false);
@@ -570,7 +569,6 @@ function TopNavItem({ menu }) {
     return () => document.removeEventListener('mousedown', close);
   }, []);
 
-  // Flip dropdown to right-aligned when the item is in the right half of the screen
   useEffect(() => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
@@ -610,6 +608,50 @@ function TopNavItem({ menu }) {
   );
 }
 
+// ─── Mobile: accordion menu item (used in drawer) ────────────────────────────
+function MobileMenuItem({ item, depth = 0, onClose }) {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const pl = 16 + depth * 14;
+
+  if (!item.children) {
+    return (
+      <button
+        className="w-full text-left py-3 pr-4 text-[14px] text-white hover:bg-white/20 active:bg-white/30 border-b border-white/10 flex items-center"
+        style={{ paddingLeft: `${pl}px` }}
+        onClick={() => { if (item.path) { navigate(item.path); onClose(); } }}
+      >
+        {item.name}
+      </button>
+    );
+  }
+
+  return (
+    <div>
+      <button
+        className="w-full text-left py-3 pr-4 text-[14px] text-white hover:bg-white/20 active:bg-white/30 border-b border-white/10 flex items-center justify-between"
+        style={{ paddingLeft: `${pl}px` }}
+        onClick={() => setOpen(o => !o)}
+      >
+        <span className="font-medium">{item.name}</span>
+        <svg
+          className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="bg-black/10">
+          {item.children.map(child => (
+            <MobileMenuItem key={child.name} item={child} depth={depth + 1} onClose={onClose} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Layout ───────────────────────────────────────────────────────────────────
 export default function Layout() {
   const { user, branch, logout } = useAuth();
@@ -617,7 +659,19 @@ export default function Layout() {
   const [trackType, setTrackType] = useState('LR NO');
   const [trackVal, setTrackVal] = useState('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fy = getFinancialYear();
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [navigate]);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
 
   function handleTrack(e) {
     e.preventDefault();
@@ -644,16 +698,16 @@ export default function Layout() {
               </svg>
             </div>
             <div className="min-w-0">
-              <p className="font-bold text-[#1a237e] text-[15px] leading-tight uppercase tracking-wide truncate">
+              <p className="font-bold text-[#1a237e] text-[13px] sm:text-[15px] leading-tight uppercase tracking-wide truncate">
                 Local Wheels Pvt Ltd
               </p>
-              <p className="text-gray-500 text-[11px] font-medium leading-tight">
+              <p className="text-gray-500 text-[10px] sm:text-[11px] font-medium leading-tight">
                 Division : Transport Division
               </p>
             </div>
           </div>
 
-          {/* Center: Branch */}
+          {/* Center: Branch (hidden on mobile) */}
           <div className="text-center flex-shrink-0 hidden sm:block">
             <p className="text-gray-400 text-[10px] font-semibold uppercase tracking-widest">Branch :</p>
             <p className="text-[#0b6fcc] font-bold text-[13px] uppercase leading-tight">
@@ -661,9 +715,9 @@ export default function Layout() {
             </p>
           </div>
 
-          {/* Right: Track By + User */}
-          <div className="flex items-center gap-3 flex-shrink-0">
-            {/* Track By */}
+          {/* Right: Track By + User + Hamburger */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* Track By — desktop only */}
             <form onSubmit={handleTrack} className="hidden lg:block">
               <p className="text-[10px] font-semibold text-gray-500 text-center mb-0.5">Track By</p>
               <div className="flex gap-1">
@@ -685,15 +739,14 @@ export default function Layout() {
               </div>
             </form>
 
-            {/* Divider */}
             <div className="hidden lg:block w-px h-10 bg-gray-200" />
 
-            {/* User info */}
-            <div className="text-right leading-tight">
-              <p className="font-bold text-gray-800 text-[13px]">
+            {/* User info — hidden on small mobile */}
+            <div className="text-right leading-tight hidden sm:block">
+              <p className="font-bold text-gray-800 text-[12px] sm:text-[13px]">
                 Welcome {(user?.full_name || user?.username || '').split(' ')[0].toUpperCase()}
               </p>
-              <p className="text-gray-400 text-[10px]">Financial Year - {fy}</p>
+              <p className="text-gray-400 text-[10px]">FY {fy}</p>
             </div>
 
             {/* User menu button */}
@@ -703,27 +756,46 @@ export default function Layout() {
                 className="w-8 h-8 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:bg-gray-200"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </button>
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-1 z-50 bg-white rounded shadow-xl border border-gray-200 min-w-[150px]">
-                  <Link to="/users" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Users</Link>
-                  <Link to="/select-branch" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Switch Branch</Link>
-                  <button onClick={logout} className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                <div className="absolute right-0 top-full mt-1 z-50 bg-white rounded shadow-xl border border-gray-200 min-w-[160px]">
+                  {/* Branch info on mobile */}
+                  <div className="sm:hidden px-4 py-2 border-b border-gray-100">
+                    <p className="text-[11px] text-gray-500">Branch</p>
+                    <p className="text-[13px] font-bold text-[#0b6fcc] uppercase">{branch?.branch_name || '—'}</p>
+                  </div>
+                  <div className="sm:hidden px-4 py-2 border-b border-gray-100">
+                    <p className="text-[11px] text-gray-500">Signed in as</p>
+                    <p className="text-[13px] font-semibold text-gray-800">{(user?.full_name || user?.username || '').toUpperCase()}</p>
+                  </div>
+                  <Link to="/users" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">Users</Link>
+                  <Link to="/select-branch" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">Switch Branch</Link>
+                  <button onClick={logout} className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
                 </div>
               )}
             </div>
+
+            {/* Hamburger — mobile nav trigger (hidden on md+) */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="md:hidden w-9 h-9 rounded-lg bg-[#0b8fd3] flex items-center justify-center text-white hover:bg-[#0a7fc0] active:bg-[#0971ab]"
+              aria-label="Open navigation"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
 
-      {/* ═══ NAVIGATION BAR ══════════════════════════════════════════════ */}
-      <nav className="bg-[#0b8fd3] flex items-stretch overflow-visible flex-shrink-0">
+      {/* ═══ DESKTOP NAVIGATION BAR (hidden on mobile) ═══════════════════ */}
+      <nav className="bg-[#0b8fd3] hidden md:flex items-stretch overflow-visible flex-shrink-0">
         {NAV_MENUS.map(menu => (
           <TopNavItem key={menu.name} menu={menu} />
         ))}
-        {/* Right icon */}
         <div className="ml-auto flex-shrink-0 flex items-center">
           <button className="flex items-center gap-0.5 px-3 py-2 text-white hover:bg-white/20">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -735,6 +807,95 @@ export default function Layout() {
           </button>
         </div>
       </nav>
+
+      {/* ═══ MOBILE NAV DRAWER ═══════════════════════════════════════════ */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-[1000] md:hidden flex">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+
+          {/* Drawer panel */}
+          <div className="relative flex flex-col w-72 max-w-[85vw] bg-[#0b8fd3] h-full overflow-hidden shadow-2xl">
+
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-[#0971ab] flex-shrink-0">
+              <div>
+                <p className="text-white font-bold text-[15px]">LocalWheels</p>
+                <p className="text-white/70 text-[11px]">{branch?.branch_name || 'No branch selected'}</p>
+              </div>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 rounded"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Mobile track search */}
+            <div className="px-4 py-2 bg-[#0971ab] flex-shrink-0 border-t border-white/10">
+              <form onSubmit={e => { handleTrack(e); setMobileMenuOpen(false); }} className="flex gap-2">
+                <select
+                  value={trackType}
+                  onChange={e => setTrackType(e.target.value)}
+                  className="border-0 rounded px-2 py-1.5 text-xs bg-white/20 text-white flex-shrink-0"
+                >
+                  <option className="text-gray-800">LR NO</option>
+                  <option className="text-gray-800">PHONE</option>
+                  <option className="text-gray-800">VEHICLE</option>
+                </select>
+                <input
+                  className="flex-1 min-w-0 rounded px-2 py-1.5 text-xs bg-white/20 text-white placeholder-white/60 border-0 focus:outline-none focus:bg-white/30"
+                  placeholder="Track shipment…"
+                  value={trackVal}
+                  onChange={e => setTrackVal(e.target.value)}
+                />
+                <button type="submit" className="bg-white/20 hover:bg-white/30 text-white px-2 py-1.5 rounded text-xs flex-shrink-0">
+                  Go
+                </button>
+              </form>
+            </div>
+
+            {/* Nav items — scrollable */}
+            <div className="flex-1 overflow-y-auto overscroll-contain">
+              {NAV_MENUS.map(menu => (
+                <MobileMenuItem
+                  key={menu.name}
+                  item={menu}
+                  onClose={() => setMobileMenuOpen(false)}
+                />
+              ))}
+            </div>
+
+            {/* Footer actions */}
+            <div className="flex-shrink-0 border-t border-white/20 bg-[#0971ab]">
+              <Link
+                to="/select-branch"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-white/90 hover:bg-white/10 text-[14px] border-b border-white/10"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                Switch Branch
+              </Link>
+              <button
+                onClick={() => { logout(); setMobileMenuOpen(false); }}
+                className="flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-white/10 w-full text-[14px]"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══ PAGE CONTENT ════════════════════════════════════════════════ */}
       <main className="flex-1 overflow-y-auto">
