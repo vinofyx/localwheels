@@ -4,6 +4,7 @@ node_modules/
 .pnp.js
 
 # Production build
+dist/
 frontend/dist/
 frontend/dist.zip
 *.zip

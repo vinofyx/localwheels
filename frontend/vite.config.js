@@ -28,7 +28,9 @@ export default defineConfig({
   },
 
   build: {
-    // Emit source maps in production for easier debugging (optional — remove for smaller deploy)
+    // Output to repo-root /dist so Hostinger's default output dir ("dist") serves it directly
+    outDir: '../dist',
+    emptyOutDir: true,
     sourcemap: false,
     chunkSizeWarningLimit: 600,
     rollupOptions: {
