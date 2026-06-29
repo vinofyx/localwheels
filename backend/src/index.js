@@ -281,6 +281,7 @@ app.use('/api/payments',       require('./routes/payments'));
 app.use('/api/users',          require('./routes/users'));
 app.use('/api/route-expenses', require('./routes/routeExpenseRoutes'));
 app.use('/api/ai',             require('./routes/ai'));
+app.use('/api/chat',           require('./routes/chat'));
 
 // ── Non-API catch-all 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ChatWidget from './ChatWidget';
 
 // ─── Exact nav structure from JSON config ─────────────────────────────────────
 const NAV_MENUS = [
@@ -865,6 +866,9 @@ export default function Layout() {
       <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
+
+      {/* ═══ AI CHAT WIDGET ══════════════════════════════════════════════ */}
+      <ChatWidget />
     </div>
   );
 }
