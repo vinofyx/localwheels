@@ -255,6 +255,8 @@ import GodownStock from './pages/reports/stock/GodownStock';
 import GodownStockGrid from './pages/reports/stock/GodownStockGrid';
 import PartialDispatchStock from './pages/reports/stock/PartialDispatchStock';
 import NonSubmitPOD from './pages/reports/pod/NonSubmitPOD';
+import AgentDashboard from './pages/AgentDashboard';
+import SupportAdmin from './pages/SupportAdmin';
 
 function RequireAuth({ children }) {
   const { user } = useAuth();
@@ -289,6 +291,8 @@ export default function App() {
           <Route path="pod" element={<POD />} />
           <Route path="payments" element={<Payments />} />
           <Route path="users" element={<Users />} />
+          <Route path="support/agent" element={<AgentDashboard />} />
+          <Route path="support/admin" element={<SupportAdmin />} />
           <Route path="master/customer" element={<PartyCustomer />} />
           <Route path="master/vendor" element={<VendorAgent />} />
           <Route path="master/package-type" element={<PackageType />} />

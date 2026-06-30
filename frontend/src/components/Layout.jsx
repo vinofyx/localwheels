@@ -345,6 +345,13 @@ const NAV_MENUS = [
     ],
   },
   {
+    name: 'Support',
+    children: [
+      { name: 'Agent Dashboard',   path: '/support/agent' },
+      { name: 'Support Analytics', path: '/support/admin' },
+    ],
+  },
+  {
     name: 'Account Entries',
     children: [
       { name: 'Branch Voucher', path: '/account-entries/branch-voucher' },

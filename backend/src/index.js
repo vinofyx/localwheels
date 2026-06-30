@@ -292,8 +292,12 @@ app.use('/api/warehouses',     require('./routes/warehouses'));
 app.use('/api/vehicles',       require('./routes/vehicles'));
 app.use('/api/drivers',        require('./routes/drivers'));
 app.use('/api/invoices',       require('./routes/invoices'));
-app.use('/api/complaints',     require('./routes/complaints'));
-app.use('/api/notifications',  require('./routes/notifications'));
+app.use('/api/complaints',         require('./routes/complaints'));
+app.use('/api/notifications',      require('./routes/notifications'));
+app.use('/api/faq',                require('./routes/faq'));
+app.use('/api/live-agent',         require('./routes/liveAgent'));
+app.use('/api/whatsapp',           require('./routes/whatsapp'));
+app.use('/api/support-analytics',  require('./routes/supportAnalytics'));
 
 // ── Non-API catch-all 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {
