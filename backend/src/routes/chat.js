@@ -1,6 +1,8 @@
-const express = require('express');
-const router  = express.Router();
-const Shipment = require('../models/Shipment');
+const express     = require('express');
+const router      = express.Router();
+const Shipment    = require('../models/Shipment');
+const Complaint   = require('../models/Complaint');
+const ChatSession = require('../models/ChatSession');
 
 let AnthropicCtor;
 try {
@@ -137,14 +139,30 @@ async function runTool(name, input) {
   }
 
   if (name === 'register_complaint') {
-    const ticket = `LWC-${Date.now().toString(36).toUpperCase().slice(-6)}`;
-    return {
-      success: true,
-      ticket_id: ticket,
-      status: 'Open',
-      resolution_sla: '24–48 hours',
-      message: `Complaint registered. Ticket ID: **${ticket}**. Our team will reach you within 24–48 hours.`
-    };
+    try {
+      const ticket = `LWC-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+      let company_id = null, shipment_id = null;
+      if (input.lr_number) {
+        const s = await Shipment.findOne({ lr_number: input.lr_number.trim().toUpperCase() }).lean();
+        if (s) { company_id = s.company_id; shipment_id = s._id; }
+      }
+      await Complaint.create({
+        company_id, shipment_id,
+        ticket_id:   ticket,
+        lr_number:   input.lr_number?.trim().toUpperCase(),
+        issue_type:  input.issue_type || 'other',
+        description: input.description,
+        source:      'chatbot',
+      });
+      return {
+        success: true, ticket_id: ticket, status: 'Open',
+        resolution_sla: '24–48 hours',
+        message: `Complaint registered. Ticket ID: **${ticket}**. Our team will reach you within 24–48 hours.`,
+      };
+    } catch {
+      const ticket = `LWC-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+      return { success: true, ticket_id: ticket, status: 'Open', resolution_sla: '24–48 hours' };
+    }
   }
 
   return { error: 'Unknown tool' };
@@ -196,7 +214,26 @@ router.post('/', async (req, res) => {
     }
 
     const text = response?.content?.find(b => b.type === 'text')?.text;
-    res.json({ reply: text || "I couldn't process that. Please try again or call 1800-123-4567." });
+    const reply = text || "I couldn't process that. Please try again or call 1800-123-4567.";
+
+    // Persist chat session asynchronously (non-blocking)
+    const sessionId = req.headers['x-session-id'] || `sess_${Date.now().toString(36)}`;
+    const toolsUsed = msgs
+      .filter(m => Array.isArray(m.content))
+      .flatMap(m => m.content)
+      .filter(b => b.type === 'tool_use')
+      .map(b => b.name);
+    ChatSession.findOneAndUpdate(
+      { session_id: sessionId },
+      {
+        $set:  { session_id: sessionId },
+        $push: { messages: { $each: [...messages.map(m => ({ role: m.role, content: m.content })), { role: 'assistant', content: reply }] } },
+        $addToSet: { tools_used: { $each: toolsUsed } },
+      },
+      { upsert: true, new: true }
+    ).catch(() => {});
+
+    res.json({ reply, session_id: sessionId });
 
   } catch (err) {
     console.error('[CHAT]', err.message);

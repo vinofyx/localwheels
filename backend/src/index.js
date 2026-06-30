@@ -1,12 +1,13 @@
 require('dotenv').config();
-const express    = require('express');
-const helmet     = require('helmet');
-const cors       = require('cors');
-const morgan     = require('morgan');
-const rateLimit  = require('express-rate-limit');
-const path       = require('path');
-const fs         = require('fs');
-const connectDB  = require('./db/connect');
+const express      = require('express');
+const helmet       = require('helmet');
+const cors         = require('cors');
+const morgan       = require('morgan');
+const rateLimit    = require('express-rate-limit');
+const compression  = require('compression');
+const path         = require('path');
+const fs           = require('fs');
+const connectDB    = require('./db/connect');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_DEV  = !IS_PROD;
@@ -110,6 +111,7 @@ const loginLimiter = rateLimit({
   skip:            () => IS_DEV,  // no login limit in dev — default keyGenerator handles IPv6
 });
 
+app.use(compression());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -282,6 +284,16 @@ app.use('/api/users',          require('./routes/users'));
 app.use('/api/route-expenses', require('./routes/routeExpenseRoutes'));
 app.use('/api/ai',             require('./routes/ai'));
 app.use('/api/chat',           require('./routes/chat'));
+app.use('/api/customers',      require('./routes/customers'));
+app.use('/api/bookings',       require('./routes/bookings'));
+app.use('/api/tracking',       require('./routes/tracking'));
+app.use('/api/quotes',         require('./routes/quotes'));
+app.use('/api/warehouses',     require('./routes/warehouses'));
+app.use('/api/vehicles',       require('./routes/vehicles'));
+app.use('/api/drivers',        require('./routes/drivers'));
+app.use('/api/invoices',       require('./routes/invoices'));
+app.use('/api/complaints',     require('./routes/complaints'));
+app.use('/api/notifications',  require('./routes/notifications'));
 
 // ── Non-API catch-all 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {
