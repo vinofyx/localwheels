@@ -32,6 +32,8 @@ const partReservationSchema = new mongoose.Schema({
   released_at:    Date,
 }, { timestamps: true });
 
+partReservationSchema.index({ company_id: 1, part_id: 1, status: 1 });
+
 module.exports = {
   PartInventory:    mongoose.model('PartInventory', partInventorySchema),
   PartReservation:  mongoose.model('PartReservation', partReservationSchema),

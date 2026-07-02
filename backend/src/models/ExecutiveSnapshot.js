@@ -22,4 +22,5 @@ const s = new mongoose.Schema({
   ai_risks:        [String],
   ai_opportunities:[String],
 }, { timestamps: true });
+s.index({ company_id: 1, snapshot_date: -1 });
 module.exports = mongoose.model('ExecutiveSnapshot', s);

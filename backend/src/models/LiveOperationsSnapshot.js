@@ -18,4 +18,5 @@ const s = new mongoose.Schema({
   pending_orders:      { type: Number, default: 0 },
   route_risks:         { type: Number, default: 0 },
 }, { timestamps: true });
+s.index({ company_id: 1, captured_at: -1 });
 module.exports = mongoose.model('LiveOperationsSnapshot', s);

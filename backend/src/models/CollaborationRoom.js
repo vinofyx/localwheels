@@ -20,4 +20,5 @@ const s = new mongoose.Schema({
   pinned_message: String,
   incident_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Incident' },
 }, { timestamps: true });
+s.index({ company_id: 1, is_active: 1 });
 module.exports = mongoose.model('CollaborationRoom', s);

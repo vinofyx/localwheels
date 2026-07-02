@@ -25,5 +25,7 @@ const decisionExecutionSchema = new mongoose.Schema({
   executed_by:  { type: String, default: 'autonomous_engine' },
   audit_trail:  [{ ts: Date, action: String, actor: String, detail: String }],
 }, { timestamps: true });
+decisionExecutionSchema.index({ company_id: 1, status: 1, createdAt: -1 });
+decisionExecutionSchema.index({ company_id: 1, decision_id: 1 });
 
 module.exports = mongoose.model('DecisionExecution', decisionExecutionSchema);

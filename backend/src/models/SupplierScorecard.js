@@ -19,4 +19,6 @@ const s = new mongoose.Schema({
   ai_summary:       String,
   recommendations:  [String],
 }, { timestamps: true });
+s.index({ company_id: 1, supplier_id: 1, period: 1, period_date: -1 });
+s.index({ company_id: 1, overall_score: -1 });
 module.exports = mongoose.model('SupplierScorecard', s);

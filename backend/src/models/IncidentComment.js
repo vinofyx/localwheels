@@ -8,4 +8,5 @@ const s = new mongoose.Schema({
   type:        { type: String, enum: ['comment','update','escalation','resolution'], default: 'comment' },
   attachments: [{ name: String, url: String }],
 }, { timestamps: true });
+s.index({ company_id: 1, incident_id: 1, createdAt: -1 });
 module.exports = mongoose.model('IncidentComment', s);

@@ -23,4 +23,5 @@ const s = new mongoose.Schema({
   fleet_utilization:  { type: Number, default: 0 },
   warehouse_utilization: { type: Number, default: 0 },
 }, { timestamps: true });
+s.index({ company_id: 1, period: 1, period_date: -1 });
 module.exports = mongoose.model('EnterpriseAnalytics', s);

@@ -22,5 +22,7 @@ const recoveryPlanSchema = new mongoose.Schema({
   total_cost:  { type: Number, default: 0 },
   created_by:  { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
+recoveryPlanSchema.index({ company_id: 1, status: 1 });
+recoveryPlanSchema.index({ company_id: 1, severity: 1, status: 1 });
 
 module.exports = mongoose.model('RecoveryPlan', recoveryPlanSchema);
