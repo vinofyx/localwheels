@@ -1,0 +1,350 @@
+{
+  "run_at": "2026-07-02T15:58:27.576Z",
+  "target": "http://localhost:5000",
+  "company_id": "6a46876adbb074ca5f6f7e21",
+  "branch_id": "6a46876adbb074ca5f6f7e23",
+  "summary": {
+    "pass": 48,
+    "warn": 0,
+    "fail": 0,
+    "total": 48
+  },
+  "items": [
+    {
+      "category": "Infrastructure",
+      "name": "Health endpoint responds",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 30
+    },
+    {
+      "category": "Infrastructure",
+      "name": "Database connected",
+      "status": "PASS",
+      "detail": "db.state = connected",
+      "ms": null
+    },
+    {
+      "category": "Infrastructure",
+      "name": "Memory usage normal",
+      "status": "PASS",
+      "detail": "heap 49MB / 53MB",
+      "ms": null
+    },
+    {
+      "category": "Infrastructure",
+      "name": "Uptime tracked",
+      "status": "PASS",
+      "detail": "1289s uptime",
+      "ms": null
+    },
+    {
+      "category": "Infrastructure",
+      "name": "Redis config checked",
+      "status": "PASS",
+      "detail": "Redis not configured (optional)",
+      "ms": null
+    },
+    {
+      "category": "Metrics",
+      "name": "Metrics endpoint responds",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 7
+    },
+    {
+      "category": "Metrics",
+      "name": "mongodb_connected metric present",
+      "status": "PASS",
+      "detail": "metric found",
+      "ms": null
+    },
+    {
+      "category": "Metrics",
+      "name": "process_uptime_seconds present",
+      "status": "PASS",
+      "detail": "metric found",
+      "ms": null
+    },
+    {
+      "category": "Metrics",
+      "name": "http_requests_total present",
+      "status": "PASS",
+      "detail": "metric found",
+      "ms": null
+    },
+    {
+      "category": "Metrics",
+      "name": "system_load_1m present",
+      "status": "PASS",
+      "detail": "metric found",
+      "ms": null
+    },
+    {
+      "category": "Metrics",
+      "name": "Content-Type is text/plain",
+      "status": "PASS",
+      "detail": "text/plain; charset=utf-8; version=0.0.4",
+      "ms": null
+    },
+    {
+      "category": "Auth",
+      "name": "Company admin login",
+      "status": "PASS",
+      "detail": "Token issued",
+      "ms": 156
+    },
+    {
+      "category": "Auth",
+      "name": "Invalid credentials rejected",
+      "status": "PASS",
+      "detail": "HTTP 401",
+      "ms": null
+    },
+    {
+      "category": "Auth",
+      "name": "JWT /me endpoint",
+      "status": "PASS",
+      "detail": "username=rajdhani_admin",
+      "ms": 55
+    },
+    {
+      "category": "Auth",
+      "name": "Unauthenticated request blocked",
+      "status": "PASS",
+      "detail": "HTTP 401",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "X-Frame-Options or CSP frameAncestors set",
+      "status": "PASS",
+      "detail": "default-src 'none';style-src 'unsafe-inline';frame-ancestors 'none'",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "X-Content-Type-Options set",
+      "status": "PASS",
+      "detail": "nosniff",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "X-DNS-Prefetch-Control set",
+      "status": "PASS",
+      "detail": "off",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "Referrer-Policy set",
+      "status": "PASS",
+      "detail": "no-referrer",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "X-Powered-By hidden",
+      "status": "PASS",
+      "detail": "hidden",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "company admin cannot create companies",
+      "status": "PASS",
+      "detail": "HTTP 403",
+      "ms": null
+    },
+    {
+      "category": "Security",
+      "name": "Company list restricted to own company",
+      "status": "PASS",
+      "detail": "HTTP 403 — multi-tenant isolation",
+      "ms": null
+    },
+    {
+      "category": "Core APIs",
+      "name": "Branches list",
+      "status": "PASS",
+      "detail": "HTTP 200 — 3 records",
+      "ms": 57
+    },
+    {
+      "category": "Core APIs",
+      "name": "Customers list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 39
+    },
+    {
+      "category": "Core APIs",
+      "name": "Vehicles list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 29
+    },
+    {
+      "category": "Core APIs",
+      "name": "Drivers list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 35
+    },
+    {
+      "category": "Core APIs",
+      "name": "Shipments list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 65
+    },
+    {
+      "category": "Core APIs",
+      "name": "Invoices list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 41
+    },
+    {
+      "category": "Core APIs",
+      "name": "Complaints list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 50
+    },
+    {
+      "category": "Core APIs",
+      "name": "Leads list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 53
+    },
+    {
+      "category": "Core APIs",
+      "name": "Quotes list",
+      "status": "PASS",
+      "detail": "HTTP 200 — object",
+      "ms": 61
+    },
+    {
+      "category": "Performance",
+      "name": "Health endpoint avg response",
+      "status": "PASS",
+      "detail": "avg 5ms / max 7ms (SLA: 100ms)",
+      "ms": 5
+    },
+    {
+      "category": "Performance",
+      "name": "Customer list avg response",
+      "status": "PASS",
+      "detail": "avg 39ms / max 46ms (SLA: 500ms)",
+      "ms": 39
+    },
+    {
+      "category": "Performance",
+      "name": "Shipment list avg response",
+      "status": "PASS",
+      "detail": "avg 80ms / max 95ms (SLA: 500ms)",
+      "ms": 80
+    },
+    {
+      "category": "Performance",
+      "name": "Invoice list avg response",
+      "status": "PASS",
+      "detail": "avg 44ms / max 50ms (SLA: 500ms)",
+      "ms": 44
+    },
+    {
+      "category": "Data",
+      "name": "Customer count ≥ 12",
+      "status": "PASS",
+      "detail": "Found 12 customers",
+      "ms": null
+    },
+    {
+      "category": "Data",
+      "name": "Vehicle count ≥ 12 (company fleet)",
+      "status": "PASS",
+      "detail": "Found 12 vehicles",
+      "ms": null
+    },
+    {
+      "category": "Data",
+      "name": "Driver count ≥ 10",
+      "status": "PASS",
+      "detail": "Found 10 drivers",
+      "ms": null
+    },
+    {
+      "category": "Data",
+      "name": "Shipments exist (from Phase 27b)",
+      "status": "PASS",
+      "detail": "Found 2 shipments",
+      "ms": null
+    },
+    {
+      "category": "Modules",
+      "name": "Notifications module",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 35
+    },
+    {
+      "category": "Modules",
+      "name": "Warehouse module",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 30
+    },
+    {
+      "category": "Modules",
+      "name": "Suppliers module",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 32
+    },
+    {
+      "category": "Modules",
+      "name": "Dashboard API",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 140
+    },
+    {
+      "category": "Modules",
+      "name": "Setup status API",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 31
+    },
+    {
+      "category": "Modules",
+      "name": "Master config API",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 35
+    },
+    {
+      "category": "Modules",
+      "name": "Import template API",
+      "status": "PASS",
+      "detail": "HTTP 200",
+      "ms": 12
+    },
+    {
+      "category": "Config",
+      "name": "Setup wizard completed",
+      "status": "PASS",
+      "detail": "setup_completed=true",
+      "ms": null
+    },
+    {
+      "category": "Config",
+      "name": "Company name correct",
+      "status": "PASS",
+      "detail": "name=\"Rajdhani Cargo Services Pvt Ltd\"",
+      "ms": null
+    }
+  ]
+}
