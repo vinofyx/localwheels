@@ -257,6 +257,137 @@ import PartialDispatchStock from './pages/reports/stock/PartialDispatchStock';
 import NonSubmitPOD from './pages/reports/pod/NonSubmitPOD';
 import AgentDashboard from './pages/AgentDashboard';
 import SupportAdmin from './pages/SupportAdmin';
+import DispatcherView from './pages/DispatcherView';
+import RouteOptimizer from './pages/RouteOptimizer';
+import FleetDashboard from './pages/FleetDashboard';
+import DispatchCenter from './pages/DispatchCenter';
+import ComplaintCenter from './pages/ComplaintCenter';
+import CustomerComplaintPortal from './pages/CustomerComplaintPortal';
+import QuoteGenerator from './pages/QuoteGenerator';
+import QuoteAdmin from './pages/QuoteAdmin';
+import VoiceAssistant from './pages/VoiceAssistant';
+import VoiceHistory from './pages/VoiceHistory';
+import VoiceAnalytics from './pages/VoiceAnalytics';
+import KnowledgeBase from './pages/KnowledgeBase';
+import SalesDashboard from './pages/SalesDashboard';
+import LeadManagement from './pages/LeadManagement';
+import SalesPipeline from './pages/SalesPipeline';
+import SalesAnalyticsPage from './pages/SalesAnalyticsPage';
+import AISalesCopilot from './pages/AISalesCopilot';
+import DriverDashboard from './pages/DriverDashboard';
+import DriverTrips from './pages/DriverTrips';
+import TripDetails from './pages/TripDetails';
+import DigitalPOD from './pages/DigitalPOD';
+import DriverPerformance from './pages/DriverPerformance';
+import DriverDocuments from './pages/DriverDocuments';
+import IncidentReporting from './pages/IncidentReporting';
+import VoiceDriver from './pages/VoiceDriver';
+import ExecutiveDashboardPage from './pages/bi/ExecutiveDashboard';
+import BusinessIntelligence from './pages/bi/BusinessIntelligence';
+import ForecastDashboard from './pages/bi/ForecastDashboard';
+import AlertsCenter from './pages/bi/AlertsCenter';
+import ExecutiveReports from './pages/bi/ExecutiveReports';
+import BranchAnalytics from './pages/bi/BranchAnalytics';
+import FinancialDashboard from './pages/bi/FinancialDashboard';
+import CustomerAnalytics from './pages/bi/CustomerAnalytics';
+import OperationsDashboard from './pages/bi/OperationsDashboard';
+import AIExecutiveCopilot from './pages/bi/AIExecutiveCopilot';
+// Phase 13 — AI Predictive Maintenance & IoT Fleet Intelligence
+import FleetIntelligenceDashboard from './pages/maintenance/FleetIntelligenceDashboard';
+import LiveTelemetry from './pages/maintenance/LiveTelemetry';
+import VehicleHealthPage from './pages/maintenance/VehicleHealthPage';
+import MaintenanceCenter from './pages/maintenance/MaintenanceCenter';
+import WorkOrders from './pages/maintenance/WorkOrders';
+import WorkshopManagement from './pages/maintenance/WorkshopManagement';
+import FuelIntelligencePage from './pages/maintenance/FuelIntelligence';
+import DriverBehaviourPage from './pages/maintenance/DriverBehaviourPage';
+import BatteryAnalytics from './pages/maintenance/BatteryAnalytics';
+import EngineAnalytics from './pages/maintenance/EngineAnalytics';
+import TyreAnalytics from './pages/maintenance/TyreAnalytics';
+// Phase 14 – AI Warehouse Management System (WMS)
+import WarehouseDashboard from './pages/warehouse/WarehouseDashboard';
+import WarehouseMaster from './pages/warehouse/WarehouseMaster';
+import InventoryPage from './pages/warehouse/InventoryPage';
+import InboundCenter from './pages/warehouse/InboundCenter';
+import OutboundCenter from './pages/warehouse/OutboundCenter';
+import WarehouseTasks from './pages/warehouse/WarehouseTasks';
+import WarehouseAI from './pages/warehouse/WarehouseAI';
+import DockManagement from './pages/warehouse/DockManagement';
+import BarcodeCenter from './pages/warehouse/BarcodeCenter';
+import WarehouseAnalytics from './pages/warehouse/WarehouseAnalytics';
+import WarehouseForecast from './pages/warehouse/WarehouseForecast';
+// Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility
+import ControlTower from './pages/enterprise/ControlTower';
+import GlobalOperations from './pages/enterprise/GlobalOperations';
+import SupplierManagement from './pages/enterprise/SupplierManagement';
+import VendorManagement from './pages/enterprise/VendorManagement';
+import PurchaseOrders from './pages/enterprise/PurchaseOrders';
+import SalesOrders from './pages/enterprise/SalesOrders';
+import EnterpriseIncidents from './pages/enterprise/EnterpriseIncidents';
+import CollaborationCenter from './pages/enterprise/CollaborationCenter';
+import RiskCenter from './pages/enterprise/RiskCenter';
+import AIDecisionCenter from './pages/enterprise/AIDecisionCenter';
+import ExecutiveCockpit from './pages/enterprise/ExecutiveCockpit';
+import CustomerPortal2 from './pages/enterprise/CustomerPortal2';
+import EnterpriseAnalytics from './pages/enterprise/EnterpriseAnalytics';
+import DocumentDashboard from './pages/documents/DocumentDashboard';
+import DocumentRepository from './pages/documents/DocumentRepository';
+import UploadCenter from './pages/documents/UploadCenter';
+import OCRViewer from './pages/documents/OCRViewer';
+import ValidationDashboard from './pages/documents/ValidationDashboard';
+import ApprovalDashboard from './pages/documents/ApprovalDashboard';
+import DocumentSearch from './pages/documents/DocumentSearch';
+import DocumentAnalytics from './pages/documents/DocumentAnalytics';
+import VersionHistory from './pages/documents/VersionHistory';
+import RecycleBin from './pages/documents/RecycleBin';
+// Phase 16 – AI Enterprise Automation & Hyper Automation Platform
+import AutomationDashboard from './pages/automation/AutomationDashboard';
+import WorkflowBuilder from './pages/automation/WorkflowBuilder';
+import WorkflowTemplates from './pages/automation/WorkflowTemplates';
+import AutomationJobs from './pages/automation/AutomationJobs';
+import DigitalWorkers from './pages/automation/DigitalWorkers';
+import ApprovalCenter from './pages/automation/ApprovalCenter';
+import EnterpriseScheduler from './pages/automation/EnterpriseScheduler';
+import AutomationAnalytics from './pages/automation/AutomationAnalytics';
+import WorkflowMonitoring from './pages/automation/WorkflowMonitoring';
+import ExecutionHistory from './pages/automation/ExecutionHistory';
+import WorkflowDesigner from './pages/automation/WorkflowDesigner';
+import AutomationSettings from './pages/automation/AutomationSettings';
+
+// Phase 18 – AI Digital Twin, Simulation & Autonomous Operations
+import DigitalTwinDashboard  from './pages/simulation/DigitalTwinDashboard';
+import SimulationCenter      from './pages/simulation/SimulationCenter';
+import ScenarioBuilder       from './pages/simulation/ScenarioBuilder';
+import ScenarioLibrary       from './pages/simulation/ScenarioLibrary';
+import AutonomousDecisions   from './pages/simulation/AutonomousDecisions';
+import CapacityPlanning      from './pages/simulation/CapacityPlanning';
+import DemandPlanning        from './pages/simulation/DemandPlanning';
+import CarbonDashboard       from './pages/simulation/CarbonDashboard';
+import SustainabilityDashboard from './pages/simulation/SustainabilityDashboard';
+import RiskSimulation        from './pages/simulation/RiskSimulation';
+import BusinessContinuity    from './pages/simulation/BusinessContinuity';
+import RecoveryCenter        from './pages/simulation/RecoveryCenter';
+import SimulationAnalytics   from './pages/simulation/SimulationAnalytics';
+import ExecutiveSimulation   from './pages/simulation/ExecutiveSimulation';
+import AIRecommendations     from './pages/simulation/AIRecommendations';
+
+// Phase 17 – AI Enterprise Integration Platform
+import IntegrationDashboard  from './pages/integration/IntegrationDashboard';
+import APIGateway            from './pages/integration/APIGateway';
+import WebhookManager        from './pages/integration/WebhookManager';
+import APIKeys               from './pages/integration/APIKeys';
+import ConnectorMarketplace  from './pages/integration/ConnectorMarketplace';
+import ERPIntegrations       from './pages/integration/ERPIntegrations';
+import CRMIntegrations       from './pages/integration/CRMIntegrations';
+import AccountingIntegrations from './pages/integration/AccountingIntegrations';
+import MarketplaceIntegrations from './pages/integration/MarketplaceIntegrations';
+import EventBusMonitor       from './pages/integration/EventBusMonitor';
+import SyncDashboard         from './pages/integration/SyncDashboard';
+import OAuthManager          from './pages/integration/OAuthManager';
+import APIDocs               from './pages/integration/APIDocs';
+import APIAnalytics          from './pages/integration/APIAnalytics';
+import IntegrationLogs       from './pages/integration/IntegrationLogs';
+import DeveloperPortal       from './pages/integration/DeveloperPortal';
 
 function RequireAuth({ children }) {
   const { user } = useAuth();
@@ -277,6 +408,9 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/track" element={<Track />} />
+        <Route path="/quote" element={<QuoteGenerator />} />
+        <Route path="/quote/:number" element={<QuoteGenerator />} />
+        <Route path="/my-complaints" element={<CustomerComplaintPortal />} />
         <Route path="/select-branch" element={
           <RequireAuth><BranchSelect /></RequireAuth>
         } />
@@ -526,6 +660,87 @@ export default function App() {
           <Route path="tracking/lr-cost-analysis"              element={<LRCostAnalysis />} />
           <Route path="tracking/reference-track"               element={<ReferenceTrack />} />
           <Route path="tracking/veh-current-status"            element={<VehCurrentStatus />} />
+          <Route path="tracking/dispatcher"                  element={<DispatcherView />} />
+          <Route path="routes/optimizer"                     element={<RouteOptimizer />} />
+          <Route path="fleet/dashboard"                      element={<FleetDashboard />} />
+          <Route path="dispatch/center"                     element={<DispatchCenter />} />
+          <Route path="complaints/center"                    element={<ComplaintCenter />} />
+          <Route path="voice/assistant"                      element={<VoiceAssistant />} />
+          <Route path="voice/history"                        element={<VoiceHistory />} />
+          <Route path="voice/analytics"                      element={<VoiceAnalytics />} />
+          <Route path="knowledge-base"                       element={<KnowledgeBase />} />
+          <Route path="sales/dashboard"                      element={<SalesDashboard />} />
+          <Route path="sales/leads"                          element={<LeadManagement />} />
+          <Route path="sales/pipeline"                       element={<SalesPipeline />} />
+          <Route path="sales/analytics"                      element={<SalesAnalyticsPage />} />
+          <Route path="sales/copilot"                        element={<AISalesCopilot />} />
+          <Route path="driver/dashboard"                     element={<DriverDashboard />} />
+          <Route path="driver/trips"                         element={<DriverTrips />} />
+          <Route path="driver/trips/:id"                     element={<TripDetails />} />
+          <Route path="driver/pod"                           element={<DigitalPOD />} />
+          <Route path="driver/performance"                   element={<DriverPerformance />} />
+          <Route path="driver/documents"                     element={<DriverDocuments />} />
+          <Route path="driver/incidents"                     element={<IncidentReporting />} />
+          <Route path="driver/voice"                         element={<VoiceDriver />} />
+          <Route path="quotes"                               element={<QuoteAdmin />} />
+          <Route path="bi/executive"                         element={<ExecutiveDashboardPage />} />
+          <Route path="bi/intelligence"                     element={<BusinessIntelligence />} />
+          <Route path="bi/forecast"                         element={<ForecastDashboard />} />
+          <Route path="bi/alerts"                           element={<AlertsCenter />} />
+          <Route path="bi/reports"                          element={<ExecutiveReports />} />
+          <Route path="bi/branches"                         element={<BranchAnalytics />} />
+          <Route path="bi/financial"                        element={<FinancialDashboard />} />
+          <Route path="bi/customers"                        element={<CustomerAnalytics />} />
+          <Route path="bi/operations"                       element={<OperationsDashboard />} />
+          <Route path="bi/copilot"                          element={<AIExecutiveCopilot />} />
+          {/* Phase 13 – AI Predictive Maintenance & IoT Fleet Intelligence */}
+          <Route path="maintenance"                          element={<FleetIntelligenceDashboard />} />
+          <Route path="maintenance/telemetry"               element={<LiveTelemetry />} />
+          <Route path="maintenance/vehicle-health"          element={<VehicleHealthPage />} />
+          <Route path="maintenance/center"                  element={<MaintenanceCenter />} />
+          <Route path="maintenance/workorders"              element={<WorkOrders />} />
+          <Route path="maintenance/workshops"               element={<WorkshopManagement />} />
+          <Route path="maintenance/fuel"                    element={<FuelIntelligencePage />} />
+          <Route path="maintenance/driver-behaviour"        element={<DriverBehaviourPage />} />
+          <Route path="maintenance/battery"                 element={<BatteryAnalytics />} />
+          <Route path="maintenance/engine"                  element={<EngineAnalytics />} />
+          <Route path="maintenance/tyres"                   element={<TyreAnalytics />} />
+          <Route path="documents"                            element={<DocumentDashboard />} />
+          <Route path="documents/repository"                 element={<DocumentRepository />} />
+          <Route path="documents/upload"                     element={<UploadCenter />} />
+          <Route path="documents/ocr/:id"                    element={<OCRViewer />} />
+          <Route path="documents/validation"                 element={<ValidationDashboard />} />
+          <Route path="documents/approval"                   element={<ApprovalDashboard />} />
+          <Route path="documents/search"                     element={<DocumentSearch />} />
+          <Route path="documents/analytics"                  element={<DocumentAnalytics />} />
+          <Route path="documents/versions/:id"               element={<VersionHistory />} />
+          <Route path="documents/recycle-bin"                element={<RecycleBin />} />
+          {/* Phase 14 – AI Warehouse Management System (WMS) */}
+          <Route path="warehouse"                           element={<WarehouseDashboard />} />
+          <Route path="warehouse/master"                   element={<WarehouseMaster />} />
+          <Route path="warehouse/inventory"                element={<InventoryPage />} />
+          <Route path="warehouse/inbound"                  element={<InboundCenter />} />
+          <Route path="warehouse/outbound"                 element={<OutboundCenter />} />
+          <Route path="warehouse/tasks"                    element={<WarehouseTasks />} />
+          <Route path="warehouse/ai"                       element={<WarehouseAI />} />
+          <Route path="warehouse/docks"                    element={<DockManagement />} />
+          <Route path="warehouse/barcode"                  element={<BarcodeCenter />} />
+          <Route path="warehouse/analytics"               element={<WarehouseAnalytics />} />
+          <Route path="warehouse/forecast"                 element={<WarehouseForecast />} />
+          {/* Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility */}
+          <Route path="enterprise/control-tower"   element={<ControlTower />} />
+          <Route path="enterprise/operations"      element={<GlobalOperations />} />
+          <Route path="enterprise/suppliers"       element={<SupplierManagement />} />
+          <Route path="enterprise/vendors"         element={<VendorManagement />} />
+          <Route path="enterprise/purchase-orders" element={<PurchaseOrders />} />
+          <Route path="enterprise/sales-orders"    element={<SalesOrders />} />
+          <Route path="enterprise/incidents"       element={<EnterpriseIncidents />} />
+          <Route path="enterprise/collaboration"   element={<CollaborationCenter />} />
+          <Route path="enterprise/risk"            element={<RiskCenter />} />
+          <Route path="enterprise/ai-decisions"    element={<AIDecisionCenter />} />
+          <Route path="enterprise/cockpit"         element={<ExecutiveCockpit />} />
+          <Route path="enterprise/customer-portal" element={<CustomerPortal2 />} />
+          <Route path="enterprise/analytics"       element={<EnterpriseAnalytics />} />
           {/* Switch routes */}
           <Route path="switch/branch"  element={<Navigate to="/select-branch" replace />} />
           <Route path="switch/fin-year"     element={<SelectFinYear />} />
@@ -543,6 +758,54 @@ export default function App() {
           <Route path="config/customer"              element={<CustomerConfig />} />
           <Route path="config/auto-mail-setting"   element={<AutoMailSetting />} />
           <Route path="config/complaint-register"  element={<ComplaintRegister />} />
+          {/* Phase 16 – Automation */}
+          <Route path="automation"                element={<AutomationDashboard />} />
+          <Route path="automation/builder"        element={<WorkflowBuilder />} />
+          <Route path="automation/templates"      element={<WorkflowTemplates />} />
+          <Route path="automation/jobs"           element={<AutomationJobs />} />
+          <Route path="automation/workers"        element={<DigitalWorkers />} />
+          <Route path="automation/approvals"      element={<ApprovalCenter />} />
+          <Route path="automation/scheduler"      element={<EnterpriseScheduler />} />
+          <Route path="automation/analytics"      element={<AutomationAnalytics />} />
+          <Route path="automation/monitoring"     element={<WorkflowMonitoring />} />
+          <Route path="automation/history"        element={<ExecutionHistory />} />
+          <Route path="automation/designer"       element={<WorkflowDesigner />} />
+          <Route path="automation/settings"       element={<AutomationSettings />} />
+
+          {/* Phase 18 – AI Digital Twin, Simulation & Autonomous Operations */}
+          <Route path="simulation"                   element={<DigitalTwinDashboard />} />
+          <Route path="simulation/center"            element={<SimulationCenter />} />
+          <Route path="simulation/scenario-builder"  element={<ScenarioBuilder />} />
+          <Route path="simulation/scenario-library"  element={<ScenarioLibrary />} />
+          <Route path="simulation/autonomous"        element={<AutonomousDecisions />} />
+          <Route path="simulation/capacity"          element={<CapacityPlanning />} />
+          <Route path="simulation/demand"            element={<DemandPlanning />} />
+          <Route path="simulation/carbon"            element={<CarbonDashboard />} />
+          <Route path="simulation/sustainability"    element={<SustainabilityDashboard />} />
+          <Route path="simulation/risk"              element={<RiskSimulation />} />
+          <Route path="simulation/bcp"               element={<BusinessContinuity />} />
+          <Route path="simulation/recovery"          element={<RecoveryCenter />} />
+          <Route path="simulation/analytics"         element={<SimulationAnalytics />} />
+          <Route path="simulation/executive"         element={<ExecutiveSimulation />} />
+          <Route path="simulation/recommendations"   element={<AIRecommendations />} />
+
+          {/* Phase 17 – AI Enterprise Integration Platform */}
+          <Route path="integration"              element={<IntegrationDashboard />} />
+          <Route path="integration/gateway"      element={<APIGateway />} />
+          <Route path="integration/webhooks"     element={<WebhookManager />} />
+          <Route path="integration/api-keys"     element={<APIKeys />} />
+          <Route path="integration/connectors"   element={<ConnectorMarketplace />} />
+          <Route path="integration/erp"          element={<ERPIntegrations />} />
+          <Route path="integration/crm"          element={<CRMIntegrations />} />
+          <Route path="integration/accounting"   element={<AccountingIntegrations />} />
+          <Route path="integration/marketplace"  element={<MarketplaceIntegrations />} />
+          <Route path="integration/events"       element={<EventBusMonitor />} />
+          <Route path="integration/sync"         element={<SyncDashboard />} />
+          <Route path="integration/oauth"        element={<OAuthManager />} />
+          <Route path="integration/api-docs"     element={<APIDocs />} />
+          <Route path="integration/analytics"    element={<APIAnalytics />} />
+          <Route path="integration/logs"         element={<IntegrationLogs />} />
+          <Route path="integration/developer"    element={<DeveloperPortal />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

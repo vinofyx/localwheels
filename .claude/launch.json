@@ -2,11 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "LocalWheels Frontend",
+      "name": "frontend",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "cwd": "${workspaceFolder}/frontend",
-      "port": 8080
+      "runtimeArgs": ["run", "dev", "--prefix", "frontend"],
+      "port": 8081,
+      "autoPort": false
     }
   ]
 }

@@ -298,6 +298,101 @@ app.use('/api/faq',                require('./routes/faq'));
 app.use('/api/live-agent',         require('./routes/liveAgent'));
 app.use('/api/whatsapp',           require('./routes/whatsapp'));
 app.use('/api/support-analytics',  require('./routes/supportAnalytics'));
+app.use('/api/routes',             require('./routes/routes'));
+app.use('/api/fleet',              require('./routes/fleet'));
+app.use('/api/dispatch',           require('./routes/dispatch'));
+app.use('/api/knowledge',          require('./routes/knowledge'));
+app.use('/api/customer',           require('./routes/customerPortal'));
+app.use('/api/voice',              require('./routes/voice'));
+app.use('/api/driver',             require('./routes/driver'));
+app.use('/api/leads',              require('./routes/leads'));
+app.use('/api/opportunities',      require('./routes/opportunities'));
+app.use('/api/sales',              require('./routes/sales'));
+app.use('/api/documents',          require('./routes/documents'));
+app.use('/api/ocr',                require('./routes/ocr'));
+app.use('/api/document-validation',require('./routes/documentValidation'));
+app.use('/api/document-approval',  require('./routes/documentApproval'));
+app.use('/api/document-search',    require('./routes/documentSearch'));
+app.use('/api/document-analytics', require('./routes/documentAnalytics'));
+app.use('/api/executive',             require('./routes/executive'));
+app.use('/api/business-intelligence', require('./routes/businessIntelligence'));
+app.use('/api/forecast',              require('./routes/forecast'));
+app.use('/api/alerts',                require('./routes/alerts'));
+app.use('/api/reports',               require('./routes/reports'));
+app.use('/api/dashboard-preferences', require('./routes/dashboardPreferences'));
+
+// Phase 13 – AI Predictive Maintenance & IoT Fleet Intelligence
+app.use('/api/iot',               require('./routes/iot'));
+app.use('/api/telemetry',         require('./routes/telemetry'));
+app.use('/api/maintenance-ai',    require('./routes/maintenanceAi'));
+app.use('/api/workshops',         require('./routes/workshops'));
+app.use('/api/workorders',        require('./routes/workorders'));
+app.use('/api/driver-behaviour',  require('./routes/driverBehaviour'));
+app.use('/api/fuel-intelligence', require('./routes/fuelIntelligence'));
+app.use('/api/engine-health',     require('./routes/engineHealth'));
+app.use('/api/battery-health',    require('./routes/batteryHealth'));
+app.use('/api/tyre-health',       require('./routes/tyreHealth'));
+
+// Phase 14 – AI Warehouse Management System (WMS) & Smart Warehouse Intelligence
+app.use('/api/inventory',           require('./routes/inventory'));
+app.use('/api/inbound',             require('./routes/inbound'));
+app.use('/api/outbound',            require('./routes/outbound'));
+app.use('/api/docks',               require('./routes/docks'));
+app.use('/api/tasks',               require('./routes/tasks'));
+app.use('/api/warehouse-ai',        require('./routes/warehouse-ai'));
+app.use('/api/barcode',             require('./routes/barcode'));
+app.use('/api/rfid',                require('./routes/rfid'));
+app.use('/api/warehouse-analytics', require('./routes/warehouse-analytics'));
+
+// ── Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility ──────────
+app.use('/api/control-tower',    require('./routes/controlTower'));
+app.use('/api/suppliers',        require('./routes/suppliers'));
+app.use('/api/vendors-p15',      require('./routes/vendors-p15'));
+app.use('/api/purchase-orders',  require('./routes/purchaseOrders'));
+app.use('/api/sales-orders',     require('./routes/salesOrders'));
+app.use('/api/incidents',        require('./routes/incidents'));
+app.use('/api/collaboration',    require('./routes/collaboration'));
+app.use('/api/risk',             require('./routes/risk'));
+app.use('/api/decision-engine',  require('./routes/decisionEngine'));
+app.use('/api/live-operations',  require('./routes/liveOperations'));
+app.use('/api/executive-cockpit',require('./routes/executiveCockpit'));
+app.use('/api/customer-portal',  require('./routes/customerPortalP15'));
+
+// ── Phase 16 – AI Enterprise Automation & Hyper Automation Platform ──────────
+app.use('/api/automation',           require('./routes/automation'));
+app.use('/api/automation-jobs',      require('./routes/automationJobs'));
+app.use('/api/approvals',            require('./routes/approvals'));
+app.use('/api/digital-workers',      require('./routes/digitalWorkers'));
+app.use('/api/scheduler',            require('./routes/scheduler'));
+app.use('/api/automation-analytics', require('./routes/automationAnalytics'));
+
+// ── Phase 17 – AI Enterprise Integration Platform & API Gateway ───────────────
+app.use('/api/gateway',               require('./routes/gateway'));
+app.use('/api/api-keys',              require('./routes/apiKeys'));
+app.use('/api/webhooks',              require('./routes/webhooks'));
+app.use('/api/connectors',            require('./routes/connectors'));
+app.use('/api/events',                require('./routes/events'));
+app.use('/api/integrations',          require('./routes/integrations'));
+app.use('/api/integration-analytics', require('./routes/integrationAnalytics'));
+app.use('/api/api-monitoring',        require('./routes/apiMonitoring'));
+app.use('/api/oauth',                 require('./routes/oauthRoutes'));
+app.use('/api/sync',                  require('./routes/syncRoutes'));
+app.use('/api/api-docs',              require('./routes/apiDocs'));
+app.use('/api/developer-portal',      require('./routes/developerPortal'));
+
+// ── Phase 18 – AI Digital Twin, Simulation & Autonomous Operations ────────────
+app.use('/api/digital-twin',           require('./routes/digitalTwin'));
+app.use('/api/simulation',             require('./routes/simulation'));
+app.use('/api/scenarios',              require('./routes/scenarios'));
+app.use('/api/autonomous',             require('./routes/autonomous'));
+app.use('/api/capacity',               require('./routes/capacity'));
+app.use('/api/demand',                 require('./routes/demand'));
+app.use('/api/carbon',                 require('./routes/carbon'));
+app.use('/api/sustainability',         require('./routes/sustainability'));
+app.use('/api/risk-simulation',        require('./routes/riskSimulation'));
+app.use('/api/recovery',               require('./routes/recovery'));
+app.use('/api/simulation-analytics',   require('./routes/simulationAnalytics'));
+app.use('/api/executive-simulation',   require('./routes/executiveSimulation'));
 
 // ── Non-API catch-all 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {

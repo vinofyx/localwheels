@@ -1,0 +1,32 @@
+const mongoose = require('mongoose');
+const s = new mongoose.Schema({
+  company_id:       { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+  supplier_code:    { type: String, required: true },
+  name:             { type: String, required: true },
+  category:         { type: String, enum: ['raw_material','packaging','fuel','spare_parts','logistics','services','technology','other'], default: 'other' },
+  contact_person:   String,
+  email:            String,
+  phone:            String,
+  address:          String,
+  city:             String,
+  state:            String,
+  country:          { type: String, default: 'Kenya' },
+  tax_id:           String,
+  payment_terms:    { type: String, enum: ['net_7','net_15','net_30','net_45','net_60','cod','advance'], default: 'net_30' },
+  currency:         { type: String, default: 'KES' },
+  status:           { type: String, enum: ['pending','approved','active','suspended','blacklisted'], default: 'pending' },
+  approved_by:      { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  approved_at:      Date,
+  overall_score:    { type: Number, min: 0, max: 100, default: 0 },
+  on_time_delivery: { type: Number, min: 0, max: 100, default: 0 },
+  quality_score:    { type: Number, min: 0, max: 100, default: 0 },
+  price_score:      { type: Number, min: 0, max: 100, default: 0 },
+  sla_compliance:   { type: Number, min: 0, max: 100, default: 0 },
+  total_orders:     { type: Number, default: 0 },
+  total_spend:      { type: Number, default: 0 },
+  documents:        [{ name: String, url: String, uploaded_at: Date }],
+  notes:            String,
+  is_active:        { type: Boolean, default: true },
+}, { timestamps: true });
+s.index({ company_id: 1, supplier_code: 1 }, { unique: true });
+module.exports = mongoose.model('Supplier', s);

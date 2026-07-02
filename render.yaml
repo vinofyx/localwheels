@@ -30,3 +30,12 @@ services:
 
       - key: FRONTEND_URL
         sync: false          # e.g. https://localwheels.vercel.app  (shown in API root page)
+
+      # AI features — degrade to rule-based fallback if unset, but set for full functionality
+      - key: ANTHROPIC_API_KEY
+        sync: false          # sk-ant-...  get from console.anthropic.com
+
+      # Voice transcript encryption — MUST be set in production
+      # generate: node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+      - key: VOICE_ENCRYPTION_KEY
+        sync: false

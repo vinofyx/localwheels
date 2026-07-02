@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+const s = new mongoose.Schema({
+  company_id:         { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+  period:             { type: String, enum: ['daily','weekly','monthly','quarterly'], default: 'monthly' },
+  period_date:        { type: Date, required: true },
+  total_revenue:      { type: Number, default: 0 },
+  total_orders:       { type: Number, default: 0 },
+  fulfilled_orders:   { type: Number, default: 0 },
+  cancelled_orders:   { type: Number, default: 0 },
+  total_shipments:    { type: Number, default: 0 },
+  on_time_deliveries: { type: Number, default: 0 },
+  late_deliveries:    { type: Number, default: 0 },
+  total_suppliers:    { type: Number, default: 0 },
+  active_suppliers:   { type: Number, default: 0 },
+  supplier_spend:     { type: Number, default: 0 },
+  total_vendors:      { type: Number, default: 0 },
+  vendor_spend:       { type: Number, default: 0 },
+  open_incidents:     { type: Number, default: 0 },
+  resolved_incidents: { type: Number, default: 0 },
+  active_risks:       { type: Number, default: 0 },
+  decisions_made:     { type: Number, default: 0 },
+  cost_savings:       { type: Number, default: 0 },
+  fleet_utilization:  { type: Number, default: 0 },
+  warehouse_utilization: { type: Number, default: 0 },
+}, { timestamps: true });
+module.exports = mongoose.model('EnterpriseAnalytics', s);

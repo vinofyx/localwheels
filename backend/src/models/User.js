@@ -9,8 +9,9 @@ const userSchema = new mongoose.Schema({
   phone: String,
   // 'operator' kept for backward-compat with legacy data that may exist in the DB.
   // New users can only be created with admin-validated roles (enforced in routes/users.js).
-  role: { type: String, enum: ['superadmin', 'admin', 'manager', 'staff', 'operator'], default: 'staff' },
+  role: { type: String, enum: ['superadmin', 'admin', 'manager', 'staff', 'operator', 'driver'], default: 'staff' },
   branch_ids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' }],
+  driver_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' },
   is_active: { type: Boolean, default: true },
 }, { timestamps: true });
 
