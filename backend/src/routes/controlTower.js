@@ -52,16 +52,6 @@ router.get('/dashboard', auth, async (req, res) => {
     const warehouseUtil = totalBins > 0 ? Math.round(((totalBins - emptyBins) / totalBins) * 100) : 0;
     const fleetUtil = totalVehicles > 0 ? Math.round((activeVehicles / totalVehicles) * 100) : 0;
 
-    const snapshot = await LiveOperationsSnapshot.create({
-      company_id: cid,
-      vehicles_active: activeVehicles, vehicles_idle: totalVehicles - activeVehicles,
-      drivers_on_duty: activeDrivers, drivers_available: totalDrivers - activeDrivers,
-      shipments_in_transit: inTransit, shipments_delayed: delayed, shipments_delivered: delivered,
-      docks_available: openDocks,
-      warehouse_capacity_pct: warehouseUtil,
-      open_alerts: openAlerts, open_incidents: openIncidents, active_risks: activeRisks,
-    });
-
     ok(res, {
       shipments: { total: totalShipments, in_transit: inTransit, delivered, delayed },
       fleet: { total: totalVehicles, active: activeVehicles, utilization_pct: fleetUtil },
@@ -70,7 +60,6 @@ router.get('/dashboard', auth, async (req, res) => {
       alerts: { total: openAlerts, critical: criticalAlerts },
       incidents: { open: openIncidents },
       risks: { active: activeRisks },
-      snapshot_id: snapshot._id,
     });
   } catch (e) { err(res, e.message, 500); }
 });
