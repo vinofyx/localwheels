@@ -83,11 +83,9 @@ export default function ImportUtility() {
     toast.loading('Importing…', { id: 'imp' });
     setTimeout(() => {
       toast.dismiss('imp');
-      const mockSuccess = Math.floor(Math.random() * 40) + 10;
-      const mockFailed  = Math.floor(Math.random() * 4);
-      setResults({ success: mockSuccess, failed: mockFailed, rows: mockSuccess + mockFailed });
-      if (mockFailed === 0) toast.success('Import completed — all rows processed');
-      else toast.error(`Import finished with ${mockFailed} error(s)`);
+      // CSV import processing — results will be returned by the server in production
+      toast.error('CSV import requires a live backend integration. Please contact support to import data.');
+      setResults(null);
     }, 1800);
   }
 

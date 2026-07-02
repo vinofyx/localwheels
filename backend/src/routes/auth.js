@@ -32,7 +32,7 @@ router.post('/login', async (req, res, next) => {
         username: user.username,
         full_name: user.full_name,
         role: user.role,
-        company_id: user.company_id.toString(),
+        company_id: user.company_id ? user.company_id.toString() : null,
         company_name: company?.name,
       },
       process.env.JWT_SECRET,

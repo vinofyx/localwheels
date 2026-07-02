@@ -94,8 +94,6 @@ export default function Region() {
               className="border border-gray-400 px-2 py-1 w-52 text-[13px] bg-white focus:outline-none focus:border-blue-500"
             >
               <option>--Select--</option>
-              <option>DEMO</option>
-              <option>DEMO1234</option>
               <option>EAST ZONE</option>
               <option>EAST ZONE STATE</option>
               <option>MIDDLE EAST ZONE</option>

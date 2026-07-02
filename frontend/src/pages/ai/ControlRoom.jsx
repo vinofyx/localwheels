@@ -148,183 +148,66 @@ const INDIA_PATH = [
   'L148,33 L168,22 Z',
 ].join(' ');
 
-// Demo fleet for GPS-not-connected state
-const DEMO_VEHICLES = [
-  {id:'MH-12-AB-1234',driver:'Ramesh K.',  fi:0, ti:1, p:0.15,st:'Moving',spd:62,fuel:67},
-  {id:'DL-01-CD-5678',driver:'Suresh P.',  fi:0, ti:3, p:0.42,st:'Moving',spd:71,fuel:45},
-  {id:'KA-53-EF-9012',driver:'Mohan L.',   fi:1, ti:4, p:0.68,st:'Moving',spd:55,fuel:82},
-  {id:'TN-09-GH-3456',driver:'Ravi M.',    fi:2, ti:5, p:0.25,st:'Moving',spd:48,fuel:34},
-  {id:'GJ-18-IJ-7890',driver:'Anil S.',    fi:6, ti:0, p:0.55,st:'Moving',spd:67,fuel:91},
-  {id:'MH-14-KL-2345',driver:'Vijay R.',   fi:7, ti:1, p:0.35,st:'Moving',spd:59,fuel:55},
-  {id:'RJ-14-MN-6789',driver:'Pradeep T.', fi:8, ti:0, p:0.80,st:'Moving',spd:73,fuel:73},
-  {id:'AP-28-OP-1234',driver:'Kumar V.',   fi:5, ti:2, p:0.12,st:'Moving',spd:61,fuel:28},
-  {id:'WB-06-QR-5678',driver:'Sanjay B.',  fi:3, ti:9, p:0.45,st:'Moving',spd:58,fuel:88},
-  {id:'UP-32-ST-9012',driver:'Dinesh C.',  fi:10,ti:0, p:0.70,st:'Moving',spd:69,fuel:62},
-  {id:'MH-20-UV-3456',driver:'Ganesh N.',  fi:11,ti:7, p:0.28,st:'Moving',spd:54,fuel:47},
-  {id:'KA-01-WX-7890',driver:'Harish P.',  fi:4, ti:2, p:0.60,st:'Moving',spd:66,fuel:79},
-  {id:'DL-07-YZ-2345',driver:'Mahesh D.',  fi:0, ti:8, p:0.90,st:'Moving',spd:72,fuel:56},
-  {id:'TN-22-AB-6789',driver:'Naresh G.',  fi:2, ti:4, p:0.38,st:'Moving',spd:57,fuel:41},
-  {id:'GJ-05-CD-1234',driver:'Nilesh K.',  fi:6, ti:7, p:0.52,st:'Moving',spd:64,fuel:93},
-  {id:'MH-43-EF-5678',driver:'Rakesh J.',  fi:9, ti:5, p:0.18,st:'Moving',spd:47,fuel:37},
-  {id:'AP-11-GH-9012',driver:'Ramdev S.',  fi:5, ti:9, p:0.75,st:'Moving',spd:68,fuel:68},
-  {id:'KA-19-IJ-3456',driver:'Suresh M.',  fi:4, ti:1, p:0.32,st:'Moving',spd:53,fuel:84},
-  {id:'DL-03-KL-7890',driver:'Arjun T.',   fi:0, ti:0, p:0,   st:'Idle',  spd:0, fuel:71},
-  {id:'MH-02-MN-2345',driver:'Deepak R.',  fi:1, ti:1, p:0,   st:'Idle',  spd:0, fuel:53},
-  {id:'WB-04-OP-6789',driver:'Girish V.',  fi:3, ti:3, p:0,   st:'Idle',  spd:0, fuel:39},
-  {id:'TN-15-QR-1234',driver:'Karim H.',   fi:2, ti:2, p:0,   st:'Idle',  spd:0, fuel:76},
-  {id:'KA-26-ST-5678',driver:'Laxman P.',  fi:4, ti:4, p:0,   st:'Idle',  spd:0, fuel:29},
-  {id:'GJ-22-UV-9012',driver:'Mohan J.',   fi:6, ti:6, p:0,   st:'Maintenance',spd:0,fuel:85},
-  {id:'AP-33-WX-3456',driver:'Narayan D.', fi:5, ti:5, p:0,   st:'Maintenance',spd:0,fuel:64},
-];
 const VEH_COLORS = { Moving:'#22c55e', Idle:'#f59e0b', Maintenance:'#ef4444' };
-const ETA_MAP    = [2.5,4.2,1.8,6.1,3.4,5.7,2.1,7.3,1.5,4.8,3.9,6.5,2.8,5.2,1.2,4.6,3.1,7.8,2.4,5.9,1.7,6.8,3.7,4.3,2.9];
 
 function FleetMap({ gpsConnected = false }) {
   const navigate = useNavigate();
-  const progRef  = useRef(DEMO_VEHICLES.map(v => v.p));
-  const [tick,   setTick]   = useState(0);
-  const [selIdx, setSelIdx] = useState(null);
 
-  useEffect(() => {
-    const t = setInterval(() => {
-      DEMO_VEHICLES.forEach((v, i) => {
-        if (v.st === 'Moving') progRef.current[i] = (progRef.current[i] + 0.005) % 1;
-      });
-      setTick(n => n + 1);
-    }, 1500);
-    return () => clearInterval(t);
-  }, []);
-
-  const positions = DEMO_VEHICLES.map((v, i) => {
-    const from = MAP_CITIES[v.fi], to = MAP_CITIES[v.ti], p = progRef.current[i];
-    return { x: from.x + (to.x - from.x) * p, y: from.y + (to.y - from.y) * p, color: VEH_COLORS[v.st] };
-  });
+  if (!gpsConnected) {
+    return (
+      <div className="relative w-full bg-[#0c1a36] rounded-xl overflow-hidden flex flex-col items-center justify-center gap-4"
+        style={{ minHeight: 280 }}>
+        <svg viewBox="0 0 420 480" className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="xMidYMid meet">
+          {Array.from({length:12}).map((_,i)=>( <line key={`h${i}`} x1="0" y1={i*40} x2="420" y2={i*40} stroke="#1e3a5f" strokeWidth="0.5"/> ))}
+          {Array.from({length:11}).map((_,i)=>( <line key={`v${i}`} x1={i*42} y1="0" x2={i*42} y2="480" stroke="#1e3a5f" strokeWidth="0.5"/> ))}
+          <path d={INDIA_PATH} fill="#132a4a" stroke="#2563EB" strokeWidth="1.2" strokeOpacity="0.6"/>
+          {MAP_ROUTES.map(([a,b],i)=>{ const ca=MAP_CITIES[a],cb=MAP_CITIES[b]; return (
+            <line key={i} x1={ca.x} y1={ca.y} x2={cb.x} y2={cb.y} stroke="#3B82F6" strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 3"/>
+          );})}
+          {MAP_CITIES.map((city,i)=>(
+            <g key={i}>
+              <circle cx={city.x} cy={city.y} r={city.hub?4:2.5} fill={city.hub?'#3B82F6':'#64748B'}/>
+              <text x={city.x+6} y={city.y+3} fontSize="7" fill="#94a3b8" fontFamily="sans-serif">{city.name}</text>
+            </g>
+          ))}
+        </svg>
+        <div className="relative z-10 flex flex-col items-center gap-3 text-center px-6">
+          <div className="text-4xl">📡</div>
+          <p className="text-white font-bold text-sm">No Active Shipments</p>
+          <p className="text-blue-300 text-xs max-w-xs">
+            The map will show live vehicle positions once shipments are dispatched and GPS tracking is configured.
+          </p>
+          <button onClick={() => navigate('/ai/gps-tracking')}
+            className="mt-1 text-xs font-bold text-white px-4 py-2 rounded-lg"
+            style={{ background: '#1d4ed8', border: 'none', cursor: 'pointer' }}>
+            ⚙️ Configure GPS Tracking
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full bg-[#0c1a36] rounded-xl overflow-hidden" style={{ minHeight: 280 }}>
-
-      {/* ── Warning banner (GPS not connected) ── */}
-      {!gpsConnected && (
-        <div className="absolute top-0 left-0 right-0 z-20 flex items-center gap-2 px-3 py-1.5"
-          style={{ background:'rgba(217,119,6,0.93)', backdropFilter:'blur(4px)' }}>
-          <span style={{ fontSize:12 }}>⚠️</span>
-          <span className="text-[10px] font-bold text-white">GPS devices are not connected. Showing demo fleet data.</span>
-          <span className="ml-auto text-[9px] font-semibold" style={{ color:'#fef3c7' }}>DEMO MODE</span>
-        </div>
-      )}
-
-      <svg viewBox="0 0 420 480" className="w-full h-full" preserveAspectRatio="xMidYMid meet"
-        style={{ display:'block', marginTop: !gpsConnected ? 26 : 0 }}>
-        {/* Grid */}
+      <svg viewBox="0 0 420 480" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
         {Array.from({length:12}).map((_,i)=>( <line key={`h${i}`} x1="0" y1={i*40} x2="420" y2={i*40} stroke="#1e3a5f" strokeWidth="0.5"/> ))}
         {Array.from({length:11}).map((_,i)=>( <line key={`v${i}`} x1={i*42} y1="0" x2={i*42} y2="480" stroke="#1e3a5f" strokeWidth="0.5"/> ))}
-
-        {/* India outline */}
         <path d={INDIA_PATH} fill="#132a4a" stroke="#2563EB" strokeWidth="1.2" strokeOpacity="0.6"/>
-
-        {/* Route lines */}
         {MAP_ROUTES.map(([a,b],i)=>{ const ca=MAP_CITIES[a],cb=MAP_CITIES[b]; return (
           <line key={i} x1={ca.x} y1={ca.y} x2={cb.x} y2={cb.y} stroke="#3B82F6" strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 3"/>
         );})}
-
-        {/* Hub warehouse squares */}
-        {MAP_CITIES.filter(c=>c.hub).map((c,i)=>(
-          <g key={`wh${i}`}>
-            <rect x={c.x-5} y={c.y-5} width="10" height="10" rx="2" fill="#1e3a5f" stroke="#3B82F6" strokeWidth="0.8"/>
-            <line x1={c.x-3} y1={c.y} x2={c.x+3} y2={c.y} stroke="#60a5fa" strokeWidth="0.8"/>
-            <line x1={c.x} y1={c.y-3} x2={c.x} y2={c.y+3} stroke="#60a5fa" strokeWidth="0.8"/>
-          </g>
-        ))}
-
-        {/* City rings + dots */}
         {MAP_CITIES.map((city,i)=>(
           <g key={i}>
-            {city.hub && <circle cx={city.x} cy={city.y} r={9+(tick%4)*3} fill="none" stroke="#3B82F6" strokeWidth="0.7" strokeOpacity={0.38-(tick%4)*0.07}/>}
+            {city.hub && <circle cx={city.x} cy={city.y} r={9} fill="none" stroke="#3B82F6" strokeWidth="0.7" strokeOpacity={0.38}/>}
             <circle cx={city.x} cy={city.y} r={city.hub?4:2.5} fill={city.hub?'#3B82F6':'#64748B'}/>
             <circle cx={city.x} cy={city.y} r={city.hub?1.8:1.2} fill="#fff"/>
             <text x={city.x+6} y={city.y+3} fontSize="7" fill="#94a3b8" fontFamily="sans-serif">{city.name}</text>
           </g>
         ))}
-
-        {/* Vehicle markers */}
-        {positions.map((pos,i)=>{
-          const v=DEMO_VEHICLES[i]; const moving=v.st==='Moving';
-          return (
-            <g key={i} style={{cursor:'pointer'}} onClick={()=>setSelIdx(selIdx===i?null:i)}>
-              {moving && <circle cx={pos.x} cy={pos.y} r={6+(tick%3)*2} fill="none" stroke={pos.color} strokeWidth="0.6" strokeOpacity={0.45-(tick%3)*0.13}/>}
-              <circle cx={pos.x} cy={pos.y} r={moving?4.5:4} fill={pos.color} fillOpacity="0.9"/>
-              <circle cx={pos.x} cy={pos.y} r="1.8" fill="#fff"/>
-              {selIdx===i && <circle cx={pos.x} cy={pos.y} r="7.5" fill="none" stroke={pos.color} strokeWidth="1.5"/>}
-            </g>
-          );
-        })}
-
-        {/* Vehicle detail popup */}
-        {selIdx!==null && (()=>{
-          const v=DEMO_VEHICLES[selIdx], pos=positions[selIdx];
-          const pw=130,ph=112, px=pos.x>260?pos.x-pw-6:pos.x+8, py=pos.y>370?pos.y-ph-6:pos.y+8;
-          const fc=MAP_CITIES[v.fi], tc=MAP_CITIES[v.ti];
-          return (
-            <g>
-              <rect x={px} y={py} width={pw} height={ph} rx="5" fill="#071428" stroke="#2563EB" strokeWidth="1"/>
-              <text x={px+6} y={py+13} fontSize="7.5" fill="#60a5fa" fontWeight="bold" fontFamily="sans-serif">{v.id}</text>
-              <line x1={px+4} y1={py+17} x2={px+pw-4} y2={py+17} stroke="#1e3a5f" strokeWidth="0.6"/>
-              {[['Driver',v.driver,'#e2e8f0'],['Speed',v.spd+' km/h',v.spd>0?'#22c55e':'#f59e0b'],
-                ['From',fc.name,'#e2e8f0'],['To',tc.name,'#e2e8f0'],
-                ['Fuel',v.fuel+'%',v.fuel<30?'#ef4444':'#f59e0b'],
-                ['ETA',v.st==='Moving'?`${ETA_MAP[selIdx]}h`:'At depot','#60a5fa'],
-                ['Status',v.st,VEH_COLORS[v.st]],
-              ].map(([lbl,val,col],j)=>(
-                <text key={j} x={px+6} y={py+28+j*12} fontSize="6.5" fill="#94a3b8" fontFamily="sans-serif">
-                  {lbl}: <tspan fill={col}>{val}</tspan>
-                </text>
-              ))}
-            </g>
-          );
-        })()}
       </svg>
-
-      {/* ── Bottom-right GPS connect card ── */}
-      {!gpsConnected && (
-        <div className="absolute bottom-2 right-2 z-20 rounded-xl p-2.5"
-          style={{ background:'rgba(7,20,40,0.95)', border:'1px solid rgba(59,130,246,0.4)', maxWidth:155, backdropFilter:'blur(4px)' }}>
-          <div className="flex items-center gap-1.5 mb-1">
-            <span style={{fontSize:12}}>📡</span>
-            <span className="text-[11px] font-bold text-white">Connect GPS</span>
-          </div>
-          <p className="text-[9px] leading-tight mb-2" style={{color:'#93c5fd'}}>
-            Connect your GPS provider to receive live fleet locations.
-          </p>
-          <div className="flex flex-col gap-1">
-            <button onClick={()=>navigate('/ai/gps-tracking')}
-              className="text-[10px] font-bold text-white px-2 py-1 rounded transition-colors"
-              style={{background:'#1d4ed8',border:'none',cursor:'pointer'}}>
-              ⚙️ Configure GPS
-            </button>
-            <button onClick={()=>navigate('/ai/fleet-command-center')}
-              className="text-[9px] text-center transition-colors"
-              style={{background:'transparent',border:'none',cursor:'pointer',color:'#60a5fa'}}>
-              Learn More →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Labels */}
-      <div className="absolute left-3 text-[9px] font-bold text-blue-400 uppercase tracking-widest"
-        style={{ top: !gpsConnected ? 32 : 8, opacity: 0.65 }}>
-        Fleet Operations Map{!gpsConnected && <span style={{color:'#fbbf24'}}> · DEMO</span>}
+      <div className="absolute left-3 top-2 text-[9px] font-bold text-blue-400 uppercase tracking-widest" style={{ opacity: 0.65 }}>
+        Fleet Operations Map
       </div>
-      {!gpsConnected && (
-        <div className="absolute bottom-2 left-3 text-[9px]" style={{opacity:0.8}}>
-          <span style={{color:'#22c55e'}}>● 18</span>
-          <span style={{color:'#94a3b8'}}> Moving &nbsp;</span>
-          <span style={{color:'#f59e0b'}}>● 5</span>
-          <span style={{color:'#94a3b8'}}> Idle &nbsp;</span>
-          <span style={{color:'#ef4444'}}>● 2</span>
-          <span style={{color:'#94a3b8'}}> Maint.</span>
-        </div>
-      )}
     </div>
   );
 }
