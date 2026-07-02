@@ -123,24 +123,32 @@ async function seed() {
 
   const users = {};
   for (const u of userDefs) {
-    let user = await db.collection('users').findOne({ username: u.username, company_id: cid });
+    // Check globally by username (users collection has a global unique index on username)
+    let user = await db.collection('users').findOne({ username: u.username });
     if (!user) {
       const hash = u.username === ADMIN_USERNAME ? passwordHash : simpleHash;
-      const r = await db.collection('users').insertOne({
-        company_id:  cid,
-        branch_id:   branches[u.branch],
-        username:    u.username,
-        password:    hash,
-        full_name:   u.full_name,
-        role:        u.role,
-        email:       `${u.username}@localwheels.com`,
-        phone:       '9' + Math.floor(100000000 + Math.random() * 900000000),
-        is_active:   true,
-        createdAt:   new Date(),
-        updatedAt:   new Date(),
-      });
-      user = await db.collection('users').findOne({ _id: r.insertedId });
-      log(`User: ${u.username} (${u.role})`);
+      try {
+        const r = await db.collection('users').insertOne({
+          company_id:  cid,
+          branch_id:   branches[u.branch],
+          username:    u.username,
+          password:    hash,
+          full_name:   u.full_name,
+          role:        u.role,
+          email:       `${u.username}@localwheels.com`,
+          phone:       '9' + Math.floor(100000000 + Math.random() * 900000000),
+          is_active:   true,
+          createdAt:   new Date(),
+          updatedAt:   new Date(),
+        });
+        user = await db.collection('users').findOne({ _id: r.insertedId });
+        log(`User: ${u.username} (${u.role})`);
+      } catch (e) {
+        if (e.code === 11000) {
+          user = await db.collection('users').findOne({ username: u.username });
+          warn(`User exists (global): ${u.username}`);
+        } else { throw e; }
+      }
     } else {
       warn(`User exists: ${u.username}`);
     }
