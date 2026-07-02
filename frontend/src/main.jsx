@@ -4,15 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { ClerkProvider } from '@clerk/react';
 import App from './App';
+import ClerkAuthBridge from './components/ClerkAuthBridge';
 import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 import 'leaflet/dist/leaflet.css';
-// bootstrap removed — Tailwind CSS is the sole styling system
 
 const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const CLERK_ENABLED = !!(CLERK_KEY && CLERK_KEY.startsWith('pk_'));
 
-const app = (
+const inner = (
   <ErrorBoundary>
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <App />
@@ -22,5 +22,9 @@ const app = (
 );
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  CLERK_ENABLED ? <ClerkProvider publishableKey={CLERK_KEY}>{app}</ClerkProvider> : app
+  CLERK_ENABLED ? (
+    <ClerkProvider publishableKey={CLERK_KEY}>
+      <ClerkAuthBridge>{inner}</ClerkAuthBridge>
+    </ClerkProvider>
+  ) : inner
 );

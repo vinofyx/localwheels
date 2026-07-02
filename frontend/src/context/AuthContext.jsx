@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import api from '../api/client';
 
 const AuthContext = createContext(null);
@@ -10,6 +10,37 @@ export function AuthProvider({ children }) {
   const [branch, setBranch] = useState(() => {
     try { return JSON.parse(localStorage.getItem('lw_branch')); } catch { return null; }
   });
+  // authReady: true once we've validated (or skipped validation of) the stored session.
+  // Prevents RequireAuth from redirecting to /login before the token check completes.
+  const [authReady, setAuthReady] = useState(false);
+
+  // On mount, validate the stored token with the server.
+  // If it's expired or invalid, clear it so the user is cleanly redirected to login.
+  useEffect(() => {
+    const token = localStorage.getItem('lw_token');
+    if (!token) {
+      setAuthReady(true);
+      return;
+    }
+
+    api.get('/auth/me')
+      .then(({ data }) => {
+        // Refresh the stored user profile with the latest data from the server
+        const refreshed = { ...user, ...data };
+        localStorage.setItem('lw_user', JSON.stringify(refreshed));
+        setUser(refreshed);
+      })
+      .catch(() => {
+        // Token is expired or invalid — clear everything
+        localStorage.removeItem('lw_token');
+        localStorage.removeItem('lw_user');
+        localStorage.removeItem('lw_branch');
+        setUser(null);
+        setBranch(null);
+      })
+      .finally(() => setAuthReady(true));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const login = useCallback(async (username, password) => {
     const { data } = await api.post('/auth/login', { username, password });
@@ -55,7 +86,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, branch, login, clerkLogin, selectBranch, logout, checkSetupStatus }}>
+    <AuthContext.Provider value={{ user, branch, authReady, login, clerkLogin, selectBranch, logout, checkSetupStatus }}>
       {children}
     </AuthContext.Provider>
   );

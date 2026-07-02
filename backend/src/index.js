@@ -31,6 +31,11 @@ if (IS_PROD) {
     console.warn('⚠️  JWT_SECRET appears short — use at least 64 random hex chars in production.');
     console.warn('   Generate: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
   }
+  // Warn (not fatal) if Clerk is not configured — /api/auth/clerk-exchange will return 503
+  if (!process.env.CLERK_SECRET_KEY) {
+    console.warn('⚠️  CLERK_SECRET_KEY is not set — Clerk authentication will be unavailable.');
+    console.warn('   Set it in your deployment environment if Clerk sign-in is required.');
+  }
 }
 
 // ── Ensure uploads directory exists ──────────────────────────────────────────

@@ -13,11 +13,18 @@ api.interceptors.request.use(cfg => {
   return cfg;
 });
 
-// Auto-logout on 401
+// Auth endpoints that deliberately return 401/403 as part of their flow —
+// these must NOT trigger a global redirect, they handle their own errors.
+const AUTH_ENDPOINTS = ['/auth/login', '/auth/clerk-exchange'];
+
+// Auto-logout on 401 — but only for protected API calls, not auth flows
 api.interceptors.response.use(
   r => r,
   err => {
-    if (err.response?.status === 401) {
+    const url = err.config?.url || '';
+    const isAuthEndpoint = AUTH_ENDPOINTS.some(p => url.includes(p));
+
+    if (err.response?.status === 401 && !isAuthEndpoint) {
       localStorage.removeItem('lw_token');
       localStorage.removeItem('lw_user');
       localStorage.removeItem('lw_branch');
