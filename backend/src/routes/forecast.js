@@ -6,6 +6,10 @@ const Shipment = require('../models/Shipment');
 const Forecast = require('../models/Forecast');
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const { cacheGet, cacheSet } = require('../middleware/cache');
+const _fmem = new Map();
+const fmGet = (k) => { const e = _fmem.get(k); return e && e.exp > Date.now() ? e.v : null; };
+const fmSet = (k, v, s) => { _fmem.set(k, { v, exp: Date.now() + s * 1000 }); };
 
 // Build 6-month revenue history for forecasting
 async function getMonthlyHistory(company_id, months = 6) {
@@ -42,6 +46,11 @@ function linearTrend(values) {
 // GET /api/forecast/revenue — revenue forecast
 router.get('/revenue', auth, async (req, res) => {
   try {
+    // Cache revenue forecast for 1 hour — AI call + 6-month aggregation is expensive
+    const cacheKey = `forecast_rev:${req.user.company_id}`;
+    const cached = (await cacheGet(cacheKey)) || fmGet(cacheKey);
+    if (cached) return res.json({ ...cached, _cached: true });
+
     const history = await getMonthlyHistory(req.user.company_id, 6);
     const revenues = history.map(h => h.revenue);
     const predicted = Math.round(linearTrend(revenues));
@@ -84,7 +93,11 @@ router.get('/revenue', auth, async (req, res) => {
       { upsert: true, new: true }
     );
 
-    res.json({ history, predicted, trend, change_pct, ai_explanation: aiExplanation, lower_bound: Math.round(predicted * 0.85), upper_bound: Math.round(predicted * 1.15) });
+    const payload = { status: true, message: 'OK', data: { history, predicted, trend, change_pct, ai_explanation: aiExplanation, lower_bound: Math.round(predicted * 0.85), upper_bound: Math.round(predicted * 1.15) } };
+    // Cache for 1 hour — forecast changes slowly
+    await cacheSet(cacheKey, payload, 3600);
+    fmSet(cacheKey, payload, 3600);
+    res.json(payload);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

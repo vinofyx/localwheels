@@ -18,11 +18,22 @@ const anthropic = new Anthropic();
 const ok  = (res, data, msg = 'Success', status = 200) => res.status(status).json({ status: true, message: msg, data });
 const err = (res, msg, status = 400) => res.status(status).json({ status: false, message: msg });
 
+const { cacheGet, cacheSet } = require('../middleware/cache');
+// In-memory fallback cache (5-minute TTL) for when Redis is unavailable
+const _memCache = new Map();
+function memGet(k) { const e = _memCache.get(k); return e && e.exp > Date.now() ? e.v : null; }
+function memSet(k, v, ttls) { _memCache.set(k, { v, exp: Date.now() + ttls * 1000 }); }
+
 // GET /api/executive-cockpit/snapshot — generate and return live executive snapshot
 router.get('/snapshot', auth, async (req, res) => {
   try {
     const cid = req.user.company_id;
     const today = new Date(); today.setHours(0, 0, 0, 0);
+
+    // Cache snapshot for 5 minutes — AI call is expensive
+    const cacheKey = `exec_snapshot:${cid}:${today.toISOString().slice(0,10)}`;
+    const cached = (await cacheGet(cacheKey)) || memGet(cacheKey);
+    if (cached) return ok(res, { ...cached, _cached: true });
     const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
 
     const ObjId = require('mongoose').Types.ObjectId;
@@ -78,17 +89,26 @@ router.get('/snapshot', auth, async (req, res) => {
       ai_opportunities = p.opportunities || [];
     } catch { /* skip */ }
 
-    const snapshot = await ExecutiveSnapshot.create({
-      company_id: cid, period: 'daily', snapshot_date: today,
-      shipments_today: shipmentsToday, deliveries_today: delivered,
-      active_vehicles: activeVehicles, active_drivers: activeDrivers,
-      open_incidents: openIncidents, open_risks: activeRisks,
-      fleet_utilization: fleetUtil, on_time_delivery_pct: onTimePct,
-      revenue_month: soRevenue[0]?.total || 0,
-      ai_summary, ai_risks, ai_opportunities,
-    });
+    // Upsert snapshot — only one record per company per day
+    const snapshot = await ExecutiveSnapshot.findOneAndUpdate(
+      { company_id: cid, period: 'daily', snapshot_date: today },
+      {
+        company_id: cid, period: 'daily', snapshot_date: today,
+        shipments_today: shipmentsToday, deliveries_today: delivered,
+        active_vehicles: activeVehicles, active_drivers: activeDrivers,
+        open_incidents: openIncidents, open_risks: activeRisks,
+        fleet_utilization: fleetUtil, on_time_delivery_pct: onTimePct,
+        revenue_month: soRevenue[0]?.total || 0,
+        ai_summary, ai_risks, ai_opportunities,
+      },
+      { upsert: true, new: true }
+    );
 
-    ok(res, { kpis, ai_summary, ai_risks, ai_opportunities, snapshot_id: snapshot._id });
+    const payload = { kpis, ai_summary, ai_risks, ai_opportunities, snapshot_id: snapshot._id };
+    // Store in both Redis and in-memory cache for 5 minutes
+    await cacheSet(cacheKey, payload, 300);
+    memSet(cacheKey, payload, 300);
+    ok(res, payload);
   } catch (e) { err(res, e.message, 500); }
 });
 
