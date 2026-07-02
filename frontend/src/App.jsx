@@ -255,6 +255,38 @@ import GodownStock from './pages/reports/stock/GodownStock';
 import GodownStockGrid from './pages/reports/stock/GodownStockGrid';
 import PartialDispatchStock from './pages/reports/stock/PartialDispatchStock';
 import NonSubmitPOD from './pages/reports/pod/NonSubmitPOD';
+import UnbilledParty     from './pages/reports/bill/UnbilledParty';
+import Unbilled          from './pages/reports/bill/Unbilled';
+import BillSummary       from './pages/reports/bill/Summary';
+import BillLrRegister    from './pages/reports/bill/LrRegister';
+import ReportBillSubmission from './pages/reports/bill/Submission';
+import SubmissionPending from './pages/reports/bill/SubmissionPending';
+import BillLrDetails     from './pages/reports/bill/LrDetails';
+import DeliveryAck       from './pages/reports/DeliveryAck';
+import LcmSummary        from './pages/reports/lcm/Summary';
+import LcmRegister       from './pages/reports/lcm/Register';
+import LcmPendingLR      from './pages/reports/lcm/PendingLR';
+import LcmZeroFreight    from './pages/reports/lcm/ZeroFreight';
+import LdmDrsSummary     from './pages/reports/ldm-drs/Summary';
+import LdmDrsRegister    from './pages/reports/ldm-drs/Register';
+import LdmDrsPendingLR   from './pages/reports/ldm-drs/PendingLR';
+import LdmDrsZeroFreight from './pages/reports/ldm-drs/ZeroFreight';
+import DeliveryPending   from './pages/reports/ldm-drs/DeliveryPending';
+import NonSendPOD        from './pages/reports/pod/NonSendPOD';
+import NonReceivedPOD    from './pages/reports/pod/NonReceivedPOD';
+import VendorWisePOD     from './pages/reports/pod/VendorWise';
+import PodSendRegister   from './pages/reports/pod/SendRegister';
+import PodReceivedRegister from './pages/reports/pod/ReceivedRegister';
+import PodRegister       from './pages/reports/pod/Register';
+import NonUploadedPOD    from './pages/reports/pod/NonUploaded';
+import VarInwardPending  from './pages/reports/var/InwardPending';
+import VarInwardRegister from './pages/reports/var/InwardRegister';
+import VarInwardSummary  from './pages/reports/var/InwardSummary';
+import BillwiseDeductReg from './pages/account-reports/BillwiseDeductReg';
+import LrExpensesReg     from './pages/account-reports/LrExpensesReg';
+import LrwiseDeductReg   from './pages/account-reports/LrwiseDeductReg';
+import SupplierBillReg   from './pages/account-reports/SupplierBillReg';
+import BillEnquiry       from './pages/tracking/BillEnquiry';
 import AgentDashboard from './pages/AgentDashboard';
 import SupportAdmin from './pages/SupportAdmin';
 import DispatcherView from './pages/DispatcherView';
@@ -598,6 +630,33 @@ export default function App() {
           <Route path="reports/stock/godown-grid"      element={<GodownStockGrid />} />
           <Route path="reports/stock/partial-dispatch" element={<PartialDispatchStock />} />
           <Route path="reports/pod/non-submit"         element={<NonSubmitPOD />} />
+          <Route path="reports/pod/non-send"            element={<NonSendPOD />} />
+          <Route path="reports/pod/non-received"        element={<NonReceivedPOD />} />
+          <Route path="reports/pod/vendor-wise"         element={<VendorWisePOD />} />
+          <Route path="reports/pod/send-register"       element={<PodSendRegister />} />
+          <Route path="reports/pod/received-register"   element={<PodReceivedRegister />} />
+          <Route path="reports/pod/register"            element={<PodRegister />} />
+          <Route path="reports/pod/non-uploaded"        element={<NonUploadedPOD />} />
+          <Route path="reports/bill/unbilled-party"     element={<UnbilledParty />} />
+          <Route path="reports/bill/unbilled"           element={<Unbilled />} />
+          <Route path="reports/bill/summary"            element={<BillSummary />} />
+          <Route path="reports/bill/lr-register"        element={<BillLrRegister />} />
+          <Route path="reports/bill/submission"         element={<ReportBillSubmission />} />
+          <Route path="reports/bill/submission-pending" element={<SubmissionPending />} />
+          <Route path="reports/bill/lr-details"         element={<BillLrDetails />} />
+          <Route path="reports/lcm/summary"             element={<LcmSummary />} />
+          <Route path="reports/lcm/register"            element={<LcmRegister />} />
+          <Route path="reports/lcm/pending-lr"          element={<LcmPendingLR />} />
+          <Route path="reports/lcm/zero-freight"        element={<LcmZeroFreight />} />
+          <Route path="reports/ldm-drs/summary"         element={<LdmDrsSummary />} />
+          <Route path="reports/ldm-drs/register"        element={<LdmDrsRegister />} />
+          <Route path="reports/ldm-drs/pending-lr"      element={<LdmDrsPendingLR />} />
+          <Route path="reports/ldm-drs/zero-freight"    element={<LdmDrsZeroFreight />} />
+          <Route path="reports/ldm-drs/delivery-pending" element={<DeliveryPending />} />
+          <Route path="reports/var/inward-pending"      element={<VarInwardPending />} />
+          <Route path="reports/var/inward-register"     element={<VarInwardRegister />} />
+          <Route path="reports/var/inward-summary"      element={<VarInwardSummary />} />
+          <Route path="reports/delivery-ack"            element={<DeliveryAck />} />
           <Route path="reports/missing-document" element={<MissingDocument />} />
           <Route path="reports/diesel-statement" element={<DieselStatement />} />
           <Route path="reports/fastag-statement" element={<FasTagStatement />} />
@@ -674,6 +733,10 @@ export default function App() {
           <Route path="account-reports/taxation/gstr-1-hsn"       element={<GSTR1HSN />} />
           <Route path="account-reports/customer-on-account"       element={<CustomerOnAccount />} />
           <Route path="account-reports/vendor-adj-on-account"     element={<VendorAdjOnAccount />} />
+          <Route path="account-reports/billwise-deduct-reg"     element={<BillwiseDeductReg />} />
+          <Route path="account-reports/lr-expenses-reg"         element={<LrExpensesReg />} />
+          <Route path="account-reports/lrwise-deduct-reg"       element={<LrwiseDeductReg />} />
+          <Route path="account-reports/supplier-bill-reg"       element={<SupplierBillReg />} />
           <Route path="tracking/lr-tracking"                    element={<LRTracking />} />
           <Route path="tracking/multi-lr-tracking"              element={<MultiLRTracking />} />
           <Route path="tracking/lr-enquiry"                     element={<LREnquiry />} />
@@ -682,6 +745,7 @@ export default function App() {
           <Route path="tracking/lr-cost-analysis"              element={<LRCostAnalysis />} />
           <Route path="tracking/reference-track"               element={<ReferenceTrack />} />
           <Route path="tracking/veh-current-status"            element={<VehCurrentStatus />} />
+          <Route path="tracking/bill-enquiry"               element={<BillEnquiry />} />
           <Route path="tracking/dispatcher"                  element={<DispatcherView />} />
           <Route path="routes/optimizer"                     element={<RouteOptimizer />} />
           <Route path="fleet/dashboard"                      element={<FleetDashboard />} />

@@ -963,7 +963,7 @@ export default function Layout() {
       </header>
 
       {/* ═══ DESKTOP NAVIGATION BAR (hidden on mobile) ═══════════════════ */}
-      <nav className="bg-[#0b8fd3] hidden md:flex items-stretch overflow-visible flex-shrink-0">
+      <nav className="bg-[#0b8fd3] hidden md:flex items-center flex-wrap">
         {NAV_MENUS.map(menu => (
           <TopNavItem key={menu.name} menu={menu} />
         ))}

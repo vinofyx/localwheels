@@ -335,6 +335,7 @@ router.get('/vendors', auth, async (req, res) => {
 
 // ─── GET /api/fleet/:id ───────────────────────────────────────────────────────
 router.get('/:id', auth, async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).json({ error: 'Vehicle not found' });
   try {
     const vehicle = await FleetVehicle.findOne({ _id: req.params.id, company_id: req.user.company_id })
       .populate('current_driver_id', 'name phone license_number status')
