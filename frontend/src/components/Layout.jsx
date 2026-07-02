@@ -3,12 +3,10 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatWidget from './ChatWidget';
 
-const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-const CLERK_ENABLED = CLERK_KEY && CLERK_KEY !== 'pk_test_REPLACE_WITH_YOUR_KEY';
-let UserButton = null;
-if (CLERK_ENABLED) {
-  import('@clerk/react').then(m => { UserButton = m.UserButton; });
-}
+const CLERK_ENABLED = !!(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith('pk_'));
+const ClerkUserButton = CLERK_ENABLED
+  ? React.lazy(() => import('@clerk/react').then(m => ({ default: m.UserButton })))
+  : null;
 
 // ─── Exact nav structure from JSON config ─────────────────────────────────────
 const NAV_MENUS = [
@@ -928,8 +926,10 @@ export default function Layout() {
             </div>
 
             {/* Clerk UserButton (when Clerk is configured) */}
-            {CLERK_ENABLED && UserButton && (
-              <UserButton afterSignOutUrl="/login" />
+            {CLERK_ENABLED && ClerkUserButton && (
+              <React.Suspense fallback={null}>
+                <ClerkUserButton afterSignOutUrl="/login" />
+              </React.Suspense>
             )}
 
             {/* User menu button */}

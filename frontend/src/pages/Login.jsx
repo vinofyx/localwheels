@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-const CLERK_ENABLED = CLERK_KEY && CLERK_KEY !== 'pk_test_REPLACE_WITH_YOUR_KEY';
+const CLERK_ENABLED = !!(CLERK_KEY && CLERK_KEY.startsWith('pk_'));
 
 const ClerkSignInPanel = CLERK_ENABLED ? lazy(() => import('./ClerkSignInPanel')) : null;
 

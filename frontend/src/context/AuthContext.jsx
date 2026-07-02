@@ -20,14 +20,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   // Exchange a Clerk session token for a LocalWheels JWT.
+  // Returns the user object annotated with _isNew flag for toast messaging.
   const clerkLogin = useCallback(async (clerkSessionToken) => {
-    const { data } = await api.post('/auth/clerk-exchange', {}, {
+    const { data, status } = await api.post('/auth/clerk-exchange', {}, {
       headers: { Authorization: `Bearer ${clerkSessionToken}` },
     });
     localStorage.setItem('lw_token', data.token);
     localStorage.setItem('lw_user', JSON.stringify(data.user));
     setUser(data.user);
-    return data.user;
+    return { ...data.user, _isNew: status === 201 };
   }, []);
 
   const selectBranch = useCallback((b) => {

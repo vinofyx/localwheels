@@ -10,21 +10,17 @@ import 'leaflet/dist/leaflet.css';
 // bootstrap removed — Tailwind CSS is the sole styling system
 
 const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const CLERK_ENABLED = !!(CLERK_KEY && CLERK_KEY.startsWith('pk_'));
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const app = (
   <ErrorBoundary>
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      {CLERK_KEY && CLERK_KEY !== 'pk_test_REPLACE_WITH_YOUR_KEY' ? (
-        <ClerkProvider publishableKey={CLERK_KEY}>
-          <App />
-          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-        </ClerkProvider>
-      ) : (
-        <>
-          <App />
-          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-        </>
-      )}
+      <App />
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
     </BrowserRouter>
   </ErrorBoundary>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  CLERK_ENABLED ? <ClerkProvider publishableKey={CLERK_KEY}>{app}</ClerkProvider> : app
 );
