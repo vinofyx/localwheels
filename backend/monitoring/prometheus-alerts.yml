@@ -1,0 +1,248 @@
+groups:
+  - name: localwheels_api
+    interval: 30s
+    rules:
+
+      # ── Availability ─────────────────────────────────────────────────────────
+      - alert: APIDown
+        expr: up{job="localwheels-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "LocalWheels API is DOWN"
+          description: "API has been unreachable for > 1 minute. Check Render service health."
+
+      - alert: HealthCheckFailing
+        expr: probe_success{job="blackbox-http", instance=~".*/api/health"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "Health check failing"
+          description: "The /api/health endpoint is returning non-200 for > 2 minutes."
+
+      # ── Latency ──────────────────────────────────────────────────────────────
+      - alert: HighAPILatencyP95
+        expr: histogram_quantile(0.95, rate(process_http_duration_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "API P95 latency > 500ms"
+          description: "P95 response time is {{ $value | humanizeDuration }} — SLA threshold is 500ms."
+
+      - alert: CriticalAPILatencyP95
+        expr: histogram_quantile(0.95, rate(process_http_duration_seconds_bucket[5m])) > 2
+        for: 3m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "API P95 latency > 2s"
+          description: "P95 response time is {{ $value | humanizeDuration }} — critical degradation."
+
+      # ── Error rate ────────────────────────────────────────────────────────────
+      - alert: HighErrorRate
+        expr: |
+          rate(process_http_requests_total{status_code=~"5.."}[5m])
+          / rate(process_http_requests_total[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "5xx error rate > 1%"
+          description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+      - alert: CriticalErrorRate
+        expr: |
+          rate(process_http_requests_total{status_code=~"5.."}[5m])
+          / rate(process_http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "5xx error rate > 5%"
+          description: "Critical error spike — {{ $value | humanizePercentage }} requests failing."
+
+      # ── Authentication ────────────────────────────────────────────────────────
+      - alert: AuthFailureSpike
+        expr: rate(process_http_requests_total{route="/api/auth/login", status_code="401"}[5m]) > 5
+        for: 3m
+        labels:
+          severity: warning
+          team: security
+        annotations:
+          summary: "Spike in authentication failures"
+          description: "More than 5 login failures/second — possible brute-force attempt."
+
+      - alert: RateLimitTriggered
+        expr: rate(process_http_requests_total{status_code="429"}[5m]) > 2
+        for: 2m
+        labels:
+          severity: info
+          team: security
+        annotations:
+          summary: "Rate limiting triggered"
+          description: "Rate-limited responses detected — potential abuse or misconfigured client."
+
+  - name: localwheels_system
+    interval: 30s
+    rules:
+
+      # ── CPU ───────────────────────────────────────────────────────────────────
+      - alert: HighCPU
+        expr: process_cpu_usage > 0.80
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "CPU usage > 80%"
+          description: "Node.js process CPU at {{ $value | humanizePercentage }} for 5 minutes."
+
+      - alert: CriticalCPU
+        expr: process_cpu_usage > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "CPU usage > 95% — instance may be overloaded"
+          description: "CPU at {{ $value | humanizePercentage }}. Consider scaling up."
+
+      # ── Memory ────────────────────────────────────────────────────────────────
+      - alert: HighHeapUsage
+        expr: process_heap_used_bytes / process_heap_total_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "Heap usage > 85%"
+          description: "Node.js heap at {{ $value | humanizePercentage }} — potential memory leak."
+
+      - alert: CriticalHeapUsage
+        expr: process_heap_used_bytes / process_heap_total_bytes > 0.95
+        for: 2m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "Heap usage > 95% — OOM risk"
+          description: "Heap at {{ $value | humanizePercentage }}. Restart may be required."
+
+      # ── RSS memory growth ────────────────────────────────────────────────────
+      - alert: MemoryGrowth
+        expr: increase(process_resident_memory_bytes[30m]) > 200 * 1024 * 1024
+        for: 5m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "RSS memory grew > 200 MB in 30 minutes"
+          description: "Possible memory leak — investigate Node.js heap snapshots."
+
+  - name: localwheels_database
+    interval: 60s
+    rules:
+
+      # ── MongoDB ───────────────────────────────────────────────────────────────
+      - alert: MongoDBDisconnected
+        expr: mongodb_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "MongoDB connection lost"
+          description: "The application cannot reach MongoDB. All write operations will fail."
+
+      - alert: MongoDBSlowQueries
+        expr: rate(mongodb_op_latencies_latency_total[5m]) / rate(mongodb_op_latencies_ops_total[5m]) > 100
+        for: 10m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "MongoDB average query latency > 100ms"
+          description: "Slow queries detected — check missing indexes or query plans."
+
+      - alert: MongoDBConnectionPoolExhausted
+        expr: mongodb_connections_current / mongodb_connections_available > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "MongoDB connection pool > 90% full"
+          description: "Connection pool saturation — incoming requests may queue or fail."
+
+  - name: localwheels_redis
+    interval: 30s
+    rules:
+
+      # ── Redis ─────────────────────────────────────────────────────────────────
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 2m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "Redis cache unavailable"
+          description: "Redis is down. Application will fall back to in-memory cache. AI endpoints may be slower."
+
+      - alert: RedisLowHitRatio
+        expr: |
+          rate(redis_keyspace_hits_total[5m])
+          / (rate(redis_keyspace_hits_total[5m]) + rate(redis_keyspace_misses_total[5m])) < 0.5
+        for: 15m
+        labels:
+          severity: info
+          team: engineering
+        annotations:
+          summary: "Redis hit ratio < 50%"
+          description: "Cache efficiency is low — review TTL settings or cache warm-up strategy."
+
+      - alert: RedisHighMemory
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.85
+        for: 10m
+        labels:
+          severity: warning
+          team: engineering
+        annotations:
+          summary: "Redis memory > 85% of limit"
+          description: "Redis at {{ $value | humanizePercentage }} capacity. Review eviction policy."
+
+  - name: localwheels_business
+    interval: 60s
+    rules:
+
+      # ── Business KPIs ─────────────────────────────────────────────────────────
+      - alert: ZeroShipmentsCreated
+        expr: increase(process_http_requests_total{route="/api/shipments", method="POST", status_code="201"}[1h]) == 0
+        for: 4h
+        labels:
+          severity: warning
+          team: business
+        annotations:
+          summary: "No shipments created in 4 hours during business hours"
+          description: "No new shipments — check if the booking flow is working correctly."
+
+      - alert: HighPaymentFailureRate
+        expr: |
+          rate(process_http_requests_total{route=~".*/payments.*", status_code=~"4..|5.."}[30m])
+          / rate(process_http_requests_total{route=~".*/payments.*"}[30m]) > 0.1
+        for: 10m
+        labels:
+          severity: critical
+          team: oncall
+        annotations:
+          summary: "Payment API failure rate > 10%"
+          description: "Payment processing errors exceeding threshold — finance team must be notified."

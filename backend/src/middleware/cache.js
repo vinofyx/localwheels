@@ -1,4 +1,5 @@
 let _client = null;
+let _redisReady = false;
 
 async function initRedis() {
   const url = process.env.REDIS_URL;
@@ -7,17 +8,32 @@ async function initRedis() {
     return;
   }
   try {
-    // redis package is optional — install if present
     const { createClient } = require('redis');
-    const c = createClient({ url, socket: { connectTimeout: 3000 } });
-    c.on('error', e => console.warn('[Redis]', e.message));
+    const c = createClient({
+      url,
+      socket: {
+        connectTimeout: 5000,
+        // Exponential backoff: 100ms, 200ms, 400ms … capped at 5s
+        reconnectStrategy: (retries) => {
+          if (retries > 20) return new Error('Redis: max reconnect attempts reached');
+          return Math.min(100 * Math.pow(2, retries), 5000);
+        },
+      },
+    });
+    c.on('error',        e  => { _redisReady = false; console.warn('[Redis] error:', e.message); });
+    c.on('reconnecting', () => console.log('[Redis] reconnecting…'));
+    c.on('ready',        () => { _redisReady = true;  console.log('✅ Redis ready'); });
+    c.on('end',          () => { _redisReady = false; console.warn('[Redis] connection closed'); });
     await c.connect();
     _client = c;
+    _redisReady = true;
     console.log('✅ Redis cache connected');
   } catch (e) {
     console.warn('[Cache] Redis unavailable, proceeding without cache:', e.message);
   }
 }
+
+function isRedisConnected() { return _redisReady; }
 
 function cache(ttlSeconds = 60) {
   return async (req, res, next) => {
@@ -62,4 +78,4 @@ async function cacheSet(key, value, ttlSeconds = 300) {
   try { await _client.setEx(key, ttlSeconds, JSON.stringify(value)); } catch (_) {}
 }
 
-module.exports = { initRedis, cache, invalidate, cacheGet, cacheSet };
+module.exports = { initRedis, cache, invalidate, cacheGet, cacheSet, isRedisConnected };

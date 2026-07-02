@@ -8,7 +8,7 @@ const compression  = require('compression');
 const path         = require('path');
 const fs           = require('fs');
 const connectDB    = require('./db/connect');
-const { initRedis }                      = require('./middleware/cache');
+const { initRedis, isRedisConnected }    = require('./middleware/cache');
 const { metricsMiddleware, metricsHandler } = require('./middleware/metrics');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
@@ -234,6 +234,10 @@ app.get('/api/health', (_req, res) => {
     db: {
       state:   dbState[mongoose.connection.readyState] || 'unknown',
       ready:   mongoose.connection.readyState === 1,
+    },
+    redis: {
+      connected: isRedisConnected(),
+      enabled:   !!process.env.REDIS_URL,
     },
     memory: {
       rss_mb:        Math.round(mem.rss        / 1024 / 1024),
@@ -475,6 +479,21 @@ app.use((err, req, res, _next) => {
     if (IS_PROD) return res.status(500).json({ error: 'Internal server error' });
   }
   res.status(status).json({ error: message });
+});
+
+// ── Process-level error guards ────────────────────────────────────────────────
+// Log and survive unhandled promise rejections (e.g. a one-off async call that
+// forgot a try/catch). In Node 18+ unhandled rejections crash the process by
+// default — handle here so we log context before any potential crash.
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[UNHANDLED REJECTION]', promise, 'reason:', reason);
+});
+// Log unexpected synchronous exceptions. After logging we let the process exit
+// because the app state may be corrupt — the process manager (Render, PM2) will
+// restart it.
+process.on('uncaughtException', (err) => {
+  console.error('[UNCAUGHT EXCEPTION]', err);
+  setTimeout(() => process.exit(1), 500); // allow flush
 });
 
 // ── Graceful shutdown ─────────────────────────────────────────────────────────

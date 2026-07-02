@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate: auth } = require('../middleware/auth');
-const Anthropic = require('@anthropic-ai/sdk');
+const { callAI } = require('../middleware/aiClient');
 const Shipment = require('../models/Shipment');
 const Forecast = require('../models/Forecast');
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const { cacheGet, cacheSet } = require('../middleware/cache');
 const _fmem = new Map();
 const fmGet = (k) => { const e = _fmem.get(k); return e && e.exp > Date.now() ? e.v : null; };
@@ -58,20 +56,16 @@ router.get('/revenue', auth, async (req, res) => {
     const trend = predicted > last * 1.05 ? 'up' : predicted < last * 0.95 ? 'down' : 'stable';
     const change_pct = last > 0 ? (((predicted - last) / last) * 100).toFixed(1) : 0;
 
-    let aiExplanation = '';
-    try {
-      const msg = await anthropic.messages.create({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 200,
-        messages: [{
-          role: 'user',
-          content: `Monthly revenue trend (last 6 months): ${revenues.map(v => '₹'+v.toLocaleString()).join(', ')}. Predicted next month: ₹${predicted.toLocaleString()}. Give a 1-sentence business explanation.`,
-        }],
-      });
-      aiExplanation = msg.content[0]?.text || '';
-    } catch (_) {
-      aiExplanation = `Based on historical trend, revenue is projected to be ₹${predicted.toLocaleString()} next month.`;
-    }
+    const aiMsg = await callAI({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 200,
+      messages: [{
+        role: 'user',
+        content: `Monthly revenue trend (last 6 months): ${revenues.map(v => '₹'+v.toLocaleString()).join(', ')}. Predicted next month: ₹${predicted.toLocaleString()}. Give a 1-sentence business explanation.`,
+      }],
+    });
+    const aiExplanation = aiMsg?.content[0]?.text
+      || `Based on historical trend, revenue is projected to be ₹${predicted.toLocaleString()} next month.`;
 
     const nextMonth = new Date(); nextMonth.setMonth(nextMonth.getMonth() + 1); nextMonth.setDate(1);
     await Forecast.findOneAndUpdate(

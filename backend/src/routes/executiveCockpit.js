@@ -12,8 +12,7 @@ const DecisionRecommendation = require('../models/DecisionRecommendation');
 const Supplier = require('../models/Supplier');
 const PurchaseOrder = require('../models/PurchaseOrder');
 const SalesOrder = require('../models/SalesOrder');
-const Anthropic = require('@anthropic-ai/sdk');
-const anthropic = new Anthropic();
+const { callAI } = require('../middleware/aiClient');
 
 const ok  = (res, data, msg = 'Success', status = 200) => res.status(status).json({ status: true, message: msg, data });
 const err = (res, msg, status = 400) => res.status(status).json({ status: false, message: msg });
@@ -78,16 +77,18 @@ router.get('/snapshot', auth, async (req, res) => {
     };
 
     let ai_summary = '', ai_risks = [], ai_opportunities = [];
-    try {
-      const msg = await anthropic.messages.create({
-        model: 'claude-haiku-4-5-20251001', max_tokens: 500,
-        messages: [{ role: 'user', content: `Executive summary for logistics company. KPIs: ${JSON.stringify(kpis)}. Return JSON: {"summary":"2-sentence exec summary","risks":["risk1","risk2"],"opportunities":["opp1","opp2"]}` }],
-      });
-      const p = JSON.parse(msg.content[0].text.match(/\{[\s\S]*\}/)?.[0] || '{}');
-      ai_summary = p.summary || '';
-      ai_risks = p.risks || [];
-      ai_opportunities = p.opportunities || [];
-    } catch { /* skip */ }
+    const msg = await callAI({
+      model: 'claude-haiku-4-5-20251001', max_tokens: 500,
+      messages: [{ role: 'user', content: `Executive summary for logistics company. KPIs: ${JSON.stringify(kpis)}. Return JSON: {"summary":"2-sentence exec summary","risks":["risk1","risk2"],"opportunities":["opp1","opp2"]}` }],
+    });
+    if (msg) {
+      try {
+        const p = JSON.parse(msg.content[0].text.match(/\{[\s\S]*\}/)?.[0] || '{}');
+        ai_summary = p.summary || '';
+        ai_risks = p.risks || [];
+        ai_opportunities = p.opportunities || [];
+      } catch { /* malformed JSON from AI — skip */ }
+    }
 
     // Upsert snapshot — only one record per company per day
     const snapshot = await ExecutiveSnapshot.findOneAndUpdate(
