@@ -354,6 +354,28 @@ import ExecutionHistory from './pages/automation/ExecutionHistory';
 import WorkflowDesigner from './pages/automation/WorkflowDesigner';
 import AutomationSettings from './pages/automation/AutomationSettings';
 
+// Phase 19 – Enterprise Financial Management (lazy-loaded)
+const FinanceDashboard       = lazy(() => import('./pages/finance/FinanceDashboard'));
+const InvoiceCenter          = lazy(() => import('./pages/finance/InvoiceCenter'));
+const InvoiceBuilder         = lazy(() => import('./pages/finance/InvoiceBuilder'));
+const AccountsReceivable     = lazy(() => import('./pages/finance/AccountsReceivable'));
+const AccountsPayable        = lazy(() => import('./pages/finance/AccountsPayable'));
+const ExpenseCenter          = lazy(() => import('./pages/finance/ExpenseCenter'));
+const FinBankReconciliation  = lazy(() => import('./pages/finance/BankReconciliation'));
+const CashFlowDashboard      = lazy(() => import('./pages/finance/CashFlowDashboard'));
+const BudgetPlanner          = lazy(() => import('./pages/finance/BudgetPlanner'));
+const CostCenterManagement   = lazy(() => import('./pages/finance/CostCenterManagement'));
+const FinancialForecast      = lazy(() => import('./pages/finance/FinancialForecast'));
+const GeneralLedgerPage      = lazy(() => import('./pages/finance/GeneralLedgerPage'));
+const JournalEntries         = lazy(() => import('./pages/finance/JournalEntries'));
+const TrialBalancePage       = lazy(() => import('./pages/finance/TrialBalancePage'));
+const FinProfitAndLoss       = lazy(() => import('./pages/finance/ProfitAndLoss'));
+const BalanceSheetPage       = lazy(() => import('./pages/finance/BalanceSheetPage'));
+const GSTDashboard           = lazy(() => import('./pages/finance/GSTDashboard'));
+const TaxManagement          = lazy(() => import('./pages/finance/TaxManagement'));
+const FinanceAnalytics       = lazy(() => import('./pages/finance/FinanceAnalytics'));
+const AIFinanceCopilot       = lazy(() => import('./pages/finance/AIFinanceCopilot'));
+
 // Phase 18 – AI Digital Twin, Simulation & Autonomous Operations (lazy-loaded)
 const DigitalTwinDashboard   = lazy(() => import('./pages/simulation/DigitalTwinDashboard'));
 const SimulationCenter       = lazy(() => import('./pages/simulation/SimulationCenter'));
@@ -771,6 +793,28 @@ export default function App() {
           <Route path="automation/history"        element={<ExecutionHistory />} />
           <Route path="automation/designer"       element={<WorkflowDesigner />} />
           <Route path="automation/settings"       element={<AutomationSettings />} />
+
+          {/* Phase 19 – Enterprise Financial Management */}
+          <Route path="finance" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinanceDashboard /></Suspense>} />
+          <Route path="finance/invoices" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><InvoiceCenter /></Suspense>} />
+          <Route path="finance/invoices/new" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><InvoiceBuilder /></Suspense>} />
+          <Route path="finance/ar" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AccountsReceivable /></Suspense>} />
+          <Route path="finance/ap" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AccountsPayable /></Suspense>} />
+          <Route path="finance/expenses" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ExpenseCenter /></Suspense>} />
+          <Route path="finance/bank-recon" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinBankReconciliation /></Suspense>} />
+          <Route path="finance/cashflow" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CashFlowDashboard /></Suspense>} />
+          <Route path="finance/budget" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><BudgetPlanner /></Suspense>} />
+          <Route path="finance/cost-centers" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CostCenterManagement /></Suspense>} />
+          <Route path="finance/forecast" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinancialForecast /></Suspense>} />
+          <Route path="finance/ledger" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><GeneralLedgerPage /></Suspense>} />
+          <Route path="finance/journal" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><JournalEntries /></Suspense>} />
+          <Route path="finance/trial-balance" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><TrialBalancePage /></Suspense>} />
+          <Route path="finance/pnl" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinProfitAndLoss /></Suspense>} />
+          <Route path="finance/balance-sheet" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><BalanceSheetPage /></Suspense>} />
+          <Route path="finance/gst" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><GSTDashboard /></Suspense>} />
+          <Route path="finance/tax" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><TaxManagement /></Suspense>} />
+          <Route path="finance/analytics" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinanceAnalytics /></Suspense>} />
+          <Route path="finance/copilot" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AIFinanceCopilot /></Suspense>} />
 
           {/* Phase 18 – AI Digital Twin, Simulation & Autonomous Operations */}
           <Route path="simulation" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DigitalTwinDashboard /></Suspense>} />

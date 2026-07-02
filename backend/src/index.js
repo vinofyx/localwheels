@@ -406,6 +406,26 @@ app.use('/api/recovery',               require('./routes/recovery'));
 app.use('/api/simulation-analytics',   require('./routes/simulationAnalytics'));
 app.use('/api/executive-simulation',   require('./routes/executiveSimulation'));
 
+// ── Phase 19 – Enterprise Financial Management, Billing & Revenue Intelligence ─
+app.use('/api/fin-invoices',       require('./routes/finInvoices'));
+app.use('/api/fin-payments',       require('./routes/finPayments'));
+app.use('/api/accounts-receivable',require('./routes/accountsReceivable'));
+app.use('/api/accounts-payable',   require('./routes/accountsPayable'));
+app.use('/api/general-ledger',     require('./routes/generalLedger'));
+app.use('/api/chart-of-accounts',  require('./routes/chartOfAccounts'));
+app.use('/api/journal',            require('./routes/journal'));
+app.use('/api/expenses',           require('./routes/finExpenses'));
+app.use('/api/banking',            require('./routes/banking'));
+app.use('/api/reconciliation',     require('./routes/reconciliation'));
+app.use('/api/cashflow',           require('./routes/cashflow'));
+app.use('/api/budget',             require('./routes/budget'));
+app.use('/api/cost-centers',       require('./routes/costCenters'));
+app.use('/api/forecast-finance',   require('./routes/forecastFinance'));
+app.use('/api/tax',                require('./routes/tax'));
+app.use('/api/financial-reports',  require('./routes/financialReports'));
+app.use('/api/finance-analytics',  require('./routes/financeAnalytics'));
+app.use('/api/finance-copilot',    require('./routes/financeCopilot'));
+
 // ── Non-API catch-all 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({
