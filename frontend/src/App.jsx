@@ -443,6 +443,8 @@ const APIAnalytics           = lazy(() => import('./pages/integration/APIAnalyti
 const IntegrationLogs        = lazy(() => import('./pages/integration/IntegrationLogs'));
 const DeveloperPortal        = lazy(() => import('./pages/integration/DeveloperPortal'));
 
+const SetupWizard = lazy(() => import('./pages/setup/SetupWizard'));
+
 function RequireAuth({ children }) {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
@@ -467,6 +469,9 @@ export default function App() {
         <Route path="/my-complaints" element={<CustomerComplaintPortal />} />
         <Route path="/select-branch" element={
           <RequireAuth><BranchSelect /></RequireAuth>
+        } />
+        <Route path="/setup" element={
+          <RequireAuth><Suspense fallback={null}><SetupWizard /></Suspense></RequireAuth>
         } />
         <Route path="/" element={
           <RequireBranch><Layout /></RequireBranch>

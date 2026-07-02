@@ -5,7 +5,7 @@ import api from '../api/client';
 import toast from 'react-hot-toast';
 
 export default function BranchSelect() {
-  const { selectBranch, logout } = useAuth();
+  const { selectBranch, logout, checkSetupStatus } = useAuth();
   const navigate = useNavigate();
   const [branches, setBranches] = useState([]);
   const [loading, setLoading]   = useState(true);
@@ -25,11 +25,13 @@ export default function BranchSelect() {
       .finally(() => setLoading(false));
   }, []);
 
-  function handleContinue() {
+  async function handleContinue() {
     const branch = branches.find(b => String(b._id) === selected);
     if (!branch) return toast.error('Please select a branch');
     selectBranch(branch);
-    navigate('/dashboard');
+    // Redirect to setup wizard if this company hasn't completed setup
+    const setupRedirect = await checkSetupStatus();
+    navigate(setupRedirect || '/dashboard');
   }
 
   return (

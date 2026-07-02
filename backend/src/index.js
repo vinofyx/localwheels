@@ -297,6 +297,8 @@ app.get('/api', (_req, res) => {
 const authRouter = require('./routes/auth');
 app.use('/api/auth/login', loginLimiter);  // applied before the router
 app.use('/api/auth',           authRouter);
+app.use('/api/companies',      require('./routes/companies'));
+app.use('/api/import',         require('./routes/import'));
 app.use('/api/branches',       require('./routes/branches'));
 app.use('/api/dashboard',      require('./routes/dashboard'));
 app.use('/api/shipments',      require('./routes/shipments'));

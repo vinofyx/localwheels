@@ -32,8 +32,18 @@ export function AuthProvider({ children }) {
     setBranch(null);
   }, []);
 
+  // Check if the current company needs setup wizard completion.
+  // Returns '/setup' if wizard is needed, null otherwise.
+  const checkSetupStatus = useCallback(async () => {
+    try {
+      const { data } = await api.get('/companies/setup-status');
+      if (!data.setup_completed) return '/setup';
+    } catch { /* network error or no company — skip */ }
+    return null;
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, branch, login, selectBranch, logout }}>
+    <AuthContext.Provider value={{ user, branch, login, selectBranch, logout, checkSetupStatus }}>
       {children}
     </AuthContext.Provider>
   );
