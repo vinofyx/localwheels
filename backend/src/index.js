@@ -8,6 +8,8 @@ const compression  = require('compression');
 const path         = require('path');
 const fs           = require('fs');
 const connectDB    = require('./db/connect');
+const { initRedis }                      = require('./middleware/cache');
+const { metricsMiddleware, metricsHandler } = require('./middleware/metrics');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const IS_DEV  = !IS_PROD;
@@ -112,6 +114,7 @@ const loginLimiter = rateLimit({
 });
 
 app.use(compression());
+app.use(metricsMiddleware);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -239,6 +242,9 @@ app.get('/api/health', (_req, res) => {
     },
   });
 });
+
+// ── Prometheus metrics ────────────────────────────────────────────────────────
+app.get('/api/metrics', metricsHandler);
 
 // ── API endpoint index (dev only) ─────────────────────────────────────────────
 app.get('/api', (_req, res) => {
@@ -490,6 +496,8 @@ function shutdown(signal) {
 // ── Start server ──────────────────────────────────────────────────────────────
 const PORT = parseInt(process.env.PORT, 10) || 5000;
 let server;
+
+initRedis().catch(() => {});
 
 connectDB()
   .then(() => {

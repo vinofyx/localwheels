@@ -292,67 +292,67 @@ import FinancialDashboard from './pages/bi/FinancialDashboard';
 import CustomerAnalytics from './pages/bi/CustomerAnalytics';
 import OperationsDashboard from './pages/bi/OperationsDashboard';
 import AIExecutiveCopilot from './pages/bi/AIExecutiveCopilot';
-// Phase 13 — AI Predictive Maintenance & IoT Fleet Intelligence
-import FleetIntelligenceDashboard from './pages/maintenance/FleetIntelligenceDashboard';
-import LiveTelemetry from './pages/maintenance/LiveTelemetry';
-import VehicleHealthPage from './pages/maintenance/VehicleHealthPage';
-import MaintenanceCenter from './pages/maintenance/MaintenanceCenter';
-import WorkOrders from './pages/maintenance/WorkOrders';
-import WorkshopManagement from './pages/maintenance/WorkshopManagement';
-import FuelIntelligencePage from './pages/maintenance/FuelIntelligence';
-import DriverBehaviourPage from './pages/maintenance/DriverBehaviourPage';
-import BatteryAnalytics from './pages/maintenance/BatteryAnalytics';
-import EngineAnalytics from './pages/maintenance/EngineAnalytics';
-import TyreAnalytics from './pages/maintenance/TyreAnalytics';
-// Phase 14 – AI Warehouse Management System (WMS)
-import WarehouseDashboard from './pages/warehouse/WarehouseDashboard';
-import WarehouseMaster from './pages/warehouse/WarehouseMaster';
-import InventoryPage from './pages/warehouse/InventoryPage';
-import InboundCenter from './pages/warehouse/InboundCenter';
-import OutboundCenter from './pages/warehouse/OutboundCenter';
-import WarehouseTasks from './pages/warehouse/WarehouseTasks';
-import WarehouseAI from './pages/warehouse/WarehouseAI';
-import DockManagement from './pages/warehouse/DockManagement';
-import BarcodeCenter from './pages/warehouse/BarcodeCenter';
-import WarehouseAnalytics from './pages/warehouse/WarehouseAnalytics';
-import WarehouseForecast from './pages/warehouse/WarehouseForecast';
-// Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility
-import ControlTower from './pages/enterprise/ControlTower';
-import GlobalOperations from './pages/enterprise/GlobalOperations';
-import SupplierManagement from './pages/enterprise/SupplierManagement';
-import VendorManagement from './pages/enterprise/VendorManagement';
-import PurchaseOrders from './pages/enterprise/PurchaseOrders';
-import SalesOrders from './pages/enterprise/SalesOrders';
-import EnterpriseIncidents from './pages/enterprise/EnterpriseIncidents';
-import CollaborationCenter from './pages/enterprise/CollaborationCenter';
-import RiskCenter from './pages/enterprise/RiskCenter';
-import AIDecisionCenter from './pages/enterprise/AIDecisionCenter';
-import ExecutiveCockpit from './pages/enterprise/ExecutiveCockpit';
-import CustomerPortal2 from './pages/enterprise/CustomerPortal2';
-import EnterpriseAnalytics from './pages/enterprise/EnterpriseAnalytics';
-import DocumentDashboard from './pages/documents/DocumentDashboard';
-import DocumentRepository from './pages/documents/DocumentRepository';
-import UploadCenter from './pages/documents/UploadCenter';
-import OCRViewer from './pages/documents/OCRViewer';
-import ValidationDashboard from './pages/documents/ValidationDashboard';
-import ApprovalDashboard from './pages/documents/ApprovalDashboard';
-import DocumentSearch from './pages/documents/DocumentSearch';
-import DocumentAnalytics from './pages/documents/DocumentAnalytics';
-import VersionHistory from './pages/documents/VersionHistory';
-import RecycleBin from './pages/documents/RecycleBin';
-// Phase 16 – AI Enterprise Automation & Hyper Automation Platform
-import AutomationDashboard from './pages/automation/AutomationDashboard';
-import WorkflowBuilder from './pages/automation/WorkflowBuilder';
-import WorkflowTemplates from './pages/automation/WorkflowTemplates';
-import AutomationJobs from './pages/automation/AutomationJobs';
-import DigitalWorkers from './pages/automation/DigitalWorkers';
-import ApprovalCenter from './pages/automation/ApprovalCenter';
-import EnterpriseScheduler from './pages/automation/EnterpriseScheduler';
-import AutomationAnalytics from './pages/automation/AutomationAnalytics';
-import WorkflowMonitoring from './pages/automation/WorkflowMonitoring';
-import ExecutionHistory from './pages/automation/ExecutionHistory';
-import WorkflowDesigner from './pages/automation/WorkflowDesigner';
-import AutomationSettings from './pages/automation/AutomationSettings';
+// Phase 13 — AI Predictive Maintenance & IoT Fleet Intelligence (lazy-loaded)
+const FleetIntelligenceDashboard = lazy(() => import('./pages/maintenance/FleetIntelligenceDashboard'));
+const LiveTelemetry              = lazy(() => import('./pages/maintenance/LiveTelemetry'));
+const VehicleHealthPage          = lazy(() => import('./pages/maintenance/VehicleHealthPage'));
+const MaintenanceCenter          = lazy(() => import('./pages/maintenance/MaintenanceCenter'));
+const WorkOrders                 = lazy(() => import('./pages/maintenance/WorkOrders'));
+const WorkshopManagement         = lazy(() => import('./pages/maintenance/WorkshopManagement'));
+const FuelIntelligencePage       = lazy(() => import('./pages/maintenance/FuelIntelligence'));
+const DriverBehaviourPage        = lazy(() => import('./pages/maintenance/DriverBehaviourPage'));
+const BatteryAnalytics           = lazy(() => import('./pages/maintenance/BatteryAnalytics'));
+const EngineAnalytics            = lazy(() => import('./pages/maintenance/EngineAnalytics'));
+const TyreAnalytics              = lazy(() => import('./pages/maintenance/TyreAnalytics'));
+// Phase 14 – AI Warehouse Management System (WMS) (lazy-loaded)
+const WarehouseDashboard  = lazy(() => import('./pages/warehouse/WarehouseDashboard'));
+const WarehouseMaster     = lazy(() => import('./pages/warehouse/WarehouseMaster'));
+const InventoryPage       = lazy(() => import('./pages/warehouse/InventoryPage'));
+const InboundCenter       = lazy(() => import('./pages/warehouse/InboundCenter'));
+const OutboundCenter      = lazy(() => import('./pages/warehouse/OutboundCenter'));
+const WarehouseTasks      = lazy(() => import('./pages/warehouse/WarehouseTasks'));
+const WarehouseAI         = lazy(() => import('./pages/warehouse/WarehouseAI'));
+const DockManagement      = lazy(() => import('./pages/warehouse/DockManagement'));
+const BarcodeCenter       = lazy(() => import('./pages/warehouse/BarcodeCenter'));
+const WarehouseAnalytics  = lazy(() => import('./pages/warehouse/WarehouseAnalytics'));
+const WarehouseForecast   = lazy(() => import('./pages/warehouse/WarehouseForecast'));
+// Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility (lazy-loaded)
+const ControlTower          = lazy(() => import('./pages/enterprise/ControlTower'));
+const GlobalOperations      = lazy(() => import('./pages/enterprise/GlobalOperations'));
+const SupplierManagement    = lazy(() => import('./pages/enterprise/SupplierManagement'));
+const VendorManagement      = lazy(() => import('./pages/enterprise/VendorManagement'));
+const PurchaseOrders        = lazy(() => import('./pages/enterprise/PurchaseOrders'));
+const SalesOrders           = lazy(() => import('./pages/enterprise/SalesOrders'));
+const EnterpriseIncidents   = lazy(() => import('./pages/enterprise/EnterpriseIncidents'));
+const CollaborationCenter   = lazy(() => import('./pages/enterprise/CollaborationCenter'));
+const RiskCenter            = lazy(() => import('./pages/enterprise/RiskCenter'));
+const AIDecisionCenter      = lazy(() => import('./pages/enterprise/AIDecisionCenter'));
+const ExecutiveCockpit      = lazy(() => import('./pages/enterprise/ExecutiveCockpit'));
+const CustomerPortal2       = lazy(() => import('./pages/enterprise/CustomerPortal2'));
+const EnterpriseAnalytics   = lazy(() => import('./pages/enterprise/EnterpriseAnalytics'));
+const DocumentDashboard     = lazy(() => import('./pages/documents/DocumentDashboard'));
+const DocumentRepository    = lazy(() => import('./pages/documents/DocumentRepository'));
+const UploadCenter          = lazy(() => import('./pages/documents/UploadCenter'));
+const OCRViewer             = lazy(() => import('./pages/documents/OCRViewer'));
+const ValidationDashboard   = lazy(() => import('./pages/documents/ValidationDashboard'));
+const ApprovalDashboard     = lazy(() => import('./pages/documents/ApprovalDashboard'));
+const DocumentSearch        = lazy(() => import('./pages/documents/DocumentSearch'));
+const DocumentAnalytics     = lazy(() => import('./pages/documents/DocumentAnalytics'));
+const VersionHistory        = lazy(() => import('./pages/documents/VersionHistory'));
+const RecycleBin            = lazy(() => import('./pages/documents/RecycleBin'));
+// Phase 16 – AI Enterprise Automation & Hyper Automation Platform (lazy-loaded)
+const AutomationDashboard  = lazy(() => import('./pages/automation/AutomationDashboard'));
+const WorkflowBuilder      = lazy(() => import('./pages/automation/WorkflowBuilder'));
+const WorkflowTemplates    = lazy(() => import('./pages/automation/WorkflowTemplates'));
+const AutomationJobs       = lazy(() => import('./pages/automation/AutomationJobs'));
+const DigitalWorkers       = lazy(() => import('./pages/automation/DigitalWorkers'));
+const ApprovalCenter       = lazy(() => import('./pages/automation/ApprovalCenter'));
+const EnterpriseScheduler  = lazy(() => import('./pages/automation/EnterpriseScheduler'));
+const AutomationAnalytics  = lazy(() => import('./pages/automation/AutomationAnalytics'));
+const WorkflowMonitoring   = lazy(() => import('./pages/automation/WorkflowMonitoring'));
+const ExecutionHistory     = lazy(() => import('./pages/automation/ExecutionHistory'));
+const WorkflowDesigner     = lazy(() => import('./pages/automation/WorkflowDesigner'));
+const AutomationSettings   = lazy(() => import('./pages/automation/AutomationSettings'));
 
 // Phase 19 – Enterprise Financial Management (lazy-loaded)
 const FinanceDashboard       = lazy(() => import('./pages/finance/FinanceDashboard'));
@@ -716,53 +716,53 @@ export default function App() {
           <Route path="bi/operations"                       element={<OperationsDashboard />} />
           <Route path="bi/copilot"                          element={<AIExecutiveCopilot />} />
           {/* Phase 13 – AI Predictive Maintenance & IoT Fleet Intelligence */}
-          <Route path="maintenance"                          element={<FleetIntelligenceDashboard />} />
-          <Route path="maintenance/telemetry"               element={<LiveTelemetry />} />
-          <Route path="maintenance/vehicle-health"          element={<VehicleHealthPage />} />
-          <Route path="maintenance/center"                  element={<MaintenanceCenter />} />
-          <Route path="maintenance/workorders"              element={<WorkOrders />} />
-          <Route path="maintenance/workshops"               element={<WorkshopManagement />} />
-          <Route path="maintenance/fuel"                    element={<FuelIntelligencePage />} />
-          <Route path="maintenance/driver-behaviour"        element={<DriverBehaviourPage />} />
-          <Route path="maintenance/battery"                 element={<BatteryAnalytics />} />
-          <Route path="maintenance/engine"                  element={<EngineAnalytics />} />
-          <Route path="maintenance/tyres"                   element={<TyreAnalytics />} />
-          <Route path="documents"                            element={<DocumentDashboard />} />
-          <Route path="documents/repository"                 element={<DocumentRepository />} />
-          <Route path="documents/upload"                     element={<UploadCenter />} />
-          <Route path="documents/ocr/:id"                    element={<OCRViewer />} />
-          <Route path="documents/validation"                 element={<ValidationDashboard />} />
-          <Route path="documents/approval"                   element={<ApprovalDashboard />} />
-          <Route path="documents/search"                     element={<DocumentSearch />} />
-          <Route path="documents/analytics"                  element={<DocumentAnalytics />} />
-          <Route path="documents/versions/:id"               element={<VersionHistory />} />
-          <Route path="documents/recycle-bin"                element={<RecycleBin />} />
+          <Route path="maintenance"                 element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FleetIntelligenceDashboard /></Suspense>} />
+          <Route path="maintenance/telemetry"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><LiveTelemetry /></Suspense>} />
+          <Route path="maintenance/vehicle-health"  element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><VehicleHealthPage /></Suspense>} />
+          <Route path="maintenance/center"          element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><MaintenanceCenter /></Suspense>} />
+          <Route path="maintenance/workorders"      element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkOrders /></Suspense>} />
+          <Route path="maintenance/workshops"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkshopManagement /></Suspense>} />
+          <Route path="maintenance/fuel"            element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FuelIntelligencePage /></Suspense>} />
+          <Route path="maintenance/driver-behaviour" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DriverBehaviourPage /></Suspense>} />
+          <Route path="maintenance/battery"         element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><BatteryAnalytics /></Suspense>} />
+          <Route path="maintenance/engine"          element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><EngineAnalytics /></Suspense>} />
+          <Route path="maintenance/tyres"           element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><TyreAnalytics /></Suspense>} />
+          <Route path="documents"                   element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DocumentDashboard /></Suspense>} />
+          <Route path="documents/repository"        element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DocumentRepository /></Suspense>} />
+          <Route path="documents/upload"            element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><UploadCenter /></Suspense>} />
+          <Route path="documents/ocr/:id"           element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><OCRViewer /></Suspense>} />
+          <Route path="documents/validation"        element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ValidationDashboard /></Suspense>} />
+          <Route path="documents/approval"          element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ApprovalDashboard /></Suspense>} />
+          <Route path="documents/search"            element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DocumentSearch /></Suspense>} />
+          <Route path="documents/analytics"         element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DocumentAnalytics /></Suspense>} />
+          <Route path="documents/versions/:id"      element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><VersionHistory /></Suspense>} />
+          <Route path="documents/recycle-bin"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><RecycleBin /></Suspense>} />
           {/* Phase 14 – AI Warehouse Management System (WMS) */}
-          <Route path="warehouse"                           element={<WarehouseDashboard />} />
-          <Route path="warehouse/master"                   element={<WarehouseMaster />} />
-          <Route path="warehouse/inventory"                element={<InventoryPage />} />
-          <Route path="warehouse/inbound"                  element={<InboundCenter />} />
-          <Route path="warehouse/outbound"                 element={<OutboundCenter />} />
-          <Route path="warehouse/tasks"                    element={<WarehouseTasks />} />
-          <Route path="warehouse/ai"                       element={<WarehouseAI />} />
-          <Route path="warehouse/docks"                    element={<DockManagement />} />
-          <Route path="warehouse/barcode"                  element={<BarcodeCenter />} />
-          <Route path="warehouse/analytics"               element={<WarehouseAnalytics />} />
-          <Route path="warehouse/forecast"                 element={<WarehouseForecast />} />
+          <Route path="warehouse"              element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseDashboard /></Suspense>} />
+          <Route path="warehouse/master"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseMaster /></Suspense>} />
+          <Route path="warehouse/inventory"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><InventoryPage /></Suspense>} />
+          <Route path="warehouse/inbound"      element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><InboundCenter /></Suspense>} />
+          <Route path="warehouse/outbound"     element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><OutboundCenter /></Suspense>} />
+          <Route path="warehouse/tasks"        element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseTasks /></Suspense>} />
+          <Route path="warehouse/ai"           element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseAI /></Suspense>} />
+          <Route path="warehouse/docks"        element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DockManagement /></Suspense>} />
+          <Route path="warehouse/barcode"      element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><BarcodeCenter /></Suspense>} />
+          <Route path="warehouse/analytics"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseAnalytics /></Suspense>} />
+          <Route path="warehouse/forecast"     element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WarehouseForecast /></Suspense>} />
           {/* Phase 15 – AI Supply Chain Control Tower & Enterprise Visibility */}
-          <Route path="enterprise/control-tower"   element={<ControlTower />} />
-          <Route path="enterprise/operations"      element={<GlobalOperations />} />
-          <Route path="enterprise/suppliers"       element={<SupplierManagement />} />
-          <Route path="enterprise/vendors"         element={<VendorManagement />} />
-          <Route path="enterprise/purchase-orders" element={<PurchaseOrders />} />
-          <Route path="enterprise/sales-orders"    element={<SalesOrders />} />
-          <Route path="enterprise/incidents"       element={<EnterpriseIncidents />} />
-          <Route path="enterprise/collaboration"   element={<CollaborationCenter />} />
-          <Route path="enterprise/risk"            element={<RiskCenter />} />
-          <Route path="enterprise/ai-decisions"    element={<AIDecisionCenter />} />
-          <Route path="enterprise/cockpit"         element={<ExecutiveCockpit />} />
-          <Route path="enterprise/customer-portal" element={<CustomerPortal2 />} />
-          <Route path="enterprise/analytics"       element={<EnterpriseAnalytics />} />
+          <Route path="enterprise/control-tower"   element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ControlTower /></Suspense>} />
+          <Route path="enterprise/operations"      element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><GlobalOperations /></Suspense>} />
+          <Route path="enterprise/suppliers"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SupplierManagement /></Suspense>} />
+          <Route path="enterprise/vendors"         element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><VendorManagement /></Suspense>} />
+          <Route path="enterprise/purchase-orders" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><PurchaseOrders /></Suspense>} />
+          <Route path="enterprise/sales-orders"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SalesOrders /></Suspense>} />
+          <Route path="enterprise/incidents"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><EnterpriseIncidents /></Suspense>} />
+          <Route path="enterprise/collaboration"   element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CollaborationCenter /></Suspense>} />
+          <Route path="enterprise/risk"            element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><RiskCenter /></Suspense>} />
+          <Route path="enterprise/ai-decisions"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AIDecisionCenter /></Suspense>} />
+          <Route path="enterprise/cockpit"         element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ExecutiveCockpit /></Suspense>} />
+          <Route path="enterprise/customer-portal" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CustomerPortal2 /></Suspense>} />
+          <Route path="enterprise/analytics"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><EnterpriseAnalytics /></Suspense>} />
           {/* Switch routes */}
           <Route path="switch/branch"  element={<Navigate to="/select-branch" replace />} />
           <Route path="switch/fin-year"     element={<SelectFinYear />} />
@@ -781,18 +781,18 @@ export default function App() {
           <Route path="config/auto-mail-setting"   element={<AutoMailSetting />} />
           <Route path="config/complaint-register"  element={<ComplaintRegister />} />
           {/* Phase 16 – Automation */}
-          <Route path="automation"                element={<AutomationDashboard />} />
-          <Route path="automation/builder"        element={<WorkflowBuilder />} />
-          <Route path="automation/templates"      element={<WorkflowTemplates />} />
-          <Route path="automation/jobs"           element={<AutomationJobs />} />
-          <Route path="automation/workers"        element={<DigitalWorkers />} />
-          <Route path="automation/approvals"      element={<ApprovalCenter />} />
-          <Route path="automation/scheduler"      element={<EnterpriseScheduler />} />
-          <Route path="automation/analytics"      element={<AutomationAnalytics />} />
-          <Route path="automation/monitoring"     element={<WorkflowMonitoring />} />
-          <Route path="automation/history"        element={<ExecutionHistory />} />
-          <Route path="automation/designer"       element={<WorkflowDesigner />} />
-          <Route path="automation/settings"       element={<AutomationSettings />} />
+          <Route path="automation"            element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AutomationDashboard /></Suspense>} />
+          <Route path="automation/builder"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkflowBuilder /></Suspense>} />
+          <Route path="automation/templates"  element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkflowTemplates /></Suspense>} />
+          <Route path="automation/jobs"       element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AutomationJobs /></Suspense>} />
+          <Route path="automation/workers"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DigitalWorkers /></Suspense>} />
+          <Route path="automation/approvals"  element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ApprovalCenter /></Suspense>} />
+          <Route path="automation/scheduler"  element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><EnterpriseScheduler /></Suspense>} />
+          <Route path="automation/analytics"  element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AutomationAnalytics /></Suspense>} />
+          <Route path="automation/monitoring" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkflowMonitoring /></Suspense>} />
+          <Route path="automation/history"    element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ExecutionHistory /></Suspense>} />
+          <Route path="automation/designer"   element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WorkflowDesigner /></Suspense>} />
+          <Route path="automation/settings"   element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AutomationSettings /></Suspense>} />
 
           {/* Phase 19 – Enterprise Financial Management */}
           <Route path="finance" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><FinanceDashboard /></Suspense>} />

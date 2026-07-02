@@ -1,0 +1,60 @@
+[Cache] REDIS_URL not set — cache disabled
+✅ MongoDB connected
+
+✅ LocalWheels API  →  http://0.0.0.0:5000
+   Health check     →  http://0.0.0.0:5000/api/health
+   Environment      :  development
+   Allowed origins  :  http://localhost:5173, http://localhost:8080, http://localhost:8081, http://localhost:5000
+   Rate limits      :  login=10/15min  api=300/15min
+
+[0mPOST /api/auth/login [32m200[0m 261.989 ms - 607[0m
+[0mGET /api/health [32m200[0m 1.431 ms - 201[0m
+[0mGET /api/metrics [32m200[0m 1.694 ms - 1324[0m
+[0mPOST /api/whatsapp/send [33m401[0m 1.232 ms - 29[0m
+[0mGET /api/fin-invoices [32m200[0m 34.700 ms - 604[0m
+[0mGET /api/accounts-receivable [32m200[0m 23.688 ms - 644[0m
+[0mGET /api/accounts-payable [32m200[0m 35.797 ms - 72[0m
+[0mGET /api/chart-of-accounts [32m200[0m 28.085 ms - 383[0m
+[0mGET /api/journal [32m200[0m 22.531 ms - 78[0m
+[0mGET /api/banking [33m404[0m 1.090 ms - 172[0m
+[0mGET /api/cashflow [32m200[0m 22.100 ms - 40[0m
+[0mGET /api/budget [32m200[0m 23.160 ms - 403[0m
+[0mGET /api/tax [33m404[0m 0.903 ms - 168[0m
+[0mGET /api/financial-reports/profit-loss [32m200[0m 22.011 ms - 40[0m
+[0mGET /api/finance-analytics [33m404[0m 0.579 ms - 182[0m
+[0mGET /api/general-ledger [32m200[0m 20.710 ms - 71[0m
+[0mGET /api/expenses [32m200[0m 27.411 ms - 494[0m
+[0mGET /api/reconciliation [32m200[0m 21.673 ms - 40[0m
+[0mGET /api/cost-centers [32m200[0m 34.274 ms - 307[0m
+[0mGET /api/forecast-finance [32m200[0m 27.379 ms - 40[0m
+[0mGET /api/warehouses [32m200[0m 33.029 ms - 909[0m
+[0mGET /api/inventory [32m200[0m 73.022 ms - 2296[0m
+[0mGET /api/shipments?limit=5 [33m400[0m 0.573 ms - 30[0m
+[0mPOST /api/finance-copilot/chat [33m400[0m 1.647 ms - 83[0m
+[0mGET /api/notexist [33m404[0m 0.266 ms - 173[0m
+[0mPOST /api/auth/login [32m200[0m 164.106 ms - 607[0m
+[0mGET /api/shipments?limit=5 [33m400[0m 1.096 ms - 30[0m
+[0mPOST /api/finance-copilot/chat [33m400[0m 3.854 ms - 83[0m
+[0mPOST /api/auth/login [32m200[0m 144.729 ms - 607[0m
+[0mGET /api/health [32m200[0m 0.289 ms - 203[0m
+[0mGET /api/metrics [32m200[0m 0.452 ms - 3204[0m
+[0mPOST /api/whatsapp/send [33m401[0m 0.590 ms - 29[0m
+[0mGET /api/fin-invoices [32m200[0m 22.667 ms - 604[0m
+[0mGET /api/accounts-receivable [32m200[0m 42.133 ms - 644[0m
+[0mGET /api/accounts-payable [32m200[0m 23.684 ms - 72[0m
+[0mGET /api/chart-of-accounts [32m200[0m 32.587 ms - 383[0m
+[0mGET /api/journal [32m200[0m 23.298 ms - 78[0m
+[0mGET /api/banking/accounts [32m200[0m 22.954 ms - 392[0m
+[0mGET /api/cashflow [32m200[0m 21.073 ms - 40[0m
+[0mGET /api/budget [32m200[0m 21.423 ms - 403[0m
+[0mGET /api/tax/transactions [32m200[0m 26.762 ms - 40[0m
+[0mGET /api/financial-reports/profit-loss [32m200[0m 25.823 ms - 40[0m
+[0mGET /api/finance-analytics/dashboard [32m200[0m 73.134 ms - 143[0m
+[0mGET /api/general-ledger [32m200[0m 37.309 ms - 71[0m
+[0mGET /api/expenses [32m200[0m 31.243 ms - 494[0m
+[0mGET /api/reconciliation [32m200[0m 29.962 ms - 40[0m
+[0mGET /api/cost-centers [32m200[0m 23.916 ms - 307[0m
+[0mGET /api/forecast-finance [32m200[0m 25.688 ms - 40[0m
+[0mGET /api/warehouses [32m200[0m 38.307 ms - 909[0m
+[0mGET /api/inventory [32m200[0m 129.645 ms - 2296[0m
+[0mGET /api/shipments?limit=5 [33m400[0m 1.539 ms - 30[0m
