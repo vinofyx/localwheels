@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
@@ -354,40 +354,40 @@ import ExecutionHistory from './pages/automation/ExecutionHistory';
 import WorkflowDesigner from './pages/automation/WorkflowDesigner';
 import AutomationSettings from './pages/automation/AutomationSettings';
 
-// Phase 18 – AI Digital Twin, Simulation & Autonomous Operations
-import DigitalTwinDashboard  from './pages/simulation/DigitalTwinDashboard';
-import SimulationCenter      from './pages/simulation/SimulationCenter';
-import ScenarioBuilder       from './pages/simulation/ScenarioBuilder';
-import ScenarioLibrary       from './pages/simulation/ScenarioLibrary';
-import AutonomousDecisions   from './pages/simulation/AutonomousDecisions';
-import CapacityPlanning      from './pages/simulation/CapacityPlanning';
-import DemandPlanning        from './pages/simulation/DemandPlanning';
-import CarbonDashboard       from './pages/simulation/CarbonDashboard';
-import SustainabilityDashboard from './pages/simulation/SustainabilityDashboard';
-import RiskSimulation        from './pages/simulation/RiskSimulation';
-import BusinessContinuity    from './pages/simulation/BusinessContinuity';
-import RecoveryCenter        from './pages/simulation/RecoveryCenter';
-import SimulationAnalytics   from './pages/simulation/SimulationAnalytics';
-import ExecutiveSimulation   from './pages/simulation/ExecutiveSimulation';
-import AIRecommendations     from './pages/simulation/AIRecommendations';
+// Phase 18 – AI Digital Twin, Simulation & Autonomous Operations (lazy-loaded)
+const DigitalTwinDashboard   = lazy(() => import('./pages/simulation/DigitalTwinDashboard'));
+const SimulationCenter       = lazy(() => import('./pages/simulation/SimulationCenter'));
+const ScenarioBuilder        = lazy(() => import('./pages/simulation/ScenarioBuilder'));
+const ScenarioLibrary        = lazy(() => import('./pages/simulation/ScenarioLibrary'));
+const AutonomousDecisions    = lazy(() => import('./pages/simulation/AutonomousDecisions'));
+const CapacityPlanning       = lazy(() => import('./pages/simulation/CapacityPlanning'));
+const DemandPlanning         = lazy(() => import('./pages/simulation/DemandPlanning'));
+const CarbonDashboard        = lazy(() => import('./pages/simulation/CarbonDashboard'));
+const SustainabilityDashboard = lazy(() => import('./pages/simulation/SustainabilityDashboard'));
+const RiskSimulation         = lazy(() => import('./pages/simulation/RiskSimulation'));
+const BusinessContinuity     = lazy(() => import('./pages/simulation/BusinessContinuity'));
+const RecoveryCenter         = lazy(() => import('./pages/simulation/RecoveryCenter'));
+const SimulationAnalytics    = lazy(() => import('./pages/simulation/SimulationAnalytics'));
+const ExecutiveSimulation    = lazy(() => import('./pages/simulation/ExecutiveSimulation'));
+const AIRecommendations      = lazy(() => import('./pages/simulation/AIRecommendations'));
 
-// Phase 17 – AI Enterprise Integration Platform
-import IntegrationDashboard  from './pages/integration/IntegrationDashboard';
-import APIGateway            from './pages/integration/APIGateway';
-import WebhookManager        from './pages/integration/WebhookManager';
-import APIKeys               from './pages/integration/APIKeys';
-import ConnectorMarketplace  from './pages/integration/ConnectorMarketplace';
-import ERPIntegrations       from './pages/integration/ERPIntegrations';
-import CRMIntegrations       from './pages/integration/CRMIntegrations';
-import AccountingIntegrations from './pages/integration/AccountingIntegrations';
-import MarketplaceIntegrations from './pages/integration/MarketplaceIntegrations';
-import EventBusMonitor       from './pages/integration/EventBusMonitor';
-import SyncDashboard         from './pages/integration/SyncDashboard';
-import OAuthManager          from './pages/integration/OAuthManager';
-import APIDocs               from './pages/integration/APIDocs';
-import APIAnalytics          from './pages/integration/APIAnalytics';
-import IntegrationLogs       from './pages/integration/IntegrationLogs';
-import DeveloperPortal       from './pages/integration/DeveloperPortal';
+// Phase 17 – AI Enterprise Integration Platform (lazy-loaded)
+const IntegrationDashboard   = lazy(() => import('./pages/integration/IntegrationDashboard'));
+const APIGateway             = lazy(() => import('./pages/integration/APIGateway'));
+const WebhookManager         = lazy(() => import('./pages/integration/WebhookManager'));
+const APIKeys                = lazy(() => import('./pages/integration/APIKeys'));
+const ConnectorMarketplace   = lazy(() => import('./pages/integration/ConnectorMarketplace'));
+const ERPIntegrations        = lazy(() => import('./pages/integration/ERPIntegrations'));
+const CRMIntegrations        = lazy(() => import('./pages/integration/CRMIntegrations'));
+const AccountingIntegrations = lazy(() => import('./pages/integration/AccountingIntegrations'));
+const MarketplaceIntegrations = lazy(() => import('./pages/integration/MarketplaceIntegrations'));
+const EventBusMonitor        = lazy(() => import('./pages/integration/EventBusMonitor'));
+const SyncDashboard          = lazy(() => import('./pages/integration/SyncDashboard'));
+const OAuthManager           = lazy(() => import('./pages/integration/OAuthManager'));
+const APIDocs                = lazy(() => import('./pages/integration/APIDocs'));
+const APIAnalytics           = lazy(() => import('./pages/integration/APIAnalytics'));
+const IntegrationLogs        = lazy(() => import('./pages/integration/IntegrationLogs'));
+const DeveloperPortal        = lazy(() => import('./pages/integration/DeveloperPortal'));
 
 function RequireAuth({ children }) {
   const { user } = useAuth();
@@ -773,39 +773,39 @@ export default function App() {
           <Route path="automation/settings"       element={<AutomationSettings />} />
 
           {/* Phase 18 – AI Digital Twin, Simulation & Autonomous Operations */}
-          <Route path="simulation"                   element={<DigitalTwinDashboard />} />
-          <Route path="simulation/center"            element={<SimulationCenter />} />
-          <Route path="simulation/scenario-builder"  element={<ScenarioBuilder />} />
-          <Route path="simulation/scenario-library"  element={<ScenarioLibrary />} />
-          <Route path="simulation/autonomous"        element={<AutonomousDecisions />} />
-          <Route path="simulation/capacity"          element={<CapacityPlanning />} />
-          <Route path="simulation/demand"            element={<DemandPlanning />} />
-          <Route path="simulation/carbon"            element={<CarbonDashboard />} />
-          <Route path="simulation/sustainability"    element={<SustainabilityDashboard />} />
-          <Route path="simulation/risk"              element={<RiskSimulation />} />
-          <Route path="simulation/bcp"               element={<BusinessContinuity />} />
-          <Route path="simulation/recovery"          element={<RecoveryCenter />} />
-          <Route path="simulation/analytics"         element={<SimulationAnalytics />} />
-          <Route path="simulation/executive"         element={<ExecutiveSimulation />} />
-          <Route path="simulation/recommendations"   element={<AIRecommendations />} />
+          <Route path="simulation" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DigitalTwinDashboard /></Suspense>} />
+          <Route path="simulation/center" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SimulationCenter /></Suspense>} />
+          <Route path="simulation/scenario-builder" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ScenarioBuilder /></Suspense>} />
+          <Route path="simulation/scenario-library" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ScenarioLibrary /></Suspense>} />
+          <Route path="simulation/autonomous" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AutonomousDecisions /></Suspense>} />
+          <Route path="simulation/capacity" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CapacityPlanning /></Suspense>} />
+          <Route path="simulation/demand" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DemandPlanning /></Suspense>} />
+          <Route path="simulation/carbon" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CarbonDashboard /></Suspense>} />
+          <Route path="simulation/sustainability" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SustainabilityDashboard /></Suspense>} />
+          <Route path="simulation/risk" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><RiskSimulation /></Suspense>} />
+          <Route path="simulation/bcp" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><BusinessContinuity /></Suspense>} />
+          <Route path="simulation/recovery" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><RecoveryCenter /></Suspense>} />
+          <Route path="simulation/analytics" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SimulationAnalytics /></Suspense>} />
+          <Route path="simulation/executive" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ExecutiveSimulation /></Suspense>} />
+          <Route path="simulation/recommendations" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AIRecommendations /></Suspense>} />
 
           {/* Phase 17 – AI Enterprise Integration Platform */}
-          <Route path="integration"              element={<IntegrationDashboard />} />
-          <Route path="integration/gateway"      element={<APIGateway />} />
-          <Route path="integration/webhooks"     element={<WebhookManager />} />
-          <Route path="integration/api-keys"     element={<APIKeys />} />
-          <Route path="integration/connectors"   element={<ConnectorMarketplace />} />
-          <Route path="integration/erp"          element={<ERPIntegrations />} />
-          <Route path="integration/crm"          element={<CRMIntegrations />} />
-          <Route path="integration/accounting"   element={<AccountingIntegrations />} />
-          <Route path="integration/marketplace"  element={<MarketplaceIntegrations />} />
-          <Route path="integration/events"       element={<EventBusMonitor />} />
-          <Route path="integration/sync"         element={<SyncDashboard />} />
-          <Route path="integration/oauth"        element={<OAuthManager />} />
-          <Route path="integration/api-docs"     element={<APIDocs />} />
-          <Route path="integration/analytics"    element={<APIAnalytics />} />
-          <Route path="integration/logs"         element={<IntegrationLogs />} />
-          <Route path="integration/developer"    element={<DeveloperPortal />} />
+          <Route path="integration" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><IntegrationDashboard /></Suspense>} />
+          <Route path="integration/gateway" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><APIGateway /></Suspense>} />
+          <Route path="integration/webhooks" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><WebhookManager /></Suspense>} />
+          <Route path="integration/api-keys" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><APIKeys /></Suspense>} />
+          <Route path="integration/connectors" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ConnectorMarketplace /></Suspense>} />
+          <Route path="integration/erp" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><ERPIntegrations /></Suspense>} />
+          <Route path="integration/crm" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><CRMIntegrations /></Suspense>} />
+          <Route path="integration/accounting" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><AccountingIntegrations /></Suspense>} />
+          <Route path="integration/marketplace" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><MarketplaceIntegrations /></Suspense>} />
+          <Route path="integration/events" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><EventBusMonitor /></Suspense>} />
+          <Route path="integration/sync" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><SyncDashboard /></Suspense>} />
+          <Route path="integration/oauth" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><OAuthManager /></Suspense>} />
+          <Route path="integration/api-docs" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><APIDocs /></Suspense>} />
+          <Route path="integration/analytics" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><APIAnalytics /></Suspense>} />
+          <Route path="integration/logs" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><IntegrationLogs /></Suspense>} />
+          <Route path="integration/developer" element={<Suspense fallback={<div style={{padding:32,color:'#64748b'}}>Loading…</div>}><DeveloperPortal /></Suspense>} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

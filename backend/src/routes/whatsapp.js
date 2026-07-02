@@ -1,5 +1,6 @@
 const express     = require('express');
 const router      = express.Router();
+const { authenticate: auth } = require('../middleware/auth');
 const AgentSession = require('../models/AgentSession');
 const Shipment    = require('../models/Shipment');
 const Complaint   = require('../models/Complaint');
@@ -120,7 +121,7 @@ async function sendWhatsAppMessage(to, text) {
 }
 
 // POST /api/whatsapp/send — send message from admin (requires auth)
-router.post('/send', async (req, res) => {
+router.post('/send', auth, async (req, res) => {
   const { to, message } = req.body;
   if (!to || !message) return res.status(400).json({ error: 'to and message required' });
   await sendWhatsAppMessage(to, message);

@@ -218,15 +218,27 @@ app.get('/', (req, res) => {
 });
 
 // ── Health check ──────────────────────────────────────────────────────────────
-app.get('/api/health', (_req, res) =>
+app.get('/api/health', (_req, res) => {
+  const mongoose = require('mongoose');
+  const dbState  = ['disconnected','connected','connecting','disconnecting'];
+  const mem      = process.memoryUsage();
   res.json({
-    status:  'ok',
-    time:    new Date().toISOString(),
-    env:     process.env.NODE_ENV || 'development',
-    version: process.env.npm_package_version || '1.0.0',
-    uptime:  Math.round(process.uptime()),
-  })
-);
+    status:   'ok',
+    time:     new Date().toISOString(),
+    env:      process.env.NODE_ENV || 'development',
+    version:  process.env.npm_package_version || '1.0.0',
+    uptime_s: Math.round(process.uptime()),
+    db: {
+      state:   dbState[mongoose.connection.readyState] || 'unknown',
+      ready:   mongoose.connection.readyState === 1,
+    },
+    memory: {
+      rss_mb:        Math.round(mem.rss        / 1024 / 1024),
+      heap_used_mb:  Math.round(mem.heapUsed   / 1024 / 1024),
+      heap_total_mb: Math.round(mem.heapTotal  / 1024 / 1024),
+    },
+  });
+});
 
 // ── API endpoint index (dev only) ─────────────────────────────────────────────
 app.get('/api', (_req, res) => {
