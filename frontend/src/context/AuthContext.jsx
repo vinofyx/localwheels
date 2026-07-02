@@ -19,6 +19,17 @@ export function AuthProvider({ children }) {
     return data.user;
   }, []);
 
+  // Exchange a Clerk session token for a LocalWheels JWT.
+  const clerkLogin = useCallback(async (clerkSessionToken) => {
+    const { data } = await api.post('/auth/clerk-exchange', {}, {
+      headers: { Authorization: `Bearer ${clerkSessionToken}` },
+    });
+    localStorage.setItem('lw_token', data.token);
+    localStorage.setItem('lw_user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
+  }, []);
+
   const selectBranch = useCallback((b) => {
     localStorage.setItem('lw_branch', JSON.stringify(b));
     setBranch(b);
@@ -43,7 +54,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, branch, login, selectBranch, logout, checkSetupStatus }}>
+    <AuthContext.Provider value={{ user, branch, login, clerkLogin, selectBranch, logout, checkSetupStatus }}>
       {children}
     </AuthContext.Provider>
   );

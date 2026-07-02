@@ -3,6 +3,13 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatWidget from './ChatWidget';
 
+const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const CLERK_ENABLED = CLERK_KEY && CLERK_KEY !== 'pk_test_REPLACE_WITH_YOUR_KEY';
+let UserButton = null;
+if (CLERK_ENABLED) {
+  import('@clerk/react').then(m => { UserButton = m.UserButton; });
+}
+
 // ─── Exact nav structure from JSON config ─────────────────────────────────────
 const NAV_MENUS = [
   {
@@ -919,6 +926,11 @@ export default function Layout() {
               </p>
               <p className="text-gray-400 text-[10px]">FY {fy}</p>
             </div>
+
+            {/* Clerk UserButton (when Clerk is configured) */}
+            {CLERK_ENABLED && UserButton && (
+              <UserButton afterSignOutUrl="/login" />
+            )}
 
             {/* User menu button */}
             <div className="relative">
