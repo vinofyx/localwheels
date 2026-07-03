@@ -25,126 +25,171 @@ This certificate confirms that **LocalWheels Enterprise Version 1.0** has comple
 | Business Workflow Validation | 16/16 workflows passed | 2026-07-03 | ✅ CERTIFIED |
 | Production Validation Suite | 27/27 checks passed | 2026-07-03 | ✅ CERTIFIED |
 | Smoke Test (dev baseline) | 17/17 passed | 2026-07-03 | ✅ CERTIFIED |
-| Deployment Configuration | render.yaml + vercel.json complete | 2026-07-03 | ✅ CERTIFIED |
+| Deployment Configuration | Nginx + PM2 + ecosystem.config.js complete | 2026-07-03 | ✅ CERTIFIED |
 | Security Audit | 0 npm vulnerabilities | 2026-07-03 | ✅ CERTIFIED |
 
 ---
 
 ## Infrastructure Configuration
 
-### Backend — Render (Starter Plan)
+### Backend — Hostinger VPS + PM2 + Nginx
 | Item | Value |
 |------|-------|
-| Platform | Render Web Service |
-| Plan | Starter ($7/mo — always-on) |
-| Runtime | Node.js ≥ 18 |
-| Build command | `cd backend && npm ci --omit=dev` |
-| Start command | `node backend/src/index.js` |
-| Health check | `/api/health` |
-| Auto-deploy | Enabled (main branch) |
+| Platform | Hostinger VPS (Ubuntu 22.04 LTS) |
+| Process manager | PM2 (`deploy/ecosystem.config.js`) |
+| Reverse proxy | Nginx (`deploy/nginx.conf`) |
+| SSL | Certbot / Let's Encrypt (auto-renewing) |
+| App directory | `/var/www/localwheels` |
+| Log directory | `/var/log/localwheels` |
+| Node.js | v20 LTS |
+| Start command | `pm2 start deploy/ecosystem.config.js --env production` |
+| Health check | `GET /api/health` (via Nginx proxy) |
+| Auto-restart | PM2 `autorestart: true` + systemd startup |
 
-**Required environment variables (set in Render dashboard):**
+**Setup scripts:**
+
+| Script | Purpose |
+|--------|---------|
+| `deploy/setup-vps.sh` | One-time VPS provisioning (Node.js, PM2, Nginx, Redis, UFW, Fail2Ban) |
+| `deploy/deploy.sh` | Every-deploy script (git pull, build, pm2 reload, health check) |
+| `deploy/backup.sh` | Nightly backup (cron 2am) |
+| `deploy/ecosystem.config.js` | PM2 process config |
+| `deploy/nginx.conf` | Nginx reverse proxy + SPA serving |
+| `deploy/env.example` | Environment variable template |
+
+**Required environment variables** (set in `/var/www/localwheels/backend/.env`):
 
 | Variable | Source |
 |----------|--------|
 | `MONGODB_URI` | MongoDB Atlas connection string |
 | `JWT_SECRET` | `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` |
+| `REDIS_URL` | `redis://:<password>@127.0.0.1:6379` (local, set by setup-vps.sh) |
 | `CLERK_SECRET_KEY` | Clerk Dashboard → API Keys |
 | `CLERK_PUBLISHABLE_KEY` | Clerk Dashboard → API Keys |
-| `CLERK_AUTHORIZED_PARTIES` | Comma-separated: `https://your-app.vercel.app` |
-| `METRICS_TOKEN` | Random 32-char string |
-| `REDIS_URL` | Redis Cloud free tier URL |
-| `VOICE_ENCRYPTION_KEY` | 32-char random hex |
+| `CLERK_AUTHORIZED_PARTIES` | `https://app.yourdomain.com` |
+| `ALLOWED_ORIGINS` | `https://app.yourdomain.com` |
+| `METRICS_TOKEN` | Random 32-char hex |
+| `VOICE_ENCRYPTION_KEY` | Random 32-char hex |
 | `SEED_COMPANY_NAME` | First customer company name |
 | `SEED_ADMIN_USERNAME` | First customer admin username |
 | `SEED_ADMIN_EMAIL` | First customer admin email |
 | `SEED_ADMIN_PASSWORD` | Min 12-char strong password |
 
-### Frontend — Vercel
+### Frontend — Nginx (on same VPS)
 | Item | Value |
 |------|-------|
-| Platform | Vercel |
-| Framework | Vite (framework: null in vercel.json) |
+| Platform | Nginx static file server (same Hostinger VPS) |
 | Build command | `cd frontend && npm ci && npm run build` |
-| Output directory | `dist` (repo root) |
-| SPA routing | Rewrites `/*` → `/index.html` |
-| Security headers | X-Content-Type-Options, X-Frame-Options, X-XSS-Protection |
+| Output directory | `/var/www/localwheels/dist` (Vite `outDir: '../dist'`) |
+| SPA routing | Nginx `try_files $uri $uri/ /index.html` |
+| Security headers | HSTS, X-Content-Type-Options, X-Frame-Options, X-XSS-Protection |
+| Compression | Gzip enabled for JS/CSS/JSON/SVG |
+| Asset caching | Hashed assets: `Cache-Control: public, immutable, 1y` |
 
-**Required environment variables (set in Vercel dashboard):**
+**Required frontend environment** (`frontend/.env.production`):
 
 | Variable | Value |
 |----------|-------|
-| `VITE_API_URL` | `https://your-backend.onrender.com/api` |
+| `VITE_API_URL` | `https://api.yourdomain.com/api` |
 | `VITE_CLERK_PUBLISHABLE_KEY` | Clerk publishable key (same as backend) |
 
 ### Database — MongoDB Atlas
 | Item | Value |
 |------|-------|
 | Tier | M10 minimum (dedicated, always-on) |
-| Region | Same as Render instance (e.g. ap-south-1 Mumbai) |
-| Network | IP allow: Render static IPs |
+| Region | Closest to VPS region (ap-south-1 Mumbai recommended) |
+| Network | IP allowlist: VPS public IP |
 | User | `localwheels_prod` with readWrite on `localwheels` db |
 
-### Cache — Redis
+### Cache — Redis (local)
 | Item | Value |
 |------|-------|
-| Provider | Redis Cloud (free tier: 30MB) |
-| TLS | Required in production |
+| Provider | Redis installed on VPS by setup-vps.sh |
+| URL | `redis://:<password>@127.0.0.1:6379` |
+| Persistence | AOF (appendonly yes) + RDB snapshots |
+| Max memory | 256MB with allkeys-lru eviction |
 
 ---
 
 ## Deployment Procedure
 
-### Step 1 — Backend (Render)
+### Step 1 — VPS Setup
 ```bash
-# 1. Create Render account → New Web Service → Connect GitHub repo
-# 2. Set Root Directory: . (repo root)
-# 3. Set all env vars from table above in Render Dashboard → Environment
-# 4. Deploy — watch logs for "LocalWheels API running on port 5000"
+# SSH into VPS
+ssh root@<vps-ip>
 
-# 5. Verify health
-curl https://your-backend.onrender.com/api/health
-
-# 6. Seed first customer
-SEED_COMPANY_NAME="..." SEED_ADMIN_USERNAME="..." SEED_ADMIN_PASSWORD="..." \
-  node backend/src/db/seed-production.js
-
-# 7. Run smoke test
-node backend/smoke-test.js https://your-backend.onrender.com admin_user password
+# Clone repo and run one-time setup
+git clone https://github.com/vinofyx/localwheels /var/www/localwheels
+bash /var/www/localwheels/deploy/setup-vps.sh
 ```
 
-### Step 2 — Frontend (Vercel)
+### Step 2 — Configure
 ```bash
-# 1. Create Vercel account → New Project → Import GitHub repo
-# 2. Set env vars: VITE_API_URL, VITE_CLERK_PUBLISHABLE_KEY
-# 3. Deploy — build should complete in ~30s
+# Create .env from template
+cp /var/www/localwheels/deploy/env.example /var/www/localwheels/backend/.env
+nano /var/www/localwheels/backend/.env  # fill all required values
 
-# 4. Verify SPA routing
-curl https://your-app.vercel.app/login  # should return 200 (index.html)
+# Create frontend env
+cat > /var/www/localwheels/frontend/.env.production << 'EOF'
+VITE_API_URL=https://api.yourdomain.com/api
+VITE_CLERK_PUBLISHABLE_KEY=pk_live_xxxx
+EOF
 ```
 
-### Step 3 — Production Validation
+### Step 3 — SSL + Nginx
 ```bash
-# Run full production validation suite (without --dev flag)
-node backend/production-validate.js \
-  https://your-backend.onrender.com \
-  admin_username \
-  admin_password
+# Deploy nginx config (update domain names first)
+cp /var/www/localwheels/deploy/nginx.conf /etc/nginx/sites-available/localwheels
+nano /etc/nginx/sites-available/localwheels  # replace yourdomain.com
+ln -sf /etc/nginx/sites-available/localwheels /etc/nginx/sites-enabled/
+rm -f /etc/nginx/sites-enabled/default
+nginx -t
+
+# Issue SSL certificates
+certbot --nginx -d api.yourdomain.com -d app.yourdomain.com \
+  --non-interactive --agree-tos --email admin@yourdomain.com
+```
+
+### Step 4 — Build + Start
+```bash
+cd /var/www/localwheels
+cd backend && npm ci --omit=dev && cd ..
+cd frontend && npm ci && npm run build && cd ..
+pm2 start deploy/ecosystem.config.js --env production
+pm2 save && pm2 startup
+systemctl reload nginx
+```
+
+### Step 5 — Seed + Validate
+```bash
+# Seed first customer
+node backend/src/db/seed-production.js
+
+# Smoke test (17 checks)
+node backend/smoke-test.js https://api.yourdomain.com admin_user password
+
+# Full validation (27 checks — no --dev flag)
+node backend/production-validate.js https://api.yourdomain.com admin_user password
 # Expected: 27/27 ALL CLEAR
+```
+
+### Every future deploy
+```bash
+ssh user@<vps-ip> "bash /var/www/localwheels/deploy/deploy.sh"
 ```
 
 ---
 
 ## Performance Baseline (Dev Environment)
 
-| Metric | Dev Baseline | Production Target |
-|--------|-------------|-------------------|
-| Health check p50 | 5ms | < 50ms |
-| Login p50 | 164ms | < 200ms |
-| /auth/me p50 | 52ms | < 100ms |
-| Dashboard p50 | 216ms | < 200ms |
-| Dashboard p95 | ~300ms (excl. Atlas cold) | < 500ms |
-| Backend memory RSS | 83MB | < 300MB |
+| Metric | Dev Baseline | Production Target (VPS+Atlas same region) |
+|--------|-------------|------------------------------------------|
+| Health check p50 | 5ms | < 20ms |
+| Login p50 | 164ms | < 150ms |
+| /auth/me p50 | 52ms | < 50ms |
+| Dashboard p50 | 216ms | < 150ms |
+| Dashboard p95 | ~300ms | < 300ms |
+| Backend memory RSS | 83MB | < 256MB |
 
 ---
 
@@ -152,10 +197,12 @@ node backend/production-validate.js \
 
 | Tool | Setup |
 |------|-------|
-| UptimeRobot | Monitor `/api/health` every 5 min, alert on 2 consecutive failures |
-| Prometheus | Scrape `GET /api/metrics` with `X-Metrics-Token` header |
-| MongoDB Atlas | Enable Performance Advisor, slow query threshold 100ms |
-| Render | Enable email alerts for deploys and health check failures |
+| UptimeRobot | Monitor `https://api.yourdomain.com/api/health` every 5 min |
+| PM2 | `pm2 monit` on VPS for real-time CPU/memory |
+| Prometheus | On VPS port 9090, scrapes `localhost:5000/api/metrics` |
+| Nginx logs | `/var/log/nginx/localwheels-api-access.log` |
+| App logs | `/var/log/localwheels/api-out.log` |
+| MongoDB Atlas | Performance Advisor + slow query threshold 100ms |
 
 ---
 

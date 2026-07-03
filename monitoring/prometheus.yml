@@ -1,22 +1,33 @@
 global:
-  scrape_interval: 15s
+  scrape_interval:     15s
   evaluation_interval: 15s
 
+# ── Scrape targets — Hostinger VPS ────────────────────────────────────────────
 scrape_configs:
+
+  # LocalWheels API — token required in production
   - job_name: 'localwheels-backend'
     static_configs:
-      - targets: ['backend:5000']
+      - targets: ['localhost:5000']
     metrics_path: '/api/metrics'
     scrape_interval: 15s
+    # Uncomment and set METRICS_TOKEN value:
+    # authorization:
+    #   credentials: '<your-METRICS_TOKEN>'
 
-  - job_name: 'mongodb'
+  # Node Exporter (system metrics)
+  # Install: apt install prometheus-node-exporter
+  - job_name: 'node'
     static_configs:
-      - targets: ['mongo:27017']
+      - targets: ['localhost:9100']
 
+  # Redis Exporter (optional)
+  # Install: https://github.com/oliver006/redis_exporter
   - job_name: 'redis'
     static_configs:
-      - targets: ['redis:6379']
+      - targets: ['localhost:9121']
 
+  # Prometheus self-monitoring
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']

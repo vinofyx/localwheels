@@ -114,16 +114,20 @@ The following capabilities are certified functional in production:
 
 **Your action items (cannot be automated):**
 
-1. **Create Render account** → import `github.com/vinofyx/localwheels` repo
-2. **Set all environment variables** in Render Dashboard (see `P30_PRODUCTION_DEPLOYMENT_CERTIFICATE.md`)
-3. **Create MongoDB Atlas cluster** (M10, same region as Render)
-4. **Create Redis Cloud instance** (free tier sufficient for pilot)
-5. **Create Vercel account** → import same repo, set `VITE_API_URL` + `VITE_CLERK_PUBLISHABLE_KEY`
-6. **Run seed script**: `npm run seed:prod` (after env vars set)
-7. **Run smoke test**: `node backend/smoke-test.js https://your-backend.onrender.com admin pass`
-8. **Run production validation**: `npm run validate` (full URL, no `--dev`)
-9. **Send login credentials to customer** (Rajdhani Cargo admin)
-10. **Begin 30-day pilot tracker** (`P30_PILOT_WEEK_TRACKER.md`)
+1. **SSH into Hostinger VPS** as root
+2. **Clone repo** and run `bash deploy/setup-vps.sh` (one-time)
+3. **Create `.env`** from `deploy/env.example` — fill all secrets
+4. **Whitelist VPS IP** in MongoDB Atlas → Network Access
+5. **Issue SSL certs**: `certbot --nginx -d api.yourdomain.com -d app.yourdomain.com`
+6. **Update Nginx config** (`deploy/nginx.conf`) with actual domain names
+7. **Build + start**: `npm ci`, `npm run build`, `pm2 start deploy/ecosystem.config.js`
+8. **Seed first customer**: `node backend/src/db/seed-production.js`
+9. **Run smoke test**: `node backend/smoke-test.js https://api.yourdomain.com admin pass`
+10. **Run production validation**: `node backend/production-validate.js https://api.yourdomain.com admin pass`
+11. **Send login credentials to customer** (Rajdhani Cargo admin)
+12. **Begin 30-day pilot tracker** (`P30_PILOT_WEEK_TRACKER.md`)
+
+See `P30_HOSTINGER_DEPLOYMENT_GUIDE.md` for step-by-step instructions and `P30_HOSTINGER_GOLIVE_CHECKLIST.md` to verify each item.
 
 ---
 
