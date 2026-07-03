@@ -60,6 +60,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem('lw_token', data.token);
     localStorage.setItem('lw_user', JSON.stringify(data.user));
     localStorage.setItem('lw_clerk_session', '1'); // marks this LW session as Clerk-backed
+    localStorage.removeItem('lw_logout_intent');   // user actively signed in — clear any prior intent
     setUser(data.user);
     return { ...data.user, _isNew: status === 201 };
   }, []);
@@ -70,6 +71,10 @@ export function AuthProvider({ children }) {
   }, []);
 
   const logout = useCallback(() => {
+    // Set intent FIRST — ClerkAuthBridge reads this before deciding to re-exchange.
+    // Without this flag, clearing `user` while Clerk is still isSignedIn=true would
+    // cause ClerkAuthBridge to immediately re-exchange and log the user back in.
+    localStorage.setItem('lw_logout_intent', '1');
     localStorage.removeItem('lw_token');
     localStorage.removeItem('lw_user');
     localStorage.removeItem('lw_branch');

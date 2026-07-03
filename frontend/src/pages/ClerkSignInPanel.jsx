@@ -12,7 +12,9 @@ export default function ClerkSignInPanel() {
   const [exchangeError, setExchangeError] = useState(null);
 
   useEffect(() => {
+    // Don't auto-exchange after intentional logout — let the user see the sign-in form.
     if (!isSignedIn || user || exchanging) return;
+    if (localStorage.getItem('lw_logout_intent') === '1') return;
 
     setExchanging(true);
     setExchangeError(null);

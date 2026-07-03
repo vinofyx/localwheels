@@ -8,6 +8,23 @@ const ClerkUserButton = CLERK_ENABLED
   ? React.lazy(() => import('@clerk/react').then(m => ({ default: m.UserButton })))
   : null;
 
+// Imported statically — tree-shakeable, always safe to import.
+// The hook is only CALLED inside ClerkSignOutButton, which is only RENDERED
+// when CLERK_ENABLED=true (inside ClerkProvider). Never called outside ClerkProvider.
+import { useAuth as useClerkHook } from '@clerk/react';
+
+// Calls both LW logout() and Clerk's signOut() so the user is fully signed out.
+// The lw_logout_intent flag (set inside logout()) prevents ClerkAuthBridge from
+// immediately re-exchanging before Clerk's signOut() completes.
+function ClerkSignOutButton({ onLogout, className, children }) {
+  const { signOut } = useClerkHook();
+  async function handle() {
+    onLogout();               // clear LW session + set lw_logout_intent=1 immediately
+    try { await signOut(); } catch { /* network failure during sign-out is non-fatal */ }
+  }
+  return <button onClick={handle} className={className}>{children}</button>;
+}
+
 // ─── Exact nav structure from JSON config ─────────────────────────────────────
 const NAV_MENUS = [
   {
@@ -955,7 +972,9 @@ export default function Layout() {
                   </div>
                   <Link to="/users" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">Users</Link>
                   <Link to="/select-branch" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">Switch Branch</Link>
-                  <button onClick={logout} className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">Sign Out</button>
+                  {CLERK_ENABLED
+                    ? <ClerkSignOutButton onLogout={logout} className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">Sign Out</ClerkSignOutButton>
+                    : <button onClick={logout} className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">Sign Out</button>}
                 </div>
               )}
             </div>
@@ -1066,15 +1085,27 @@ export default function Layout() {
                 </svg>
                 Switch Branch
               </Link>
-              <button
-                onClick={() => { logout(); setMobileMenuOpen(false); }}
-                className="flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-white/10 w-full text-[14px]"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                Sign Out
-              </button>
+              {CLERK_ENABLED ? (
+                <ClerkSignOutButton
+                  onLogout={() => { logout(); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-white/10 w-full text-[14px]"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out
+                </ClerkSignOutButton>
+              ) : (
+                <button
+                  onClick={() => { logout(); setMobileMenuOpen(false); }}
+                  className="flex items-center gap-3 px-4 py-3 text-red-300 hover:bg-white/10 w-full text-[14px]"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out
+                </button>
+              )}
             </div>
           </div>
         </div>

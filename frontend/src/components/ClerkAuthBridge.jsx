@@ -15,7 +15,12 @@ export default function ClerkAuthBridge({ children }) {
     if (!isLoaded || !authReady) return;
 
     if (isSignedIn && !user) {
-      // Clerk session alive but LW JWT missing — silently re-exchange
+      // If the user intentionally signed out (lw_logout_intent=1), don't re-exchange.
+      // They should see the login page and choose to sign in again.
+      // The flag is cleared by clerkLogin() when they actively authenticate.
+      if (localStorage.getItem('lw_logout_intent') === '1') return;
+
+      // Clerk session alive but LW JWT missing (e.g. refresh after JWT expiry) — re-exchange
       getToken()
         .then(token => token && clerkLogin(token))
         .catch(() => {

@@ -3,6 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import toast from 'react-hot-toast';
+import { useAuth as useClerkHook } from '@clerk/react';
+
+const CLERK_ENABLED = !!(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith('pk_'));
+
+// Only rendered when CLERK_ENABLED=true (inside ClerkProvider) — hook call is safe.
+function ClerkSignOutLink({ onLogout, className }) {
+  const { signOut } = useClerkHook();
+  async function handle() {
+    onLogout();
+    try { await signOut(); } catch {}
+  }
+  return <button onClick={handle} className={className}>Sign out</button>;
+}
 
 export default function BranchSelect() {
   const { selectBranch, logout, checkSetupStatus } = useAuth();
@@ -99,11 +112,9 @@ export default function BranchSelect() {
             Next
           </button>
 
-          <button
-            onClick={logout}
-            className="text-center text-[12px] text-gray-400 hover:text-gray-600 transition-colors">
-            Sign out
-          </button>
+          {CLERK_ENABLED
+            ? <ClerkSignOutLink onLogout={logout} className="text-center text-[12px] text-gray-400 hover:text-gray-600 transition-colors" />
+            : <button onClick={logout} className="text-center text-[12px] text-gray-400 hover:text-gray-600 transition-colors">Sign out</button>}
         </div>
       </div>
     </div>
