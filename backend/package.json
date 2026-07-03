@@ -10,7 +10,10 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "seed": "node src/db/seed.js"
+    "seed": "node src/db/seed.js",
+    "seed:prod": "node src/db/seed-production.js",
+    "smoke": "node smoke-test.js",
+    "smoke:dev": "node smoke-test.js http://localhost:5000 --dev"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",
