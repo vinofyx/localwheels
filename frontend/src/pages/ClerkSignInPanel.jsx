@@ -77,7 +77,7 @@ export default function ClerkSignInPanel() {
 
   return (
     <div className="flex justify-center">
-      <SignIn routing="hash" />
+      <SignIn routing="virtual" />
     </div>
   );
 }

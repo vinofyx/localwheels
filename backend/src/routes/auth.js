@@ -7,6 +7,32 @@ const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Lazy-initialised singletons — created once, reused across requests
+let _clerkClient = null;   // for user/session API calls
+let _verifyToken = null;   // standalone function for JWT verification
+
+function getClerkClient() {
+  if (!_clerkClient) {
+    const { createClerkClient } = require('@clerk/backend');
+    _clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+  }
+  return _clerkClient;
+}
+
+function getVerifyToken() {
+  if (!_verifyToken) {
+    // verifyToken is a standalone export, NOT a method on ClerkClient
+    _verifyToken = require('@clerk/backend').verifyToken;
+  }
+  return _verifyToken;
+}
+
+// Origins allowed to produce valid Clerk session tokens.
+// In production this should be restricted to your actual frontend domain.
+const CLERK_AUTHORIZED_PARTIES = process.env.CLERK_AUTHORIZED_PARTIES
+  ? process.env.CLERK_AUTHORIZED_PARTIES.split(',').map(s => s.trim())
+  : ['http://localhost:5173', 'http://localhost:8080', 'http://localhost:8081'];
+
 // Shared helper — build LW JWT + user profile response shape
 function buildAuthResponse(user, company) {
   const token = jwt.sign(
@@ -104,7 +130,7 @@ router.post('/clerk-exchange', async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization || '';
     const clerkToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
-    if (!clerkToken) {
+    if (!clerkToken || clerkToken === 'null' || clerkToken === 'undefined') {
       return res.status(401).json({ error: 'Clerk session token required' });
     }
 
@@ -112,13 +138,20 @@ router.post('/clerk-exchange', async (req, res, next) => {
       return res.status(503).json({ error: 'Clerk is not configured on this server' });
     }
 
-    const { createClerkClient } = require('@clerk/backend');
-    const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+    const clerk       = getClerkClient();
+    const verifyToken = getVerifyToken();
 
     // ── 1. Verify Clerk JWT server-side ──────────────────────────────────────
+    // verifyToken is the standalone export from @clerk/backend (NOT clerk.verifyToken).
+    // publishableKey is required for dev keys (sk_test_) so the SDK resolves
+    // the correct JWKS URL from Clerk's frontend API host.
     let clerkUserId;
     try {
-      const payload = await clerk.verifyToken(clerkToken);
+      const payload = await verifyToken(clerkToken, {
+        secretKey:         process.env.CLERK_SECRET_KEY,
+        publishableKey:    process.env.CLERK_PUBLISHABLE_KEY,
+        authorizedParties: CLERK_AUTHORIZED_PARTIES,
+      });
       clerkUserId = payload.sub;
     } catch {
       return res.status(401).json({ error: 'Unable to verify Clerk session. Please sign in again.' });
