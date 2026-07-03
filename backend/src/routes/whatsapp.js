@@ -9,7 +9,7 @@ const Complaint   = require('../models/Complaint');
 //
 // Setup required (one-time):
 //   1. Meta Developer Portal → Create App → WhatsApp product
-//   2. Set webhook URL to: https://your-backend.render.com/api/whatsapp/webhook
+//   2. Set webhook URL to: https://localwheels.vinofyx.com/api/whatsapp/webhook
 //   3. Set WHATSAPP_VERIFY_TOKEN in .env (any random string you choose)
 //   4. Set WHATSAPP_ACCESS_TOKEN in .env (from Meta portal)
 //   5. Set WHATSAPP_PHONE_NUMBER_ID in .env

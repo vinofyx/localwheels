@@ -24,7 +24,7 @@ const [BASE_URL, USERNAME, PASSWORD] = posArgs;
 
 if (!BASE_URL || !USERNAME || !PASSWORD) {
   console.error('Usage: node production-validate.js <backend-url> <username> <password> [--dev]');
-  console.error('  e.g. node production-validate.js https://localwheels-backend.onrender.com admin Pass --dev');
+  console.error('  e.g. node production-validate.js https://localwheels.vinofyx.com admin Pass --dev');
   process.exit(1);
 }
 

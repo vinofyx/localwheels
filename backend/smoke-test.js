@@ -24,7 +24,7 @@ const [BASE_URL, USERNAME, PASSWORD] = posArgs;
 
 if (!BASE_URL) {
   console.error('Usage: node smoke-test.js <backend-url> [username] [password] [--dev]');
-  console.error('  e.g. node smoke-test.js https://localwheels-backend.onrender.com rajdhani_admin MyPass123');
+  console.error('  e.g. node smoke-test.js https://localwheels.vinofyx.com rajdhani_admin MyPass123');
   console.error('  dev: node smoke-test.js http://localhost:5000 rajdhani_admin "RCS@Admin#2026" --dev');
   process.exit(1);
 }
