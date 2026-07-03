@@ -34,10 +34,23 @@ async function requireBranchAccess(req, res, next) {
   }
 
   try {
-    const user = await User.findById(req.user.id).select('branch_ids');
+    const user = await User.findById(req.user.id).select('branch_ids company_id');
     if (!user) return res.status(401).json({ error: 'User not found' });
 
-    const hasAccess = user.branch_ids.some(id => id.toString() === branchId);
+    let hasAccess;
+    if (user.branch_ids && user.branch_ids.length > 0) {
+      hasAccess = user.branch_ids.some(id => id.toString() === branchId);
+    } else {
+      // User has no explicit branch assignments yet (e.g. auto-created via Clerk).
+      // Fall back to company-level access: verify the branch belongs to the user's company.
+      const Branch = require('../models/Branch');
+      const branch = await Branch.findOne({
+        _id: branchId,
+        company_id: user.company_id || req.user.company_id,
+        is_active: true,
+      }).lean();
+      hasAccess = !!branch;
+    }
     if (!hasAccess) return res.status(403).json({ error: 'No access to this branch' });
 
     req.branchId = branchId;
