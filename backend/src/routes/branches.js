@@ -15,8 +15,15 @@ router.get('/user', authenticate, async (req, res, next) => {
     if (req.user.role === 'superadmin' || req.user.role === 'admin') {
       branches = await Branch.find({ company_id: req.user.company_id, is_active: true }).sort('branch_name');
     } else {
-      const user = await User.findById(req.user.id).select('branch_ids');
-      branches = await Branch.find({ _id: { $in: user.branch_ids }, is_active: true }).sort('branch_name');
+      const user = await User.findById(req.user.id).select('branch_ids company_id');
+      if (user.branch_ids && user.branch_ids.length > 0) {
+        branches = await Branch.find({ _id: { $in: user.branch_ids }, is_active: true }).sort('branch_name');
+      } else {
+        // User has no specific branch assignments yet (e.g. auto-created via Clerk) —
+        // show all active branches in their company so they can proceed to the dashboard.
+        const companyId = user.company_id || req.user.company_id;
+        branches = await Branch.find({ company_id: companyId, is_active: true }).sort('branch_name');
+      }
     }
     // res.json triggers toJSON() which includes virtual `id`
     res.json(branches);
