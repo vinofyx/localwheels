@@ -3,23 +3,32 @@ import { useAuth as useClerkHook } from '@clerk/react';
 import { useAuth } from '../context/AuthContext';
 
 // Runs only when Clerk is configured.
-// After page refresh, if the Clerk session is still alive but the LW token
-// has expired (or was cleared), silently re-exchanges the Clerk token so
-// the user doesn't have to sign in again.
+// Keeps Clerk session state and the LocalWheels JWT in sync:
+//   • Clerk signed-in  + no LW session  → silently re-exchange (refresh recovery)
+//   • Clerk signed-out + Clerk-backed LW session → force logout (session revocation)
 export default function ClerkAuthBridge({ children }) {
   const { isLoaded, isSignedIn, getToken } = useClerkHook();
-  const { user, authReady, clerkLogin } = useAuth();
+  const { user, authReady, clerkLogin, logout } = useAuth();
 
   useEffect(() => {
     // Wait for both systems to finish their initialization
     if (!isLoaded || !authReady) return;
-    // Clerk user is signed in but we have no LW session — silently re-exchange
+
     if (isSignedIn && !user) {
+      // Clerk session alive but LW JWT missing — silently re-exchange
       getToken()
         .then(token => token && clerkLogin(token))
         .catch(() => {
-          // Exchange failed (e.g. network error) — user will be redirected to /login by RequireAuth
+          // Exchange failed (network error) — RequireAuth will redirect to /login
         });
+      return;
+    }
+
+    // Clerk session ended while a Clerk-backed LW session is still present.
+    // This covers: token revocation, sign-out in another tab, session expiry.
+    // Force-logout so RequireAuth redirects to /login immediately.
+    if (!isSignedIn && user && localStorage.getItem('lw_clerk_session') === '1') {
+      logout();
     }
   }, [isLoaded, isSignedIn, authReady, user]);
 

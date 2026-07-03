@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { useAuth as useClerkSession } from '@clerk/react';
 import Login from './pages/Login';
 import BranchSelect from './pages/BranchSelect';
 import Layout from './components/Layout';
@@ -459,6 +460,41 @@ function AuthLoading() {
   );
 }
 
+const CLERK_ENABLED = !!(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith('pk_'));
+
+// ── Guards: Clerk-aware (used when CLERK_ENABLED=true) ───────────────────────
+// These are only ever rendered inside ClerkProvider, so useClerkSession() is safe.
+// They wait for BOTH the LW token validation AND Clerk to finish loading before
+// making an auth decision — no protected content flashes before auth resolves.
+
+function RequireAuthWithClerk({ children }) {
+  const { user, authReady } = useAuth();
+  const { isLoaded: clerkLoaded, isSignedIn } = useClerkSession();
+  if (!authReady || !clerkLoaded) return <AuthLoading />;
+  if (!user) return <Navigate to="/login" replace />;
+  // If this session was established via Clerk but Clerk no longer considers
+  // the user signed in (e.g. token revoked, session expired in another tab),
+  // treat it as unauthenticated. Legacy password sessions are unaffected.
+  if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+}
+
+function RequireBranchWithClerk({ children }) {
+  const { user, branch, authReady } = useAuth();
+  const { isLoaded: clerkLoaded, isSignedIn } = useClerkSession();
+  if (!authReady || !clerkLoaded) return <AuthLoading />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
+    return <Navigate to="/login" replace />;
+  }
+  if (!branch) return <Navigate to="/select-branch" replace />;
+  return children;
+}
+
+// ── Guards: legacy (used when CLERK_ENABLED=false) ───────────────────────────
+
 function RequireAuth({ children }) {
   const { user, authReady } = useAuth();
   if (!authReady) return <AuthLoading />;
@@ -474,6 +510,12 @@ function RequireBranch({ children }) {
   return children;
 }
 
+// Select the right guards at module level so route JSX stays untouched.
+// RequireAuthWithClerk / RequireBranchWithClerk are only rendered inside
+// ClerkProvider (wired in main.jsx), so their Clerk hook calls are always valid.
+const Guard       = CLERK_ENABLED ? RequireAuthWithClerk  : RequireAuth;
+const BranchGuard = CLERK_ENABLED ? RequireBranchWithClerk : RequireBranch;
+
 export default function App() {
   return (
     <Routes>
@@ -483,13 +525,13 @@ export default function App() {
         <Route path="/quote/:number" element={<QuoteGenerator />} />
         <Route path="/my-complaints" element={<CustomerComplaintPortal />} />
         <Route path="/select-branch" element={
-          <RequireAuth><BranchSelect /></RequireAuth>
+          <Guard><BranchSelect /></Guard>
         } />
         <Route path="/setup" element={
-          <RequireAuth><Suspense fallback={null}><SetupWizard /></Suspense></RequireAuth>
+          <Guard><Suspense fallback={null}><SetupWizard /></Suspense></Guard>
         } />
         <Route path="/" element={
-          <RequireBranch><Layout /></RequireBranch>
+          <BranchGuard><Layout /></BranchGuard>
         }>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />

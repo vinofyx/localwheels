@@ -46,6 +46,7 @@ export function AuthProvider({ children }) {
     const { data } = await api.post('/auth/login', { username, password });
     localStorage.setItem('lw_token', data.token);
     localStorage.setItem('lw_user', JSON.stringify(data.user));
+    localStorage.removeItem('lw_clerk_session'); // password login — not a Clerk session
     setUser(data.user);
     return data.user;
   }, []);
@@ -58,6 +59,7 @@ export function AuthProvider({ children }) {
     });
     localStorage.setItem('lw_token', data.token);
     localStorage.setItem('lw_user', JSON.stringify(data.user));
+    localStorage.setItem('lw_clerk_session', '1'); // marks this LW session as Clerk-backed
     setUser(data.user);
     return { ...data.user, _isNew: status === 201 };
   }, []);
@@ -71,6 +73,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('lw_token');
     localStorage.removeItem('lw_user');
     localStorage.removeItem('lw_branch');
+    localStorage.removeItem('lw_clerk_session');
     setUser(null);
     setBranch(null);
   }, []);
