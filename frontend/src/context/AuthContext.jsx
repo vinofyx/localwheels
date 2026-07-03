@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import api from '../api/client';
 
 const AuthContext = createContext(null);
@@ -13,6 +13,10 @@ export function AuthProvider({ children }) {
   // authReady: true once we've validated (or skipped validation of) the stored session.
   // Prevents RequireAuth from redirecting to /login before the token check completes.
   const [authReady, setAuthReady] = useState(false);
+  // Deduplicates concurrent clerkLogin() calls (ClerkAuthBridge + ClerkSignInPanel
+  // both fire when Clerk is signed in but the LW JWT is absent). Holding the in-flight
+  // promise means the second caller gets the same result with zero extra HTTP requests.
+  const _clerkExchangeRef = useRef(null);
 
   // On mount, validate the stored token with the server.
   // If it's expired or invalid, clear it so the user is cleanly redirected to login.
@@ -53,16 +57,26 @@ export function AuthProvider({ children }) {
 
   // Exchange a Clerk session token for a LocalWheels JWT.
   // Returns the user object annotated with _isNew flag for toast messaging.
+  // Deduplicated: if an exchange is already in flight, returns the same promise
+  // so ClerkAuthBridge and ClerkSignInPanel never fire two concurrent requests.
   const clerkLogin = useCallback(async (clerkSessionToken) => {
-    const { data, status } = await api.post('/auth/clerk-exchange', {}, {
+    if (_clerkExchangeRef.current) return _clerkExchangeRef.current;
+
+    const promise = api.post('/auth/clerk-exchange', {}, {
       headers: { Authorization: `Bearer ${clerkSessionToken}` },
+    }).then(({ data, status }) => {
+      localStorage.setItem('lw_token', data.token);
+      localStorage.setItem('lw_user', JSON.stringify(data.user));
+      localStorage.setItem('lw_clerk_session', '1');
+      localStorage.removeItem('lw_logout_intent');
+      setUser(data.user);
+      return { ...data.user, _isNew: status === 201 };
+    }).finally(() => {
+      _clerkExchangeRef.current = null;
     });
-    localStorage.setItem('lw_token', data.token);
-    localStorage.setItem('lw_user', JSON.stringify(data.user));
-    localStorage.setItem('lw_clerk_session', '1'); // marks this LW session as Clerk-backed
-    localStorage.removeItem('lw_logout_intent');   // user actively signed in — clear any prior intent
-    setUser(data.user);
-    return { ...data.user, _isNew: status === 201 };
+
+    _clerkExchangeRef.current = promise;
+    return promise;
   }, []);
 
   const selectBranch = useCallback((b) => {

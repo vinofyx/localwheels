@@ -9,17 +9,21 @@ const CLERK_ENABLED = !!(CLERK_KEY && CLERK_KEY.startsWith('pk_'));
 const ClerkSignInPanel = CLERK_ENABLED ? lazy(() => import('./ClerkSignInPanel')) : null;
 
 export default function Login() {
-  const { login, user, branch } = useAuth();
+  const { login, user, branch, authReady } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [useClerk, setUseClerk] = useState(CLERK_ENABLED);
 
-  // Already logged in — skip to right place
+  // Already logged in — skip to right place.
+  // Guard with authReady: localStorage may have a stale user object while /auth/me
+  // is still validating. Navigating before validation completes causes a flash where
+  // the Guard shows AuthLoading then redirects back here on token failure.
   React.useEffect(() => {
-    if (user && branch) navigate('/dashboard');
-    else if (user) navigate('/select-branch');
-  }, [user, branch]);
+    if (!authReady) return;
+    if (user && branch) navigate('/dashboard', { replace: true });
+    else if (user) navigate('/select-branch', { replace: true });
+  }, [user, branch, authReady]);
 
   async function handleSubmit(e) {
     e.preventDefault();

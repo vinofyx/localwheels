@@ -47,7 +47,7 @@ export default function ClerkSignInPanel() {
         toast.error(display, { duration: 6000 });
       })
       .finally(() => setExchanging(false));
-  }, [isSignedIn]);
+  }, [isSignedIn, user]);
 
   if (exchanging) {
     return (
