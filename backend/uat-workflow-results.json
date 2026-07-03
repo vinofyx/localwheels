@@ -1,0 +1,117 @@
+{
+  "generated": "2026-07-03T09:24:34.140Z",
+  "passed": 16,
+  "failed": 0,
+  "total": 16,
+  "elapsed_s": 9.5,
+  "workflows": [
+    {
+      "wf": "WF1",
+      "step": "Lead created",
+      "r": "PASS",
+      "note": "id=6a477fcac4af394bd2f19682"
+    },
+    {
+      "wf": "WF1",
+      "step": "Quote created",
+      "r": "PASS",
+      "note": "₹8400"
+    },
+    {
+      "wf": "WF1",
+      "step": "Booking confirmed",
+      "r": "PASS",
+      "note": "id=6a477fcdc4af394bd2f1968e"
+    },
+    {
+      "wf": "WF2",
+      "step": "Shipment created",
+      "r": "PASS",
+      "note": "LR=auto"
+    },
+    {
+      "wf": "WF3",
+      "step": "Dispatch",
+      "r": "SKIP",
+      "note": "no shipment"
+    },
+    {
+      "wf": "WF5",
+      "step": "POD",
+      "r": "SKIP",
+      "note": "no shipment"
+    },
+    {
+      "wf": "WF6",
+      "step": "Invoice created",
+      "r": "PASS",
+      "note": "id=6a477fcdc4af394bd2f19695"
+    },
+    {
+      "wf": "WF7",
+      "step": "Payment recorded",
+      "r": "PASS",
+      "note": "₹9912 bank_transfer"
+    },
+    {
+      "wf": "WF8",
+      "step": "Complaint opened",
+      "r": "PASS",
+      "note": "id=6a477fd1c4af394bd2f1969d"
+    },
+    {
+      "wf": "WF8",
+      "step": "Complaint resolved",
+      "r": "PASS",
+      "note": ""
+    },
+    {
+      "wf": "WF9",
+      "step": "Work order created",
+      "r": "PASS",
+      "note": "₹3500"
+    },
+    {
+      "wf": "WF10",
+      "step": "Warehouse ready",
+      "r": "PASS",
+      "note": "id=6a477fd1c4af394bd2f196bd"
+    },
+    {
+      "wf": "WF10",
+      "step": "Inbound recorded",
+      "r": "PASS",
+      "note": ""
+    },
+    {
+      "wf": "WF11",
+      "step": "Outbound recorded",
+      "r": "PASS",
+      "note": ""
+    },
+    {
+      "wf": "WF12",
+      "step": "Journal entry posted",
+      "r": "PASS",
+      "note": "ref=WF-JRN-1783070673894"
+    },
+    {
+      "wf": "WF12",
+      "step": "Finance report accessible",
+      "r": "PASS",
+      "note": ""
+    },
+    {
+      "wf": "WF13",
+      "step": "Dashboard data",
+      "r": "PASS",
+      "note": "keys=15"
+    },
+    {
+      "wf": "WF13",
+      "step": "Executive summary",
+      "r": "PASS",
+      "note": ""
+    }
+  ]
+}
