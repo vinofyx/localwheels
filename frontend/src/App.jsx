@@ -476,8 +476,7 @@ function RequireBranch({ children }) {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
+    <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/track" element={<Track />} />
         <Route path="/quote" element={<QuoteGenerator />} />
@@ -938,6 +937,5 @@ export default function App() {
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
-    </AuthProvider>
   );
 }
