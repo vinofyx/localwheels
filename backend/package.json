@@ -13,7 +13,9 @@
     "seed": "node src/db/seed.js",
     "seed:prod": "node src/db/seed-production.js",
     "smoke": "node smoke-test.js",
-    "smoke:dev": "node smoke-test.js http://localhost:5000 --dev"
+    "smoke:dev": "node smoke-test.js http://localhost:5000 --dev",
+    "validate": "node production-validate.js",
+    "validate:dev": "node production-validate.js http://localhost:5000 rajdhani_admin RCS@Admin#2026 --dev"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",

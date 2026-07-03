@@ -1,0 +1,175 @@
+{
+  "generated": "2026-07-03T09:38:15.520Z",
+  "target": "http://localhost:5000",
+  "mode": "dev",
+  "passed": 27,
+  "failed": 0,
+  "skipped": 0,
+  "total": 27,
+  "elapsed_s": 14.8,
+  "all_pass": true,
+  "checks": [
+    {
+      "section": "infrastructure",
+      "name": "GET /health → 200 + db connected",
+      "pass": true,
+      "note": "db=connected, env=development, v=1.0.0, 31ms"
+    },
+    {
+      "section": "infrastructure",
+      "name": "Security headers (X-Content-Type-Options)",
+      "pass": true,
+      "note": ""
+    },
+    {
+      "section": "infrastructure",
+      "name": "X-Powered-By hidden",
+      "pass": true,
+      "note": ""
+    },
+    {
+      "section": "infrastructure",
+      "name": "Memory within limits (<200MB RSS)",
+      "pass": true,
+      "note": "rss=83MB heap=48MB"
+    },
+    {
+      "section": "auth",
+      "name": "POST /auth/login → 200 + JWT",
+      "pass": true,
+      "note": "164ms, role=admin, company=6a46876adbb074ca5f6f7e21"
+    },
+    {
+      "section": "auth",
+      "name": "GET /auth/me → 200 with token",
+      "pass": true,
+      "note": "52ms, user=rajdhani_admin"
+    },
+    {
+      "section": "auth",
+      "name": "Branch resolution → 200",
+      "pass": true,
+      "note": "2 branch(es), active=BENGALURU BRANCH"
+    },
+    {
+      "section": "auth",
+      "name": "POST /auth/login without body → 400",
+      "pass": true,
+      "note": ""
+    },
+    {
+      "section": "auth",
+      "name": "GET /auth/me without token → 401",
+      "pass": true,
+      "note": ""
+    },
+    {
+      "section": "auth",
+      "name": "JWT tamper → 401",
+      "pass": true,
+      "note": ""
+    },
+    {
+      "section": "workflows",
+      "name": "WF1: Lead created",
+      "pass": true,
+      "note": "id=6a4782fdc4af394bd2f19912"
+    },
+    {
+      "section": "workflows",
+      "name": "WF1: Quote created",
+      "pass": true,
+      "note": "id=6a478300c4af394bd2f1991c"
+    },
+    {
+      "section": "workflows",
+      "name": "WF1: Booking confirmed",
+      "pass": true,
+      "note": "id=6a478300c4af394bd2f1991e"
+    },
+    {
+      "section": "workflows",
+      "name": "WF2: Shipment created",
+      "pass": true,
+      "note": "LW00000009"
+    },
+    {
+      "section": "workflows",
+      "name": "WF6: Invoice created",
+      "pass": true,
+      "note": "id=6a478301c4af394bd2f19925"
+    },
+    {
+      "section": "workflows",
+      "name": "WF7: Payment recorded",
+      "pass": true,
+      "note": "201"
+    },
+    {
+      "section": "workflows",
+      "name": "WF8: Complaint opened",
+      "pass": true,
+      "note": "id=6a478303c4af394bd2f1992d"
+    },
+    {
+      "section": "workflows",
+      "name": "WF8: Complaint resolved",
+      "pass": true,
+      "note": "status=200"
+    },
+    {
+      "section": "workflows",
+      "name": "WF9: Work order created",
+      "pass": true,
+      "note": "201: ok"
+    },
+    {
+      "section": "workflows",
+      "name": "WF12: Journal entry",
+      "pass": true,
+      "note": "201"
+    },
+    {
+      "section": "workflows",
+      "name": "WF13: Dashboard (15 KPIs)",
+      "pass": true,
+      "note": "keys=15, 140ms"
+    },
+    {
+      "section": "workflows",
+      "name": "WF13: Executive summary",
+      "pass": true,
+      "note": "45ms"
+    },
+    {
+      "section": "public",
+      "name": "GET /track → no auth required",
+      "pass": true,
+      "note": "status=404"
+    },
+    {
+      "section": "public",
+      "name": "POST /chat → accessible without token",
+      "pass": true,
+      "note": "status=200"
+    },
+    {
+      "section": "security",
+      "name": "Protected routes → 401 without token",
+      "pass": true,
+      "note": "/users=401 /shipments=401 /bookings=401 /invoices=401"
+    },
+    {
+      "section": "performance",
+      "name": "Health endpoint p50 < 100ms",
+      "pass": true,
+      "note": "p50=5ms samples=4,5,5,6,6"
+    },
+    {
+      "section": "performance",
+      "name": "Dashboard p50 < 300ms (dev)",
+      "pass": true,
+      "note": "p50=216ms samples=157,168,216,218,266"
+    }
+  ]
+}
