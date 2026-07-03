@@ -2,40 +2,33 @@ import { useEffect } from 'react';
 import { useAuth as useClerkHook } from '@clerk/react';
 import { useAuth } from '../context/AuthContext';
 
-// Runs only when Clerk is configured.
-// Keeps Clerk session state and the LocalWheels JWT in sync:
-//   • Clerk signed-in  + no LW session  → silently re-exchange (refresh recovery)
-//   • Clerk signed-out + Clerk-backed LW session → force logout (session revocation)
+/**
+ * Passive Clerk-state observer.
+ *
+ * Responsibility: read Clerk's isLoaded / isSignedIn / getToken and push them
+ * into AuthContext via updateClerkState(). Nothing else.
+ *
+ * This component MUST NOT:
+ *   - call clerkLogin() or getToken() for auth purposes
+ *   - call logout()
+ *   - perform navigation
+ *   - make any API requests
+ *   - make any authentication decisions
+ *
+ * All authentication decisions live in AuthContext's auth orchestration effect.
+ */
 export default function ClerkAuthBridge({ children }) {
   const { isLoaded, isSignedIn, getToken } = useClerkHook();
-  const { user, authReady, clerkLogin, logout } = useAuth();
+  const { updateClerkState } = useAuth();
 
+  // Push Clerk state into AuthContext whenever isLoaded or isSignedIn changes.
+  // getToken is excluded from deps: it is a stable function reference from the
+  // Clerk SDK that doesn't change between renders. AuthContext's updateClerkState
+  // always stores the latest reference so the exchange always gets a fresh token.
   useEffect(() => {
-    // Wait for both systems to finish their initialization
-    if (!isLoaded || !authReady) return;
-
-    if (isSignedIn && !user) {
-      // If the user intentionally signed out (lw_logout_intent=1), don't re-exchange.
-      // They should see the login page and choose to sign in again.
-      // The flag is cleared by clerkLogin() when they actively authenticate.
-      if (localStorage.getItem('lw_logout_intent') === '1') return;
-
-      // Clerk session alive but LW JWT missing (e.g. refresh after JWT expiry) — re-exchange
-      getToken()
-        .then(token => token && clerkLogin(token))
-        .catch(() => {
-          // Exchange failed (network error) — RequireAuth will redirect to /login
-        });
-      return;
-    }
-
-    // Clerk session ended while a Clerk-backed LW session is still present.
-    // This covers: token revocation, sign-out in another tab, session expiry.
-    // Force-logout so RequireAuth redirects to /login immediately.
-    if (!isSignedIn && user && localStorage.getItem('lw_clerk_session') === '1') {
-      logout();
-    }
-  }, [isLoaded, isSignedIn, authReady, user]);
+    updateClerkState(isLoaded, isSignedIn, getToken);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, isSignedIn, updateClerkState]);
 
   return children;
 }

@@ -468,13 +468,13 @@ const CLERK_ENABLED = !!(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith(
 // making an auth decision — no protected content flashes before auth resolves.
 
 function RequireAuthWithClerk({ children }) {
-  const { user, authReady } = useAuth();
-  const { isLoaded: clerkLoaded, isSignedIn } = useClerkSession();
-  if (!authReady || !clerkLoaded) return <AuthLoading />;
+  // clerkReady comes from AuthContext (set by ClerkAuthBridge) — no direct Clerk hook needed
+  // for the loading check. isSignedIn is still read from Clerk SDK to detect session expiry.
+  const { user, authReady, clerkReady } = useAuth();
+  const { isSignedIn } = useClerkSession();
+  if (!authReady || !clerkReady) return <AuthLoading />;
   if (!user) return <Navigate to="/login" replace />;
-  // If this session was established via Clerk but Clerk no longer considers
-  // the user signed in (e.g. token revoked, session expired in another tab),
-  // treat it as unauthenticated. Legacy password sessions are unaffected.
+  // Clerk session revoked / expired in another tab while a Clerk-backed LW session is active.
   if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
     return <Navigate to="/login" replace />;
   }
@@ -482,9 +482,9 @@ function RequireAuthWithClerk({ children }) {
 }
 
 function RequireBranchWithClerk({ children }) {
-  const { user, branch, authReady } = useAuth();
-  const { isLoaded: clerkLoaded, isSignedIn } = useClerkSession();
-  if (!authReady || !clerkLoaded) return <AuthLoading />;
+  const { user, branch, authReady, clerkReady } = useAuth();
+  const { isSignedIn } = useClerkSession();
+  if (!authReady || !clerkReady) return <AuthLoading />;
   if (!user) return <Navigate to="/login" replace />;
   if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
     return <Navigate to="/login" replace />;

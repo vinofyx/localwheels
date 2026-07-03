@@ -1,55 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SignIn, useAuth as useClerkHook } from '@clerk/react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
+/**
+ * Pure UI component. Renders one of three states:
+ *   1. Spinner   — Clerk is signed-in and AuthContext is running (or about to run) the exchange
+ *   2. Error     — exchange failed; shows message + retry button
+ *   3. SignIn    — Clerk is not signed in; shows Clerk's own sign-in widget
+ *
+ * This component MUST NOT:
+ *   - call getToken()
+ *   - call clerkLogin()
+ *   - make API requests
+ *   - perform navigation
+ *   - decide when to authenticate
+ *
+ * Authentication is driven entirely by AuthContext.
+ * This component is a read-only window into that state.
+ */
 export default function ClerkSignInPanel() {
-  const { isSignedIn, getToken } = useClerkHook();
-  const { clerkLogin, user } = useAuth();
-  const navigate = useNavigate();
-  const [exchanging, setExchanging] = useState(false);
-  const [exchangeError, setExchangeError] = useState(null);
+  const { isSignedIn } = useClerkHook();
+  const {
+    clerkExchangeLoading,
+    clerkExchangeError,
+    clerkExchangeResult,
+    retryClerkExchange,
+    clearClerkExchangeResult,
+  } = useAuth();
 
+  // Show a toast once when the exchange succeeds, then clear the result flag.
+  // Navigation is handled by Login.useEffect watching user — not here.
   useEffect(() => {
-    // Don't auto-exchange after intentional logout — let the user see the sign-in form.
-    if (!isSignedIn || user || exchanging) return;
-    if (localStorage.getItem('lw_logout_intent') === '1') return;
+    if (!clerkExchangeResult) return;
+    toast.success(clerkExchangeResult.isNew ? 'Account created successfully.' : 'Welcome back.');
+    clearClerkExchangeResult();
+  }, [clerkExchangeResult, clearClerkExchangeResult]);
 
-    setExchanging(true);
-    setExchangeError(null);
+  // Exchange failed — show error and allow retry.
+  if (clerkExchangeError) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-6">
+        <div className="w-full p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          {clerkExchangeError}
+        </div>
+        <button
+          className="text-sm text-blue-600 hover:underline"
+          onClick={retryClerkExchange}
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
 
-    getToken()
-      .then(token => clerkLogin(token))
-      .then(lwUser => {
-        const msg = lwUser._isNew ? 'Account created successfully.' : 'Welcome back.';
-        toast.success(msg);
-        navigate('/select-branch');
-      })
-      .catch(err => {
-        const serverMsg = err?.response?.data?.error;
-        const status = err?.response?.status;
-
-        let display;
-        if (status === 401) {
-          display = 'Unable to verify Clerk session. Please sign in again.';
-        } else if (status === 403) {
-          display = 'Your account has been deactivated. Contact your administrator.';
-        } else if (status === 409) {
-          display = serverMsg || 'Account conflict. Contact your administrator.';
-        } else if (status === 503) {
-          display = 'Authentication service unavailable. Try again shortly.';
-        } else {
-          display = serverMsg || 'Authentication failed. Please try again.';
-        }
-
-        setExchangeError(display);
-        toast.error(display, { duration: 6000 });
-      })
-      .finally(() => setExchanging(false));
-  }, [isSignedIn, user]);
-
-  if (exchanging) {
+  // Clerk says signed-in: exchange is running or is queued (waiting for authReady/clerkReady).
+  // Show a spinner so the user never sees the sign-in widget after already having signed in.
+  if (isSignedIn) {
     return (
       <div className="flex flex-col items-center justify-center py-12 gap-4">
         <svg className="animate-spin w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24">
@@ -61,22 +68,7 @@ export default function ClerkSignInPanel() {
     );
   }
 
-  if (exchangeError) {
-    return (
-      <div className="flex flex-col items-center gap-4 py-6">
-        <div className="w-full p-4 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-          {exchangeError}
-        </div>
-        <button
-          className="text-sm text-blue-600 hover:underline"
-          onClick={() => { setExchangeError(null); }}
-        >
-          Try again
-        </button>
-      </div>
-    );
-  }
-
+  // Default: Clerk is not signed in — show the sign-in widget.
   return (
     <div className="flex justify-center">
       <SignIn routing="virtual" />
