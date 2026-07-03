@@ -118,6 +118,17 @@ const loginLimiter = rateLimit({
   skip:            () => IS_DEV,  // no login limit in dev — default keyGenerator handles IPv6
 });
 
+// ── Chat rate limiter ─────────────────────────────────────────────────────────
+// Tighter limit on the public AI chatbot to prevent Anthropic API cost abuse.
+// Each chat request can trigger up to 4 upstream calls (tool-use loop).
+const chatLimiter = rateLimit({
+  windowMs:        15 * 60 * 1000,
+  max:             30,
+  standardHeaders: true,
+  legacyHeaders:   false,
+  message:         { error: 'Too many chat requests. Please wait before sending more messages.' },
+});
+
 app.use(compression());
 app.use(metricsMiddleware);
 app.use(express.json({ limit: '10mb' }));
@@ -253,7 +264,15 @@ app.get('/api/health', (_req, res) => {
 });
 
 // ── Prometheus metrics ────────────────────────────────────────────────────────
-app.get('/api/metrics', metricsHandler);
+// In production: requires X-Metrics-Token to prevent fingerprinting / info disclosure.
+// Set METRICS_TOKEN env var; scraper must send the same token.
+app.get('/api/metrics', (req, res, next) => {
+  const token = process.env.METRICS_TOKEN;
+  if (IS_PROD && token && req.headers['x-metrics-token'] !== token) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+  next();
+}, metricsHandler);
 
 // ── API endpoint index (dev only) ─────────────────────────────────────────────
 app.get('/api', (_req, res) => {
@@ -312,7 +331,7 @@ app.use('/api/payments',       require('./routes/payments'));
 app.use('/api/users',          require('./routes/users'));
 app.use('/api/route-expenses', require('./routes/routeExpenseRoutes'));
 app.use('/api/ai',             require('./routes/ai'));
-app.use('/api/chat',           require('./routes/chat'));
+app.use('/api/chat', chatLimiter, require('./routes/chat'));
 app.use('/api/customers',      require('./routes/customers'));
 app.use('/api/bookings',       require('./routes/bookings'));
 app.use('/api/tracking',       require('./routes/tracking'));
