@@ -1,28 +1,14 @@
-# LocalWheels — Hostinger Business Hosting (LiteSpeed + hPanel Node.js)
+# LocalWheels — Hostinger Business Hosting (SPA only)
 #
-# ── How this works ────────────────────────────────────────────────────────────
-# Express (Node.js) serves EVERYTHING: React static files + /api/* JSON.
-# LiteSpeed hands all requests to the Node.js app via Passenger (configured
-# in hPanel → Node.js). This file only exists as a safety net; Passenger
-# intercepts requests before LiteSpeed's own rewrite engine runs.
-#
-# ── If hPanel Node.js is NOT yet configured ───────────────────────────────────
-# Without Passenger, LiteSpeed serves static files from public_html/.
-# In that mode /api/* has no backend → we return 503 Service Unavailable
-# instead of silently returning index.html (which breaks the frontend).
-# Configure the Node.js app in hPanel first, then these rules become moot.
-# ─────────────────────────────────────────────────────────────────────────────
+# The React frontend is served from here as static files.
+# All /api/* requests go to the Railway backend (absolute URL baked into
+# the JS bundle via VITE_API_URL at build time). No API traffic hits this server.
 
 RewriteEngine On
 RewriteBase /
 
-# ── Block /api/* from being served as static HTML ────────────────────────────
-# If Node.js/Passenger is not running, return 503 rather than index.html.
-# A 503 is parseable by the frontend error handler; HTML disguised as 200 is not.
-RewriteRule ^api/ - [R=503,L]
-RewriteRule ^uploads/ - [R=503,L]
-
-# ── SPA fallback (only used if Passenger is NOT active) ───────────────────────
+# SPA fallback — serve index.html for every route React Router handles
+# (page refresh, direct URL access, browser back/forward)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [QSA,L]

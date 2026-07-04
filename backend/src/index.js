@@ -136,38 +136,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // ── Static file uploads ───────────────────────────────────────────────────────
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// ── Production: serve React frontend from parent directory ────────────────────
-// On Hostinger Business Hosting (hPanel Node.js), Express IS the web server.
-// The React build lives two levels up from src/ (i.e. public_html/ on the VPS):
-//   backend/src/index.js  →  __dirname = .../public_html/backend/src
-//   frontend dist         →  .../public_html/   (two levels up)
-//
-// Express serves static assets directly and falls back to index.html for all
-// non-API routes so React Router handles client-side navigation.
-if (IS_PROD) {
-  const FRONTEND_DIR = path.join(__dirname, '../../');
-  const INDEX_HTML   = path.join(FRONTEND_DIR, 'index.html');
-
-  // Hashed assets — cache 1 year (Vite content-hashes the filenames)
-  app.use('/assets', express.static(path.join(FRONTEND_DIR, 'assets'), {
-    maxAge: '1y',
-    immutable: true,
-  }));
-
-  // Other static roots (favicon, manifest, robots, etc.)
-  app.use(express.static(FRONTEND_DIR, {
-    index:  false,   // don't auto-serve index.html — we do it in the SPA fallback
-    maxAge: '0',
-  }));
-
-  // SPA fallback — serve index.html for every non-API, non-upload GET request
-  // so React Router can handle /login, /select-branch, /dashboard/:id, etc.
-  app.get('*', (req, _res, next) => {
-    if (req.path.startsWith('/api/') || req.path.startsWith('/uploads/')) return next();
-    if (!fs.existsSync(INDEX_HTML)) return next(); // dist not deployed yet
-    _res.sendFile(INDEX_HTML);
-  });
-}
+// NOTE: On Railway the backend is API-only.
+// The React frontend is served as static files from Hostinger Business Hosting.
+// VITE_API_URL in the frontend build points to this Railway service URL.
 
 // ── Root / API-index ─────────────────────────────────────────────────────────
 // Dev: rich HTML landing page + JSON endpoint list
