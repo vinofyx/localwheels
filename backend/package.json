@@ -4,7 +4,7 @@
   "description": "LocalWheels Logistics SaaS - Backend API",
   "main": "src/index.js",
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=22.0.0",
     "npm": ">=9.0.0"
   },
   "scripts": {

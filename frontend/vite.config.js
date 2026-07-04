@@ -28,8 +28,8 @@ export default defineConfig({
   },
 
   build: {
-    // Output to repo-root /dist so Hostinger's default output dir ("dist") serves it directly
-    outDir: '../dist',
+    // Output to frontend/dist — required for Hostinger (Root Directory: frontend, Output: dist)
+    outDir: 'dist',
     emptyOutDir: true,
     sourcemap: false,
     chunkSizeWarningLimit: 600,
