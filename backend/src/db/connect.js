@@ -14,8 +14,8 @@ async function connectDB() {
 
   const options = {
     // Connection timeouts
-    serverSelectionTimeoutMS: IS_PROD ? 15000 : 10000,
-    connectTimeoutMS:         IS_PROD ? 15000 : 10000,
+    serverSelectionTimeoutMS: IS_PROD ? 20000 : 20000,
+    connectTimeoutMS:         IS_PROD ? 20000 : 20000,
     socketTimeoutMS:          45000,
 
     // Connection pool

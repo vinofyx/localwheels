@@ -460,32 +460,45 @@ function AuthLoading() {
   );
 }
 
-// ── Route guards ──────────────────────────────────────────────────────────────
-// Always Clerk-aware: rendered inside ClerkProvider (wired in main.jsx).
-//
-// Loading order on page load / refresh:
-//   1. clerkReady=false → show AuthLoading (Clerk SDK not yet initialised)
-//   2. clerkReady=true, isSignedIn=true, clerkExchangeLoading=true → show AuthLoading
-//      (user sync in progress; prevents premature redirect to /login)
-//   3. clerkReady=true, isSignedIn=false → redirect to /login
-//   4. clerkReady=true, isSignedIn=true, user set → render children
+function AuthError({ message, onRetry }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700">
+      <div className="flex flex-col items-center gap-4 max-w-sm text-center px-6">
+        <svg className="w-10 h-10 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z" />
+        </svg>
+        <p className="text-white text-sm opacity-90">{message}</p>
+        <button
+          onClick={onRetry}
+          className="mt-2 px-5 py-2 rounded-lg bg-white text-blue-900 text-sm font-semibold hover:bg-blue-50 transition"
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
+}
 
+// ── Route guards ──────────────────────────────────────────────────────────────
 function Guard({ children }) {
-  const { user, clerkReady, clerkExchangeLoading } = useAuth();
+  const { user, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
   const { isSignedIn } = useClerkSession();
 
   if (!clerkReady) return <AuthLoading />;
-  // Exchange in progress — Clerk signed in but LW user not yet synced
+  if (isSignedIn && clerkExchangeError && !user)
+    return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;
   if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
   if (!isSignedIn || !user) return <Navigate to="/login" replace />;
   return children;
 }
 
 function BranchGuard({ children }) {
-  const { user, branch, clerkReady, clerkExchangeLoading } = useAuth();
+  const { user, branch, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
   const { isSignedIn } = useClerkSession();
 
   if (!clerkReady) return <AuthLoading />;
+  if (isSignedIn && clerkExchangeError && !user)
+    return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;
   if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
   if (!isSignedIn || !user) return <Navigate to="/login" replace />;
   if (!branch) return <Navigate to="/select-branch" replace />;

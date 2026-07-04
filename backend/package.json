@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
+    "dev": "node --watch --use-system-ca src/index.js",
     "seed": "node src/db/seed.js",
     "seed:prod": "node src/db/seed-production.js",
     "smoke": "node smoke-test.js",

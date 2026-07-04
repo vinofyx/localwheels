@@ -76,7 +76,6 @@ router.post('/clerk-exchange', async (req, res, next) => {
     try {
       const payload = await verifyToken(clerkToken, {
         secretKey:         process.env.CLERK_SECRET_KEY,
-        publishableKey:    process.env.CLERK_PUBLISHABLE_KEY,
         authorizedParties: CLERK_AUTHORIZED_PARTIES,
       });
       clerkUserId = payload.sub;

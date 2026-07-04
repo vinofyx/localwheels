@@ -30,8 +30,7 @@ async function authenticate(req, res, next) {
       : DEV_AUTHORIZED_PARTIES;
 
     const payload = await verifyToken(clerkToken, {
-      secretKey:      process.env.CLERK_SECRET_KEY,
-      publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+      secretKey: process.env.CLERK_SECRET_KEY,
       authorizedParties,
     });
     clerkUserId = payload.sub;
