@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 async function connectDB() {
-  // Support both MONGODB_URI (Render default) and MONGO_URI (legacy)
+  // Support both MONGODB_URI and MONGO_URI (legacy alias)
   const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
 
   if (!uri) {

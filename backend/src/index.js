@@ -63,7 +63,7 @@ app.use(helmet({
     },
   },
 
-  // Strict-Transport-Security — only meaningful over HTTPS (Render provides TLS)
+  // Strict-Transport-Security — only meaningful over HTTPS (Hostinger provides TLS)
   hsts: IS_PROD ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
 }));
 
@@ -514,8 +514,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('[UNHANDLED REJECTION]', promise, 'reason:', reason);
 });
 // Log unexpected synchronous exceptions. After logging we let the process exit
-// because the app state may be corrupt — the process manager (Render, PM2) will
-// restart it.
+// because the app state may be corrupt — Hostinger will restart the process.
 process.on('uncaughtException', (err) => {
   console.error('[UNCAUGHT EXCEPTION]', err);
   setTimeout(() => process.exit(1), 500); // allow flush
