@@ -11,7 +11,14 @@ import './index.css';
 import 'leaflet/dist/leaflet.css';
 
 const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-const CLERK_ENABLED = !!(CLERK_KEY && CLERK_KEY.startsWith('pk_'));
+
+if (!CLERK_KEY || !CLERK_KEY.startsWith('pk_')) {
+  throw new Error(
+    '[LocalWheels] VITE_CLERK_PUBLISHABLE_KEY is missing or invalid.\n' +
+    'Set it in frontend/.env (dev) or frontend/.env.production (prod).\n' +
+    'Get your key at https://dashboard.clerk.com → API Keys.'
+  );
+}
 
 const router = (
   <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -20,17 +27,17 @@ const router = (
   </BrowserRouter>
 );
 
-// AuthProvider must wrap ClerkAuthBridge so useAuth() is available inside it.
-// ClerkAuthBridge must be inside ClerkProvider so useClerk hooks work.
-// ErrorBoundary wraps everything so runtime crashes show a recovery UI.
+// Hierarchy (order matters):
+//   ErrorBoundary — catches any runtime crash, shows recovery UI
+//   AuthProvider  — owns all LW session state; must wrap ClerkAuthBridge
+//   ClerkProvider — initialises the Clerk SDK; must wrap ClerkAuthBridge
+//   ClerkAuthBridge — reads Clerk state, pushes into AuthContext + injects token getter
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
     <AuthProvider>
-      {CLERK_ENABLED ? (
-        <ClerkProvider publishableKey={CLERK_KEY}>
-          <ClerkAuthBridge>{router}</ClerkAuthBridge>
-        </ClerkProvider>
-      ) : router}
+      <ClerkProvider publishableKey={CLERK_KEY}>
+        <ClerkAuthBridge>{router}</ClerkAuthBridge>
+      </ClerkProvider>
     </AuthProvider>
   </ErrorBoundary>
 );

@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import { useAuth as useClerkSession } from '@clerk/react';
 import Login from './pages/Login';
 import BranchSelect from './pages/BranchSelect';
@@ -460,61 +460,37 @@ function AuthLoading() {
   );
 }
 
-const CLERK_ENABLED = !!(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY?.startsWith('pk_'));
+// ── Route guards ──────────────────────────────────────────────────────────────
+// Always Clerk-aware: rendered inside ClerkProvider (wired in main.jsx).
+//
+// Loading order on page load / refresh:
+//   1. clerkReady=false → show AuthLoading (Clerk SDK not yet initialised)
+//   2. clerkReady=true, isSignedIn=true, clerkExchangeLoading=true → show AuthLoading
+//      (user sync in progress; prevents premature redirect to /login)
+//   3. clerkReady=true, isSignedIn=false → redirect to /login
+//   4. clerkReady=true, isSignedIn=true, user set → render children
 
-// ── Guards: Clerk-aware (used when CLERK_ENABLED=true) ───────────────────────
-// These are only ever rendered inside ClerkProvider, so useClerkSession() is safe.
-// They wait for BOTH the LW token validation AND Clerk to finish loading before
-// making an auth decision — no protected content flashes before auth resolves.
-
-function RequireAuthWithClerk({ children }) {
-  // clerkReady comes from AuthContext (set by ClerkAuthBridge) — no direct Clerk hook needed
-  // for the loading check. isSignedIn is still read from Clerk SDK to detect session expiry.
-  const { user, authReady, clerkReady } = useAuth();
+function Guard({ children }) {
+  const { user, clerkReady, clerkExchangeLoading } = useAuth();
   const { isSignedIn } = useClerkSession();
-  if (!authReady || !clerkReady) return <AuthLoading />;
-  if (!user) return <Navigate to="/login" replace />;
-  // Clerk session revoked / expired in another tab while a Clerk-backed LW session is active.
-  if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
-    return <Navigate to="/login" replace />;
-  }
+
+  if (!clerkReady) return <AuthLoading />;
+  // Exchange in progress — Clerk signed in but LW user not yet synced
+  if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
+  if (!isSignedIn || !user) return <Navigate to="/login" replace />;
   return children;
 }
 
-function RequireBranchWithClerk({ children }) {
-  const { user, branch, authReady, clerkReady } = useAuth();
+function BranchGuard({ children }) {
+  const { user, branch, clerkReady, clerkExchangeLoading } = useAuth();
   const { isSignedIn } = useClerkSession();
-  if (!authReady || !clerkReady) return <AuthLoading />;
-  if (!user) return <Navigate to="/login" replace />;
-  if (!isSignedIn && localStorage.getItem('lw_clerk_session') === '1') {
-    return <Navigate to="/login" replace />;
-  }
+
+  if (!clerkReady) return <AuthLoading />;
+  if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
+  if (!isSignedIn || !user) return <Navigate to="/login" replace />;
   if (!branch) return <Navigate to="/select-branch" replace />;
   return children;
 }
-
-// ── Guards: legacy (used when CLERK_ENABLED=false) ───────────────────────────
-
-function RequireAuth({ children }) {
-  const { user, authReady } = useAuth();
-  if (!authReady) return <AuthLoading />;
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
-}
-
-function RequireBranch({ children }) {
-  const { user, branch, authReady } = useAuth();
-  if (!authReady) return <AuthLoading />;
-  if (!user) return <Navigate to="/login" replace />;
-  if (!branch) return <Navigate to="/select-branch" replace />;
-  return children;
-}
-
-// Select the right guards at module level so route JSX stays untouched.
-// RequireAuthWithClerk / RequireBranchWithClerk are only rendered inside
-// ClerkProvider (wired in main.jsx), so their Clerk hook calls are always valid.
-const Guard       = CLERK_ENABLED ? RequireAuthWithClerk  : RequireAuth;
-const BranchGuard = CLERK_ENABLED ? RequireBranchWithClerk : RequireBranch;
 
 export default function App() {
   return (

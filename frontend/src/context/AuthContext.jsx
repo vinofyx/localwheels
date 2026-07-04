@@ -4,103 +4,62 @@ import api from '../api/client';
 const AuthContext = createContext(null);
 
 /**
- * Single authentication orchestrator for LocalWheels.
+ * Single authentication orchestrator for LocalWheels — Clerk-only mode.
  *
  * Responsibility map:
  *   AuthContext        — owns ALL auth state + drives clerk-exchange (one place only)
- *   ClerkAuthBridge    — passive: reads Clerk SDK state, calls updateClerkState(), nothing else
+ *   ClerkAuthBridge    — passive: reads Clerk SDK state, calls updateClerkState() + injects
+ *                        token getter into api/client, nothing else
  *   ClerkSignInPanel   — passive: renders UI based on state exposed here, nothing else
- *   Login              — passive: navigates when user becomes non-null, nothing else
- *   Guards             — passive: read user/branch/authReady/clerkReady, redirect or render
+ *   Guards             — passive: read user/branch/clerkReady, redirect or render
  *
- * State machine (internal):
- *   INITIAL → (mount) → LW_VALIDATING
- *   LW_VALIDATING → (/auth/me resolves) → CLERK_WAITING  (authReady=true)
- *   CLERK_WAITING → (ClerkAuthBridge pushes state) → EXCHANGE_PENDING  (clerkReady=true)
- *   EXCHANGE_PENDING → (no LW user + Clerk signed in) → EXCHANGE_RUNNING
+ * State machine:
+ *   INITIAL → (ClerkAuthBridge pushes state) → CLERK_WAITING
+ *   CLERK_WAITING → (Clerk loaded + signed in) → EXCHANGE_RUNNING
  *   EXCHANGE_RUNNING → (success) → AUTHENTICATED
- *   EXCHANGE_RUNNING → (failure) → EXCHANGE_ERROR  (retryClerkExchange() → EXCHANGE_PENDING)
- *   AUTHENTICATED → (logout) → LOGGED_OUT
- *   LOGGED_OUT → (Clerk false→true transition) → EXCHANGE_PENDING
+ *   EXCHANGE_RUNNING → (failure) → EXCHANGE_ERROR  (retryClerkExchange() → CLERK_WAITING)
+ *   AUTHENTICATED → (logout / Clerk session ends) → LOGGED_OUT
+ *   LOGGED_OUT → (Clerk signs in again) → EXCHANGE_RUNNING
  */
 export function AuthProvider({ children }) {
-  // ── LocalWheels session ───────────────────────────────────────────────────────
-  const [user, setUser] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('lw_user')); } catch { return null; }
-  });
+  // LW user — set only after a successful clerk-exchange; null on page refresh until exchange runs.
+  // No localStorage hydration: we always sync with the backend on each session start so the
+  // user object (role, active status) is never stale.
+  const [user, setUser] = useState(null);
+
+  // Branch persists across page refreshes via localStorage.
   const [branch, setBranch] = useState(() => {
     try { return JSON.parse(localStorage.getItem('lw_branch')); } catch { return null; }
   });
-  // authReady becomes true once /auth/me has resolved (or was skipped because no token
-  // existed). Guards MUST wait for this before making any routing decisions.
-  const [authReady, setAuthReady] = useState(false);
+
+  // authReady is always true: there is no async LW JWT check on mount.
+  // Guards use clerkReady to wait for Clerk to finish loading.
+  const authReady = true;
 
   // ── Clerk bridge (values injected by ClerkAuthBridge via updateClerkState) ────
   const [clerkReady, setClerkReady] = useState(false);
   const [clerkIsSignedIn, setClerkIsSignedIn] = useState(false);
-  // Ref keeps the latest getToken function from Clerk without causing re-renders.
   const clerkGetTokenRef = useRef(null);
-  // Tracks the previous isSignedIn value to detect false→true transitions.
   const prevClerkSignedInRef = useRef(false);
 
   // ── Exchange state (exposed to ClerkSignInPanel for UI feedback) ──────────────
   const [clerkExchangeLoading, setClerkExchangeLoading] = useState(false);
   const [clerkExchangeError, setClerkExchangeError] = useState(null);
-  // { isNew: bool } set on success; ClerkSignInPanel reads this to show a toast once.
   const [clerkExchangeResult, setClerkExchangeResult] = useState(null);
-  // Incrementing this re-triggers the auth orchestration effect after an error.
   const [retryCount, setRetryCount] = useState(0);
 
-  // ── Exchange guard (prevents concurrent requests) ─────────────────────────────
+  // ── Guards (prevents concurrent requests + logout races) ─────────────────────
   const _exchangeInFlight = useRef(false);
+  const _logoutIntentRef  = useRef(false);
 
-  // ── Logout intent (in-memory; intentionally cleared on page refresh) ──────────
-  // Prevents auto-re-exchange while Clerk's signOut() is still completing.
-  // Stored as a ref (not state) so it doesn't trigger re-renders.
-  const _logoutIntentRef = useRef(false);
-
-  // ── Step 1: Validate the stored LW JWT on mount ───────────────────────────────
-  // Runs exactly once. Sets authReady=true when done regardless of outcome.
-  useEffect(() => {
-    const token = localStorage.getItem('lw_token');
-    if (!token) {
-      setAuthReady(true);
-      return;
-    }
-    api.get('/auth/me')
-      .then(({ data }) => {
-        const refreshed = { ...user, ...data };
-        localStorage.setItem('lw_user', JSON.stringify(refreshed));
-        setUser(refreshed);
-      })
-      .catch(() => {
-        // Token expired or invalid — clear everything; Guard will redirect to /login.
-        localStorage.removeItem('lw_token');
-        localStorage.removeItem('lw_user');
-        localStorage.removeItem('lw_branch');
-        setUser(null);
-        setBranch(null);
-      })
-      .finally(() => setAuthReady(true));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // ── Step 2: ClerkAuthBridge calls this to push Clerk state in ─────────────────
-  // This is the ONLY function that may be called by ClerkAuthBridge.
-  // It does NOT initiate authentication — it just makes Clerk state available
-  // to the auth orchestration effect below.
+  // ── Step 1: ClerkAuthBridge calls this to push Clerk state ───────────────────
   const updateClerkState = useCallback((isLoaded, isSignedIn, getToken) => {
-    // Always refresh the token getter so the exchange uses the freshest token.
     clerkGetTokenRef.current = getToken;
 
-    // When Clerk transitions from signed-out → signed-in, the user has actively
-    // re-authenticated (either fresh load with existing session, or re-login after
-    // logout). Clear any pending logout intent so the exchange is allowed to proceed.
-    // NOTE: this also clears intent on initial app load (Clerk goes unknown→true),
-    // which is intentional — a page refresh should not honour a prior logout intent.
+    // Clerk transitioned from signed-out → signed-in (new login or page refresh with
+    // valid session). Clear any pending logout intent so the exchange is allowed.
     if (isSignedIn && !prevClerkSignedInRef.current) {
       _logoutIntentRef.current = false;
-      localStorage.removeItem('lw_logout_intent');
     }
     prevClerkSignedInRef.current = isSignedIn;
 
@@ -108,17 +67,16 @@ export function AuthProvider({ children }) {
     setClerkIsSignedIn(isSignedIn);
   }, []);
 
-  // ── Step 3: The single auth orchestration effect ──────────────────────────────
-  // This is the ONLY location where POST /auth/clerk-exchange is called.
-  // No UI component, guard, or page may call clerkLogin() or getToken() independently.
+  // ── Step 2: Auth orchestration ────────────────────────────────────────────────
+  // Only location where POST /api/auth/clerk-exchange is called.
   useEffect(() => {
-    if (!authReady || !clerkReady) return;
+    if (!clerkReady) return;
 
-    // ── Case A: Clerk signed-in but no LW session → perform exchange ────────────
+    // ── Case A: Clerk signed-in, no LW user → sync with backend ─────────────
     if (clerkIsSignedIn && !user) {
-      if (_logoutIntentRef.current) return;   // logout in progress, wait for signOut()
-      if (_exchangeInFlight.current) return;  // already running, exactly-once guarantee
-      if (clerkExchangeError) return;         // failed — wait for explicit retryClerkExchange()
+      if (_logoutIntentRef.current) return;
+      if (_exchangeInFlight.current) return;
+      if (clerkExchangeError) return; // wait for explicit retryClerkExchange()
 
       const getToken = clerkGetTokenRef.current;
       if (!getToken) return;
@@ -134,14 +92,11 @@ export function AuthProvider({ children }) {
           });
         })
         .then(({ data, status }) => {
-          localStorage.setItem('lw_token', data.token);
-          localStorage.setItem('lw_user', JSON.stringify(data.user));
-          localStorage.setItem('lw_clerk_session', '1');
           setUser(data.user);
           setClerkExchangeResult({ isNew: status === 201 });
         })
         .catch(err => {
-          const status = err?.response?.status;
+          const status    = err?.response?.status;
           const serverMsg = err?.response?.data?.error;
           let display;
           if (status === 401)      display = 'Unable to verify Clerk session. Please sign in again.';
@@ -159,44 +114,22 @@ export function AuthProvider({ children }) {
       return;
     }
 
-    // ── Case B: Clerk signed-out while a Clerk-backed LW session is active ──────
-    // This covers: Clerk token revoked, session expired in another tab, etc.
-    // Force-logout so Guards redirect to /login immediately.
-    if (!clerkIsSignedIn && user && localStorage.getItem('lw_clerk_session') === '1') {
+    // ── Case B: Clerk signed-out while LW session is active → force logout ───
+    if (!clerkIsSignedIn && user) {
       _logoutIntentRef.current = true;
-      localStorage.setItem('lw_logout_intent', '1');
-      localStorage.removeItem('lw_token');
-      localStorage.removeItem('lw_user');
       localStorage.removeItem('lw_branch');
-      localStorage.removeItem('lw_clerk_session');
       setUser(null);
       setBranch(null);
       setClerkExchangeError(null);
       setClerkExchangeResult(null);
     }
-  }, [authReady, clerkReady, clerkIsSignedIn, user, clerkExchangeError, retryCount]);
+  }, [clerkReady, clerkIsSignedIn, user, clerkExchangeError, retryCount]);
 
   // ── Actions ───────────────────────────────────────────────────────────────────
 
-  const login = useCallback(async (username, password) => {
-    const { data } = await api.post('/auth/login', { username, password });
-    localStorage.setItem('lw_token', data.token);
-    localStorage.setItem('lw_user', JSON.stringify(data.user));
-    localStorage.removeItem('lw_clerk_session');
-    setUser(data.user);
-    return data.user;
-  }, []);
-
   const logout = useCallback(() => {
-    // Set intent BEFORE clearing user: auth effect re-runs when user→null but
-    // Clerk is still isSignedIn=true (signOut() hasn't completed yet).
-    // The intent flag blocks auto-re-exchange during that brief window.
     _logoutIntentRef.current = true;
-    localStorage.setItem('lw_logout_intent', '1');
-    localStorage.removeItem('lw_token');
-    localStorage.removeItem('lw_user');
     localStorage.removeItem('lw_branch');
-    localStorage.removeItem('lw_clerk_session');
     setUser(null);
     setBranch(null);
     setClerkExchangeError(null);
@@ -216,13 +149,11 @@ export function AuthProvider({ children }) {
     return null;
   }, []);
 
-  // Called by ClerkSignInPanel "Try again" button after an exchange failure.
   const retryClerkExchange = useCallback(() => {
     setClerkExchangeError(null);
     setRetryCount(c => c + 1);
   }, []);
 
-  // Called by ClerkSignInPanel after it has shown the "Welcome back" toast.
   const clearClerkExchangeResult = useCallback(() => {
     setClerkExchangeResult(null);
   }, []);
@@ -234,8 +165,8 @@ export function AuthProvider({ children }) {
       // Exchange feedback (consumed by ClerkSignInPanel for UI only)
       clerkExchangeLoading, clerkExchangeError, clerkExchangeResult,
       // Actions
-      login, logout, selectBranch, checkSetupStatus,
-      // Bridge hook (ClerkAuthBridge ONLY — no other component should call this)
+      logout, selectBranch, checkSetupStatus,
+      // Bridge hook (ClerkAuthBridge ONLY)
       updateClerkState,
       // ClerkSignInPanel hooks
       retryClerkExchange, clearClerkExchangeResult,

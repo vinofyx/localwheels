@@ -320,10 +320,8 @@ app.get('/api', (_req, res) => {
 });
 
 // ── API routes ────────────────────────────────────────────────────────────────
-// Login route gets its own tighter limiter
 const authRouter = require('./routes/auth');
-app.use('/api/auth/login', loginLimiter);  // applied before the router
-app.use('/api/auth',           authRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/companies',      require('./routes/companies'));
 app.use('/api/import',         require('./routes/import'));
 app.use('/api/branches',       require('./routes/branches'));
