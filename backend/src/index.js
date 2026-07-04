@@ -23,7 +23,7 @@ if (IS_PROD) {
   if (!process.env.ALLOWED_ORIGINS)                        missing.push('ALLOWED_ORIGINS');
   if (missing.length) {
     console.error('❌ Missing required environment variables:', missing.join(', '));
-    console.error('   Set these in your Render dashboard under Environment Variables.');
+    console.error('   Set these in Hostinger hPanel → Node.js → your app → Environment Variables.');
     process.exit(1);
   }
   // Warn if JWT_SECRET looks weak (less than 32 hex chars = 128 bits)
@@ -33,8 +33,7 @@ if (IS_PROD) {
   }
   // Warn (not fatal) if Clerk is not configured — /api/auth/clerk-exchange will return 503
   if (!process.env.CLERK_SECRET_KEY) {
-    console.warn('⚠️  CLERK_SECRET_KEY is not set — Clerk authentication will be unavailable.');
-    console.warn('   Set it in your deployment environment if Clerk sign-in is required.');
+    console.warn('⚠️  CLERK_SECRET_KEY is not set — Clerk SSO unavailable. Legacy JWT login still works.');
   }
 }
 
@@ -136,6 +135,39 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── Static file uploads ───────────────────────────────────────────────────────
 app.use('/uploads', express.static(UPLOADS_DIR));
+
+// ── Production: serve React frontend from parent directory ────────────────────
+// On Hostinger Business Hosting (hPanel Node.js), Express IS the web server.
+// The React build lives two levels up from src/ (i.e. public_html/ on the VPS):
+//   backend/src/index.js  →  __dirname = .../public_html/backend/src
+//   frontend dist         →  .../public_html/   (two levels up)
+//
+// Express serves static assets directly and falls back to index.html for all
+// non-API routes so React Router handles client-side navigation.
+if (IS_PROD) {
+  const FRONTEND_DIR = path.join(__dirname, '../../');
+  const INDEX_HTML   = path.join(FRONTEND_DIR, 'index.html');
+
+  // Hashed assets — cache 1 year (Vite content-hashes the filenames)
+  app.use('/assets', express.static(path.join(FRONTEND_DIR, 'assets'), {
+    maxAge: '1y',
+    immutable: true,
+  }));
+
+  // Other static roots (favicon, manifest, robots, etc.)
+  app.use(express.static(FRONTEND_DIR, {
+    index:  false,   // don't auto-serve index.html — we do it in the SPA fallback
+    maxAge: '0',
+  }));
+
+  // SPA fallback — serve index.html for every non-API, non-upload GET request
+  // so React Router can handle /login, /select-branch, /dashboard/:id, etc.
+  app.get('*', (req, _res, next) => {
+    if (req.path.startsWith('/api/') || req.path.startsWith('/uploads/')) return next();
+    if (!fs.existsSync(INDEX_HTML)) return next(); // dist not deployed yet
+    _res.sendFile(INDEX_HTML);
+  });
+}
 
 // ── Root / API-index ─────────────────────────────────────────────────────────
 // Dev: rich HTML landing page + JSON endpoint list
@@ -462,11 +494,13 @@ app.use('/api/financial-reports',  require('./routes/financialReports'));
 app.use('/api/finance-analytics',  require('./routes/financeAnalytics'));
 app.use('/api/finance-copilot',    require('./routes/financeCopilot'));
 
-// ── Non-API catch-all 404 ─────────────────────────────────────────────────────
+// ── 404 handler ───────────────────────────────────────────────────────────────
+// In production the SPA fallback above catches all non-API routes, so this only
+// fires for unknown /api/* paths.  In dev it fires for everything.
 app.use((req, res) => {
   res.status(404).json({
     error:   'Route not found',
-    message: 'This is an API-only server. All endpoints are under /api.',
+    message: 'All API endpoints are under /api/.',
     hint:    `Did you mean /api${req.path}?`,
     ...(IS_DEV && { frontend: 'http://localhost:8080' }),
   });
