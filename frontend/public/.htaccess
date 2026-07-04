@@ -1,9 +1,6 @@
-# LocalWheels — Hostinger Business Hosting (SPA only)
-#
-# The React frontend is served from here as static files.
-# All /api/* requests go to the Railway backend (absolute URL baked into
-# the JS bundle via VITE_API_URL at build time). No API traffic hits this server.
+# LocalWheels — Hostinger Static Hosting (SPA fallback)
 
+Options +FollowSymLinks -Indexes
 RewriteEngine On
 RewriteBase /
 
