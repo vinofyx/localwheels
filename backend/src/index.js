@@ -67,7 +67,7 @@ app.use(helmet({
   hsts: IS_PROD ? { maxAge: 31536000, includeSubDomains: true, preload: true } : false,
 }));
 
-// ── Trust proxy (Render / Heroku sit behind a reverse proxy) ─────────────────
+// ── Trust proxy (Hostinger sits behind a reverse proxy) ──────────────────────
 if (IS_PROD) app.set('trust proxy', 1);
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
@@ -135,10 +135,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── Static file uploads ───────────────────────────────────────────────────────
 app.use('/uploads', express.static(UPLOADS_DIR));
-
-// NOTE: On Railway the backend is API-only.
-// The React frontend is served as static files from Hostinger Business Hosting.
-// VITE_API_URL in the frontend build points to this Railway service URL.
 
 // ── Root / API-index ─────────────────────────────────────────────────────────
 // Dev: rich HTML landing page + JSON endpoint list
