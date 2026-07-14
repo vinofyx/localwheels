@@ -150,8 +150,8 @@ app.use('/uploads', express.static(UPLOADS_DIR));
 // In production, express.static (registered after all /api/* routes) serves
 // frontend/dist/index.html for every non-API route including '/'.
 // In dev, serve a rich HTML landing page so the API is easy to explore.
-app.get('/', (req, res) => {
-  if (IS_PROD) return; // fall through to static middleware below
+app.get('/', (req, res, next) => {
+  if (IS_PROD) return next(); // hand off to express.static below
 
   const base     = `http://localhost:${process.env.PORT || 5000}`;
   const frontend = 'http://localhost:8080';
