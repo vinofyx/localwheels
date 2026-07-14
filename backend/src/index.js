@@ -52,14 +52,24 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 
   // Content-Security-Policy
-  // Production : pure JSON API — no resources of any kind, no framing allowed.
-  // Development: HTML landing page served at / needs 'unsafe-inline' for its <style> block.
+  // Production: Express serves the React SPA + API on the same origin.
+  //   - 'self' allows scripts/styles/fetch from the same domain.
+  //   - 'unsafe-inline' needed for Clerk and some bundled component styles.
+  //   - https: in connectSrc allows Clerk's auth endpoints.
+  // Development: HTML landing page served at / — same policy applies.
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
-      defaultSrc:     ["'none'"],
-      styleSrc:       IS_DEV ? ["'unsafe-inline'"] : ["'none'"],
+      defaultSrc:     ["'self'"],
+      scriptSrc:      ["'self'", "'unsafe-inline'"],
+      styleSrc:       ["'self'", "'unsafe-inline'"],
+      imgSrc:         ["'self'", "data:", "blob:", "https:"],
+      connectSrc:     ["'self'", "https:"],
+      fontSrc:        ["'self'", "data:", "https:"],
+      frameSrc:       ["'none'"],
       frameAncestors: ["'none'"],
+      objectSrc:      ["'none'"],
+      baseUri:        ["'self'"],
     },
   },
 
@@ -136,17 +146,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // ── Static file uploads ───────────────────────────────────────────────────────
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// ── Root / API-index ─────────────────────────────────────────────────────────
-// Dev: rich HTML landing page + JSON endpoint list
-// Prod: minimal JSON (don't expose endpoint inventory to the public internet)
+// ── Root / API-index (dev only) ───────────────────────────────────────────────
+// In production, express.static (registered after all /api/* routes) serves
+// frontend/dist/index.html for every non-API route including '/'.
+// In dev, serve a rich HTML landing page so the API is easy to explore.
 app.get('/', (req, res) => {
-  if (IS_PROD) {
-    return res.json({
-      name:    'LocalWheels API',
-      status:  'ok',
-      health:  '/api/health',
-    });
-  }
+  if (IS_PROD) return; // fall through to static middleware below
 
   const base     = `http://localhost:${process.env.PORT || 5000}`;
   const frontend = 'http://localhost:8080';
@@ -458,6 +463,37 @@ app.use('/api/tax',                require('./routes/tax'));
 app.use('/api/financial-reports',  require('./routes/financialReports'));
 app.use('/api/finance-analytics',  require('./routes/financeAnalytics'));
 app.use('/api/finance-copilot',    require('./routes/financeCopilot'));
+
+// ── Frontend (SPA) — production only ─────────────────────────────────────────
+// Express serves the Vite-built React app from frontend/dist/.
+// Request flow:
+//   /api/*        → handled by API routes above (never reaches here)
+//   /uploads/*    → handled by uploads static middleware above
+//   /assets/*     → served as static files (long cache — Vite content-hashes them)
+//   /index.html   → served as static file (no-cache)
+//   /* (any path) → SPA fallback: serves index.html so React Router handles it
+if (IS_PROD) {
+  const FRONTEND_DIST = path.join(__dirname, '../../frontend/dist');
+  if (fs.existsSync(FRONTEND_DIST)) {
+    app.use(express.static(FRONTEND_DIST, {
+      etag: true,
+      setHeaders(res, filePath) {
+        if (filePath.endsWith('.html')) {
+          // index.html must never be cached — always fetch fresh so new deploys take effect
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+        // Vite hashes all JS/CSS/asset filenames — safe to cache for 1 year
+      },
+    }));
+    // SPA fallback: React Router handles all non-file client-side routes
+    app.get('*', (_req, res) => {
+      res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
+    });
+  } else {
+    console.warn('⚠️  frontend/dist not found — React app will not be served.');
+    console.warn('   Run: cd frontend && npm install && npm run build');
+  }
+}
 
 // ── 404 handler ───────────────────────────────────────────────────────────────
 // In production the SPA fallback above catches all non-API routes, so this only
