@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start":        "node backend/src/index.js",
-    "build":        "npm install --prefix backend && cd frontend && npm install && npm run build",
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "dev":          "cd backend && npx concurrently --names \"API,UI\" --prefix-colors \"cyan,magenta\" \"npm run dev\" \"cd ../frontend && npm run dev\"",
     "dev:backend":  "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
