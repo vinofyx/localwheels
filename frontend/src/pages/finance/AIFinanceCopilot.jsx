@@ -175,11 +175,26 @@ export default function AIFinanceCopilot() {
               {chatMessages.map((m, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
                   <div style={{
-                    maxWidth: '80%', padding: '10px 14px', borderRadius: 12, fontSize: 14, lineHeight: 1.6,
-                    background: m.role === 'user' ? '#3b82f6' : m.error ? '#7f1d1d' : '#0f172a',
-                    color: m.role === 'user' ? '#fff' : m.error ? '#fca5a5' : '#e2e8f0',
-                    borderRadius: m.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px'
-                  }}>{m.content}</div>
+                    maxWidth: '80%',
+                    padding: '10px 14px',
+                    fontSize: 14,
+                    lineHeight: 1.6,
+                    background: m.role === 'user'
+                      ? '#3b82f6'
+                      : m.error
+                      ? '#7f1d1d'
+                      : '#0f172a',
+                    color: m.role === 'user'
+                      ? '#fff'
+                      : m.error
+                      ? '#fca5a5'
+                      : '#e2e8f0',
+                    borderRadius: m.role === 'user'
+                      ? '12px 12px 4px 12px'
+                      : '12px 12px 12px 4px'
+                  }}>
+                    {m.content}
+                  </div>
                 </div>
               ))}
               {chatLoading && (
