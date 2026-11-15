@@ -493,12 +493,38 @@ router.patch('/:number/convert', authenticate, async (req, res) => {
     if (quote.status === 'converted') return err(res, 'Quote already converted');
     if (quote.status === 'expired')   return err(res, 'Quote has expired');
 
-    const lrRand  = String(Math.floor(Math.random() * 999999)).padStart(6, '0');
-    const lr      = `LW${lrRand}`;
+    // Resolve target branch — prefer request body, then user assigned branch, then first active branch
+    let targetBranchId = req.body.branch_id || req.user.branch_id;
+    if (!targetBranchId && req.user.company_id) {
+      const Branch = require('../models/Branch');
+      const b = await Branch.findOne({ company_id: req.user.company_id, is_active: true });
+      if (b) targetBranchId = b._id;
+    }
+
+    if (!targetBranchId) {
+      return err(res, 'No active branch available for shipment creation', 400);
+    }
+
+    // Atomic LR counter increment per tenant
+    const Company = require('../models/Company');
+    let lr;
+    if (req.user.company_id) {
+      const company = await Company.findByIdAndUpdate(
+        req.user.company_id,
+        { $inc: { lr_counter: 1 } },
+        { new: true }
+      );
+      if (company && company.lr_counter) {
+        lr = `LW${String(company.lr_counter).padStart(8, '0')}`;
+      }
+    }
+    if (!lr) {
+      lr = `LW${Date.now().toString().slice(-8)}`;
+    }
 
     const shipment = await Shipment.create({
       company_id:     req.user.company_id,
-      branch_id:      req.user.branch_id,
+      branch_id:      targetBranchId,
       lr_number:      lr,
       sender_name:    quote.customer_name,
       sender_phone:   quote.customer_phone,

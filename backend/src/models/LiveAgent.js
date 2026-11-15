@@ -14,6 +14,5 @@ const liveAgentSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 liveAgentSchema.index({ company_id: 1, status: 1 });
-liveAgentSchema.index({ user_id: 1 });
 
 module.exports = mongoose.model('LiveAgent', liveAgentSchema);

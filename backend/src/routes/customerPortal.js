@@ -211,8 +211,17 @@ router.get("/timeline", requirePhone, async (req, res) => {
     const customer = await Customer.findOne({ company_id, phone: req.customerPhone }).lean();
 
     const [shipments, quotes, complaints] = await Promise.all([
-      Shipment.find({ company_id, $or: [{ customer_phone: req.customerPhone }, customer ? { customer_id: customer._id } : {} ] }).sort("-createdAt").limit(20).lean().catch(() => []),
-      Quote.find({ company_id, $or: [{ customer_phone: req.customerPhone }, customer ? { customer_id: customer._id } : {} ] }).sort("-createdAt").limit(20).lean().catch(() => []),
+      Shipment.find({
+        company_id,
+        $or: [
+          { sender_phone: req.customerPhone },
+          { receiver_phone: req.customerPhone },
+        ],
+      }).sort("-createdAt").limit(20).lean().catch(() => []),
+      Quote.find({
+        company_id,
+        customer_phone: req.customerPhone,
+      }).sort("-createdAt").limit(20).lean().catch(() => []),
       Complaint.find({ company_id, customer_phone: req.customerPhone }).sort("-createdAt").limit(20).lean(),
     ]);
 

@@ -10,8 +10,8 @@ const { initializeTenant } = require('../services/tenantInit');
 
 const router = express.Router();
 
-// GET /api/companies — list all (super_admin only)
-router.get('/', authenticate, requireRole('super_admin'), async (req, res, next) => {
+// GET /api/companies — list all (superadmin only)
+router.get('/', authenticate, requireRole('superadmin', 'super_admin'), async (req, res, next) => {
   try {
     const companies = await Company.find().sort({ createdAt: -1 }).lean();
     res.json(companies);
@@ -38,8 +38,8 @@ router.get('/setup-status', authenticate, async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// POST /api/companies — create company + default branch + admin user (super_admin only)
-router.post('/', authenticate, requireRole('super_admin'), async (req, res, next) => {
+// POST /api/companies — create company + default branch + admin user (superadmin only)
+router.post('/', authenticate, requireRole('superadmin', 'super_admin'), async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
@@ -116,7 +116,7 @@ router.post('/', authenticate, requireRole('super_admin'), async (req, res, next
 });
 
 // PUT /api/companies/mine — update company settings (admin)
-router.put('/mine', authenticate, requireRole('admin', 'super_admin'), async (req, res, next) => {
+router.put('/mine', authenticate, requireRole('admin', 'superadmin', 'super_admin'), async (req, res, next) => {
   try {
     if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
     const allowed = [

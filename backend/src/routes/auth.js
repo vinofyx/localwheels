@@ -1,9 +1,68 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Company = require('../models/Company');
 const { authenticate } = require('../middleware/auth');
 
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'localwheels-dev-secret-key-change-in-production-123456';
+
+// ── POST /api/auth/login (Standard / Legacy JWT Login) ─────────────────────────
+router.post('/login', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: 'username and password required' });
+    }
+
+    const user = await User.findOne({
+      username: username.toLowerCase().trim(),
+      is_active: true,
+    });
+
+    if (!user || !user.password) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id.toString(), username: user.username, role: user.role, company_id: user.company_id },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    await User.findByIdAndUpdate(user._id, { lastLogin: new Date() });
+    const company = user.company_id ? await Company.findById(user.company_id) : null;
+
+    res.json({
+      token,
+      user: {
+        id:                user._id.toString(),
+        _id:               user._id.toString(),
+        username:          user.username,
+        full_name:         user.full_name,
+        email:             user.email,
+        role:              user.role,
+        company_id:        user.company_id?.toString() || null,
+        company_name:      company?.name,
+        subscription_plan: company?.subscription_plan,
+        authProvider:      user.authProvider,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POST /api/auth/logout ─────────────────────────────────────────────────────
+router.post('/logout', (req, res) => {
+  res.json({ success: true, message: 'Logged out successfully' });
+});
 
 // Lazy-initialised singletons — created once, reused across requests
 let _clerkClient = null;
@@ -27,7 +86,14 @@ function getVerifyToken() {
 // Origins allowed to produce valid Clerk session tokens.
 const CLERK_AUTHORIZED_PARTIES = process.env.CLERK_AUTHORIZED_PARTIES
   ? process.env.CLERK_AUTHORIZED_PARTIES.split(',').map(s => s.trim())
-  : ['http://localhost:5173', 'http://localhost:8080', 'http://localhost:8081'];
+  : [
+      'http://localhost:5173',
+      'http://localhost:8080',
+      'http://localhost:8081',
+      'http://localhost:8082',
+      'http://localhost:8083',
+      'http://localhost:3000',
+    ];
 
 // Derive a unique username from an email address
 async function deriveUsername(email) {

@@ -43,7 +43,6 @@ const agentSessionSchema = new mongoose.Schema({
 
 agentSessionSchema.index({ company_id: 1, status: 1 });
 agentSessionSchema.index({ agent_id: 1, status: 1 });
-agentSessionSchema.index({ session_id: 1 });
 agentSessionSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('AgentSession', agentSessionSchema);

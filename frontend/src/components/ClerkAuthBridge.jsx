@@ -28,6 +28,14 @@ export default function ClerkAuthBridge({ children }) {
     // a fresh Clerk token to every outgoing API request.
     setClerkTokenGetter(getToken);
 
+    if (isSignedIn && typeof getToken === 'function') {
+      getToken().then(t => {
+        if (t) localStorage.setItem('lw_token', t);
+      }).catch(() => {});
+    } else if (!isSignedIn) {
+      localStorage.removeItem('lw_token');
+    }
+
     // Push Clerk state into AuthContext for the auth orchestration effect.
     updateClerkState(isLoaded, isSignedIn, getToken);
   // eslint-disable-next-line react-hooks/exhaustive-deps

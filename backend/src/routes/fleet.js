@@ -333,6 +333,18 @@ router.get('/vendors', auth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// ─── Parts Inventory ──────────────────────────────────────────────────────────
+router.get('/parts', auth, async (req, res) => {
+  try {
+    const { category, low_stock } = req.query;
+    const filter = { company_id: req.user.company_id, is_active: true };
+    if (category) filter.category = category;
+    let parts = await PartInventory.find(filter).populate('vendor_id', 'name type').sort('part_name').lean();
+    if (low_stock === 'true') parts = parts.filter(p => (p.quantity_in_stock - p.quantity_reserved) <= p.reorder_level);
+    res.json({ parts });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // ─── GET /api/fleet/:id ───────────────────────────────────────────────────────
 router.get('/:id', auth, async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(404).json({ error: 'Vehicle not found' });
@@ -786,18 +798,7 @@ router.put('/vendors/:id', auth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// ─── Parts Inventory ──────────────────────────────────────────────────────────
-router.get('/parts', auth, async (req, res) => {
-  try {
-    const { category, low_stock } = req.query;
-    const filter = { company_id: req.user.company_id, is_active: true };
-    if (category) filter.category = category;
-    let parts = await PartInventory.find(filter).populate('vendor_id', 'name type').sort('part_name').lean();
-    if (low_stock === 'true') parts = parts.filter(p => (p.quantity_in_stock - p.quantity_reserved) <= p.reorder_level);
-    res.json({ parts });
-  } catch (err) { res.status(500).json({ error: err.message }); }
-});
-
+// ─── Parts Inventory Management ──────────────────────────────────────────────
 router.post('/parts', auth, async (req, res) => {
   try {
     const part = await PartInventory.create({ ...req.body, company_id: req.user.company_id, last_restocked_at: new Date() });

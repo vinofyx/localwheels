@@ -281,7 +281,13 @@ async function run() {
     // WF12: Finance
     await check('workflows', 'WF12: Journal entry', async () => {
       const coa = await request('GET', '/chart-of-accounts?limit=5', { headers: auth });
-      const accounts = extractList(coa.body);
+      let accounts = extractList(coa.body);
+      if (accounts.length < 2) {
+        await request('POST', '/chart-of-accounts', { headers: auth, body: { account_code: '1002', account_name: 'Operating Cash', account_type: 'asset' } });
+        await request('POST', '/chart-of-accounts', { headers: auth, body: { account_code: '4002', account_name: 'Freight Services', account_type: 'revenue' } });
+        const refreshed = await request('GET', '/chart-of-accounts?limit=5', { headers: auth });
+        accounts = extractList(refreshed.body);
+      }
       if (accounts.length < 2) return { pass: false, note: `only ${accounts.length} accounts` };
       const r = await request('POST', '/journal', { headers: auth, body: { journal_no: `PVJRN-${ts}`, journal_date: new Date().toISOString().split('T')[0], description: 'Production validation journal', lines: [{ account_id: accounts[0]._id, debit: 9440, credit: 0 }, { account_id: accounts[1]._id, debit: 0, credit: 9440 }] } });
       return { pass: r.status === 201 || r.status === 200, note: `${r.status}` };

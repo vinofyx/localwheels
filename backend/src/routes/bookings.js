@@ -75,6 +75,38 @@ router.patch('/:id/status', async (req, res) => {
       { $set: update }, { new: true }
     );
     if (!b) return err(res, 'Booking not found', 404);
+
+    // When pickup is completed, auto-create shipment and link to booking
+    if (status === 'pickup_done' && !b.shipment_id) {
+      const Company  = require('../models/Company');
+      const Shipment = require('../models/Shipment');
+      const company = await Company.findByIdAndUpdate(
+        b.company_id,
+        { $inc: { lr_counter: 1 } },
+        { new: true }
+      );
+      const lr_number = `LW${String(company ? company.lr_counter : Date.now()).padStart(8, '0')}`;
+      const shipment = await Shipment.create({
+        company_id:       b.company_id,
+        branch_id:        b.branch_id,
+        lr_number,
+        sender_name:      b.sender_name,
+        sender_phone:     b.sender_phone || '',
+        sender_address:   b.sender_address || b.pickup_address,
+        receiver_name:    b.receiver_name,
+        receiver_phone:   b.receiver_phone || '',
+        receiver_address: b.receiver_address || '',
+        destination:      b.destination,
+        weight:           b.estimated_weight || 1,
+        packages:         b.estimated_packages || 1,
+        description:      b.goods_description || '',
+        status:           'booked',
+        created_by:       req.user.id,
+      });
+      b.shipment_id = shipment._id;
+      await b.save();
+    }
+
     await audit.log({ company_id: req.user.company_id, user: req.user, action: 'STATUS_CHANGE', resource: 'Booking', resource_id: b._id, resource_ref: b.booking_number, changes: { status }, req });
     ok(res, b, 'Status updated');
   } catch (e) { err(res, e.message, 500); }

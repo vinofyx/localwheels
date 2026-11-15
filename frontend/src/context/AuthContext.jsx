@@ -22,10 +22,10 @@ const AuthContext = createContext(null);
  *   LOGGED_OUT → (Clerk signs in again) → EXCHANGE_RUNNING
  */
 export function AuthProvider({ children }) {
-  // LW user — set only after a successful clerk-exchange; null on page refresh until exchange runs.
-  // No localStorage hydration: we always sync with the backend on each session start so the
-  // user object (role, active status) is never stale.
-  const [user, setUser] = useState(null);
+  // LW user — hydrated from localStorage if present, or set after login / clerk-exchange
+  const [user, setUser] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('lw_user')); } catch { return null; }
+  });
 
   // Branch persists across page refreshes via localStorage.
   const [branch, setBranch] = useState(() => {
@@ -99,11 +99,19 @@ export function AuthProvider({ children }) {
           const status    = err?.response?.status;
           const serverMsg = err?.response?.data?.error;
           let display;
-          if (status === 401)      display = 'Unable to verify Clerk session. Please sign in again.';
-          else if (status === 403) display = 'Your account has been deactivated. Contact your administrator.';
-          else if (status === 409) display = serverMsg || 'Account conflict. Contact your administrator.';
-          else if (status === 503) display = 'Authentication service unavailable. Try again shortly.';
-          else                     display = serverMsg || 'Authentication failed. Please try again.';
+          if (!err?.response && (err?.code === 'ERR_NETWORK' || !err?.status)) {
+            display = 'Cannot connect to backend server. Please verify the API is running on port 5000.';
+          } else if (status === 401) {
+            display = serverMsg || 'Unable to verify Clerk session. Please sign in again.';
+          } else if (status === 403) {
+            display = 'Your account has been deactivated. Contact your administrator.';
+          } else if (status === 409) {
+            display = serverMsg || 'Account conflict. Contact your administrator.';
+          } else if (status === 503) {
+            display = serverMsg || 'Authentication service unavailable. Try again shortly.';
+          } else {
+            display = serverMsg || 'Authentication failed. Please try again.';
+          }
           setClerkExchangeError(display);
         })
         .finally(() => {
@@ -118,6 +126,7 @@ export function AuthProvider({ children }) {
     if (!clerkIsSignedIn && user) {
       _logoutIntentRef.current = true;
       localStorage.removeItem('lw_branch');
+      localStorage.removeItem('lw_token');
       setUser(null);
       setBranch(null);
       setClerkExchangeError(null);
@@ -130,10 +139,39 @@ export function AuthProvider({ children }) {
   const logout = useCallback(() => {
     _logoutIntentRef.current = true;
     localStorage.removeItem('lw_branch');
+    localStorage.removeItem('lw_token');
+    localStorage.removeItem('lw_user');
     setUser(null);
     setBranch(null);
     setClerkExchangeError(null);
     setClerkExchangeResult(null);
+  }, []);
+
+  const login = useCallback(async ({ username, password }) => {
+    const res = await api.post('/auth/login', { username, password });
+    if (res.data?.token) {
+      localStorage.setItem('lw_token', res.data.token);
+      localStorage.setItem('lw_user', JSON.stringify(res.data.user));
+      setUser(res.data.user);
+      if (res.data.user.branch_id) {
+        const defaultBranch = { _id: res.data.user.branch_id, branch_name: 'Default Branch' };
+        localStorage.setItem('lw_branch', JSON.stringify(defaultBranch));
+        setBranch(defaultBranch);
+      } else {
+        try {
+          const bRes = await api.get('/branches/user', {
+            headers: { Authorization: `Bearer ${res.data.token}` }
+          });
+          const branches = bRes.data?.data || bRes.data || [];
+          if (branches.length > 0) {
+            localStorage.setItem('lw_branch', JSON.stringify(branches[0]));
+            setBranch(branches[0]);
+          }
+        } catch (e) {}
+      }
+      return res.data;
+    }
+    throw new Error(res.data?.error || 'Login failed');
   }, []);
 
   const selectBranch = useCallback((b) => {
@@ -165,7 +203,7 @@ export function AuthProvider({ children }) {
       // Exchange feedback (consumed by ClerkSignInPanel for UI only)
       clerkExchangeLoading, clerkExchangeError, clerkExchangeResult,
       // Actions
-      logout, selectBranch, checkSetupStatus,
+      login, logout, selectBranch, checkSetupStatus,
       // Bridge hook (ClerkAuthBridge ONLY)
       updateClerkState,
       // ClerkSignInPanel hooks

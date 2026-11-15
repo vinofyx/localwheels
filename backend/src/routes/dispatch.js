@@ -19,10 +19,186 @@ const Driver            = require('../models/Driver');
 const DispatcherShift   = require('../models/DispatcherShift');
 const DispatchApproval  = require('../models/DispatchApproval');
 const DispatchImpact    = require('../models/DispatchImpact');
+const RouteExpense      = require('../models/RouteExpense');
 const {
   acknowledgeTrip, analyzeCustomerImpact, autoReplan, getDispatcherPerformance,
   startShift, handoverShift, requiresApproval, requestApproval, reviewApproval,
 } = require('../utils/dispatcherOps');
+
+// ─── POST /api/dispatch ───────────────────────────────────────────────────────
+router.post('/', auth, async (req, res) => {
+  try {
+    const { branch_id, shipment_id, vehicle_id, driver_id, route, dispatch_date } = req.body;
+    const now = new Date();
+    const dStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    const trip_number = `TR-${dStr}-${rand}`;
+
+    const trip = await Trip.create({
+      company_id:   req.user.company_id,
+      branch_id:    branch_id || req.user.branch_id,
+      trip_number,
+      shipment_ids: shipment_id ? [shipment_id] : [],
+      vehicle_id,
+      driver_id,
+      origin_address: route || 'Origin Hub',
+      status:       'in_progress',
+    });
+
+    if (shipment_id) {
+      await Shipment.findByIdAndUpdate(shipment_id, { status: 'in_transit' });
+    }
+
+    res.status(201).json({ id: trip._id.toString(), _id: trip._id.toString(), trip });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── POST /api/dispatch/lhs ───────────────────────────────────────────────────
+router.post('/lhs', auth, async (req, res) => {
+  try {
+    const {
+      locationType, date, time, to, vehicleNo, loadType,
+      driverCode, driverName, driverNo, tripStartKM, remarks,
+      routeName, routeKM, vendor, brokerOwnerName, contactNo, panNo,
+      totalPayableAdvance, basicFreight, tdsPercent, tdsAmount,
+      bankAdvance, cashAdvance, bankAccount, bankCharges,
+      trnNoType, trnDate, extraCharges, dieselReceiptNo, dieselAgent,
+      dieselInLTR, rate, dieselAmount, balance
+    } = req.body;
+
+    if (!vehicleNo || !driverName) {
+      return res.status(400).json({ error: 'vehicleNo and driverName are required' });
+    }
+
+    const dStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    const trip_number = `LHS-${dStr}-${rand}`;
+
+    const trip = await Trip.create({
+      company_id:     req.user.company_id,
+      branch_id:      req.user.branch_id,
+      trip_number,
+      vehicle_number: vehicleNo,
+      driver_name:    driverName,
+      driver_phone:   driverNo || '',
+      origin_address: 'HYDERABAD-HEAD OFFICE',
+      destination:    to || 'Destination',
+      trip_type:      'hub_transfer',
+      status:         'in_progress',
+      notes:          remarks || '',
+    });
+
+    try {
+      await RouteExpense.create({
+        company_id:        req.user.company_id,
+        routeName:         routeName || `HYDERABAD-HEAD OFFICE to ${to || 'Destination'}`,
+        loadType:          loadType || 'LCV',
+        transitPeriodDays: 1,
+        routeDiesel:       parseFloat(dieselAmount) || 0,
+        routeAdvance:      parseFloat(totalPayableAdvance || bankAdvance || cashAdvance) || 0,
+        tollAmount:        parseFloat(extraCharges) || 0,
+        expenses: [
+          { routeCharge: 'Basic Freight', amount: parseFloat(basicFreight) || 0 },
+          { routeCharge: 'Diesel', amount: parseFloat(dieselAmount) || 0 },
+          { routeCharge: 'Extra Charges', amount: parseFloat(extraCharges) || 0 },
+        ].filter(e => e.amount > 0),
+      });
+    } catch (e) {
+      // non-fatal
+    }
+
+    res.status(201).json({
+      success: true,
+      lhs_number: trip.trip_number,
+      trip,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── GET /api/dispatch/lhs ────────────────────────────────────────────────────
+router.get('/lhs', auth, async (req, res) => {
+  try {
+    const filter = {
+      company_id: req.user.company_id,
+      trip_number: { $regex: '^LHS-' },
+    };
+    const trips = await Trip.find(filter).sort({ createdAt: -1 }).limit(50).lean();
+    res.json({ success: true, count: trips.length, trips });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── GET /api/dispatch/touching-lr ───────────────────────────────────────────
+router.get('/touching-lr', auth, async (req, res) => {
+  try {
+    const { doc_type, branch_name, doc_no } = req.query;
+    const filter = { company_id: req.user.company_id };
+
+    if (doc_no && doc_no.trim()) {
+      filter.$or = [
+        { lr_number: { $regex: doc_no.trim(), $options: 'i' } },
+        { tracking_number: { $regex: doc_no.trim(), $options: 'i' } },
+        { sender_name: { $regex: doc_no.trim(), $options: 'i' } },
+        { receiver_name: { $regex: doc_no.trim(), $options: 'i' } },
+      ];
+    }
+
+    const shipments = await Shipment.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .lean();
+
+    const items = shipments.map(s => ({
+      _id: s._id,
+      lr_no: s.lr_number || s.tracking_number,
+      booking_date: s.created_at || s.createdAt,
+      sender: s.sender_name || 'N/A',
+      receiver: s.receiver_name || 'N/A',
+      from: s.origin || branch_name || 'Origin',
+      to: s.destination || 'Destination',
+      packages: s.pieces || s.packages || 1,
+      act_wt: s.weight_kg || s.weight || 0,
+      charge_wt: s.chargable_weight || s.charge_weight || s.weight_kg || 0,
+      amount: s.total_amount || s.freight_charge || 0,
+      status: s.status || 'booked',
+    }));
+
+    res.json({
+      success: true,
+      count: items.length,
+      items,
+      stats: {
+        act_wt: items.reduce((sum, i) => sum + (Number(i.act_wt) || 0), 0),
+        charge_wt: items.reduce((sum, i) => sum + (Number(i.charge_wt) || 0), 0),
+        disp_qty: items.reduce((sum, i) => sum + (Number(i.packages) || 0), 0),
+        lr_count: items.length,
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─── POST /api/dispatch/touching-lr ──────────────────────────────────────────
+router.post('/touching-lr', auth, async (req, res) => {
+  try {
+    const { doc_type, branch_name, doc_no, lr_ids } = req.body;
+    if (Array.isArray(lr_ids) && lr_ids.length > 0) {
+      await Shipment.updateMany(
+        { _id: { $in: lr_ids }, company_id: req.user.company_id },
+        { status: 'in_transit' }
+      );
+    }
+    res.json({ success: true, message: 'Touching LR saved successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // ─── GET /api/dispatch/queue ──────────────────────────────────────────────────
 router.get('/queue', auth, async (req, res) => {
@@ -369,9 +545,11 @@ router.get('/manifests', auth, async (req, res) => {
 });
 
 // ─── GET /api/dispatch/manifests/:number ─────────────────────────────────────
-router.get('/manifests/:number', async (req, res) => {
+router.get('/manifests/:number', auth, async (req, res) => {
   try {
-    const manifest = await DispatchManifest.findOne({ manifest_number: req.params.number }).lean();
+    const filter = { manifest_number: req.params.number };
+    if (req.user?.company_id) filter.company_id = req.user.company_id;
+    const manifest = await DispatchManifest.findOne(filter).lean();
     if (!manifest) return res.status(404).json({ error: 'Manifest not found' });
     res.json(manifest);
   } catch (err) {

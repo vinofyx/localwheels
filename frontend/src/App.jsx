@@ -484,11 +484,12 @@ function Guard({ children }) {
   const { user, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
   const { isSignedIn } = useClerkSession();
 
+  if (user) return children;
   if (!clerkReady) return <AuthLoading />;
   if (isSignedIn && clerkExchangeError && !user)
     return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;
   if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
-  if (!isSignedIn || !user) return <Navigate to="/login" replace />;
+  if (!isSignedIn && !user) return <Navigate to="/login" replace />;
   return children;
 }
 
@@ -496,11 +497,15 @@ function BranchGuard({ children }) {
   const { user, branch, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
   const { isSignedIn } = useClerkSession();
 
+  if (user) {
+    if (!branch) return <Navigate to="/select-branch" replace />;
+    return children;
+  }
   if (!clerkReady) return <AuthLoading />;
   if (isSignedIn && clerkExchangeError && !user)
     return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;
   if (isSignedIn && (clerkExchangeLoading || !user)) return <AuthLoading />;
-  if (!isSignedIn || !user) return <Navigate to="/login" replace />;
+  if (!isSignedIn && !user) return <Navigate to="/login" replace />;
   if (!branch) return <Navigate to="/select-branch" replace />;
   return children;
 }

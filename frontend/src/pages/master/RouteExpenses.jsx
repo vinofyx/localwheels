@@ -89,7 +89,7 @@ export default function RouteExpenses() {
       handleReset();
       fetchList();
     } catch (err) {
-      toast.error(err?.response?.data?.error || 'Save failed');
+      toast.error(err?.response?.data?.message || err?.response?.data?.error || 'Save failed');
     } finally {
       setSaving(false);
     }
@@ -124,7 +124,7 @@ export default function RouteExpenses() {
       fetchList();
       if (editingId === id) handleReset();
     } catch (err) {
-      toast.error(err?.response?.data?.error || 'Delete failed');
+      toast.error(err?.response?.data?.message || err?.response?.data?.error || 'Delete failed');
     }
   }
 

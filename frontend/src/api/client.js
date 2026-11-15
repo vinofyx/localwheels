@@ -19,13 +19,22 @@ export function setClerkTokenGetter(fn) {
 // The /auth/clerk-exchange call sets its own Authorization header explicitly
 // and that takes priority (cfg.headers.Authorization is already set → we skip).
 api.interceptors.request.use(async cfg => {
-  if (_clerkGetToken && !cfg.headers.Authorization) {
-    try {
-      const token = await _clerkGetToken();
-      if (token) cfg.headers.Authorization = `Bearer ${token}`;
-    } catch {
-      // Clerk not ready or session ended — request proceeds without auth header,
-      // backend returns 401, response interceptor redirects to /login.
+  if (!cfg.headers.Authorization) {
+    if (_clerkGetToken) {
+      try {
+        const token = await _clerkGetToken();
+        if (token) {
+          cfg.headers.Authorization = `Bearer ${token}`;
+          localStorage.setItem('lw_token', token);
+          return cfg;
+        }
+      } catch {
+        // Clerk not ready or session ended
+      }
+    }
+    const localToken = localStorage.getItem('lw_token');
+    if (localToken && localToken !== 'null' && localToken !== 'undefined') {
+      cfg.headers.Authorization = `Bearer ${localToken}`;
     }
   }
   return cfg;

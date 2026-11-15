@@ -10,8 +10,8 @@ const START = Date.now();
 
 const BASE_URL  = process.argv[2] || 'http://localhost:5000';
 const BASE      = BASE_URL.replace(/\/$/, '') + '/api';
-const USERNAME  = 'rajdhani_admin';
-const PASSWORD  = 'RCS@Admin#2026';
+const USERNAME  = process.argv[3] || process.env.TEST_USERNAME || 'admin';
+const PASSWORD  = process.argv[4] || process.env.TEST_PASSWORD || 'admin123';
 
 function req(method, path, { body, token } = {}) {
   return new Promise((resolve, reject) => {
@@ -112,7 +112,7 @@ async function wf2() {
   console.log('\n── WF2: Booking → Shipment ───────────────────────────────────────');
   if (!bookingId) { S('WF2', 'Shipment', 'no booking'); return; }
   const r = await req('POST', '/shipments', { token, body: { company_id: companyId, branch_id: branchId, booking_id: bookingId, customer_id: customerId, sender_name: 'Ramesh Kumar', receiver_name: 'Arun Sharma', origin: 'Hyderabad', destination: 'Delhi', cargo_type: 'General', weight_kg: 1000, freight_charge: 8000, total_amount: 8400, status: 'pending' } });
-  if (r.status === 201 || r.status === 200) { shipmentId = r.body._id || r.body.shipment?._id; P('WF2', 'Shipment created', `LR=${r.body.lr_no || r.body.shipment?.lr_no || 'auto'}`); }
+  if (r.status === 201 || r.status === 200) { shipmentId = r.body._id || r.body.id || r.body.shipment?._id; P('WF2', 'Shipment created', `LR=${r.body.lr_number || r.body.lr_no || 'auto'}`); }
   else {
     const list = await req('GET', '/shipments?limit=1', { token });
     if (list.status === 200) { const items = list.body.shipments || list.body; if (Array.isArray(items) && items.length) { shipmentId = items[0]._id; P('WF2', 'Shipment (existing)', `id=${shipmentId}`); return; } }
@@ -200,7 +200,12 @@ async function wf12() {
 
   // Get chart of accounts to find valid account IDs
   const coa = await req('GET', '/chart-of-accounts?limit=5', { token });
-  const accounts = extractList(coa.body);
+  let accounts = extractList(coa.body);
+  if (accounts.length < 2) {
+    const a1 = await ensure('/chart-of-accounts', { account_code: '1001', account_name: 'Cash / Bank', account_type: 'asset' });
+    const a2 = await ensure('/chart-of-accounts', { account_code: '4001', account_name: 'Freight Revenue', account_type: 'revenue' });
+    if (a1 && a2) accounts = [{ _id: a1 }, { _id: a2 }];
+  }
   if (accounts.length < 2) {
     F('WF12', 'Journal entry', `need chart-of-accounts entries; found ${accounts.length}`);
   } else {

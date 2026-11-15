@@ -35,5 +35,9 @@ backend/uploads/
 .vscode/
 .idea/
 
-# Test artefacts
-e2e_test.js
+# Test outputs & logs
+*.log
+*_out.txt
+*_err.txt
+*-results.json
+backend/screenshots/

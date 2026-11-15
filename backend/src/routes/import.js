@@ -7,6 +7,7 @@ const Vehicle    = require('../models/Vehicle');
 const Driver     = require('../models/Driver');
 const Inventory  = require('../models/Inventory');
 const ChartOfAccount = require('../models/ChartOfAccount');
+const FasTagEntry = require('../models/FasTagEntry');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
@@ -57,6 +58,10 @@ const TEMPLATES = {
                      '1001,New Account,asset,2,true,0',
 
   opening_balance: 'account_code,opening_balance\n1100,50000\n1300,25000',
+
+  fastag: 'vehicle_no,tag_id,toll_plaza,transaction_time,amount\n' +
+          'MH01AB1234,TAG100234,Vashi Toll Plaza,2026-11-12 10:30:00,120\n' +
+          'TS09UB5678,TAG100889,Panipat Toll,2026-11-12 14:15:00,240',
 };
 
 // GET /api/import/template/:entity — download CSV template
@@ -299,6 +304,74 @@ router.post('/suppliers', authenticate, requireRole('admin', 'manager'), upload.
     }
     res.json({ message: 'Supplier import complete', ...results });
   } catch (err) { next(err); }
+});
+
+// POST /api/import/fastag
+router.post('/fastag', authenticate, upload.single('file'), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'CSV file required' });
+    if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
+
+    const rows = parseCSV(req.file.buffer);
+    const results = { total: rows.length, inserted: 0, skipped: 0, total_toll: 0, entries: [] };
+
+    for (const [i, row] of rows.entries()) {
+      try {
+        const vehicle_no = row.vehicle_no || row.registration_number || row.vehicle;
+        const amount = parseFloat(row.amount || row.toll_amount || row.toll || 0);
+        const toll_plaza = row.toll_plaza || row.plaza || row.location || 'Toll Plaza';
+        if (!vehicle_no) { results.skipped++; continue; }
+
+        const entry = await FasTagEntry.create({
+          company_id: req.user.company_id,
+          entry_no: req.body.entry_no || `FT-${Date.now()}-${i + 1}`,
+          entry_date: req.body.entry_date ? new Date(req.body.entry_date) : new Date(),
+          vehicle_no,
+          tag_id: row.tag_id || '',
+          toll_plaza,
+          transaction_time: row.transaction_time ? new Date(row.transaction_time) : new Date(),
+          amount: isNaN(amount) ? 0 : amount,
+          status: 'posted',
+        });
+        results.inserted++;
+        results.total_toll += entry.amount;
+        results.entries.push(entry);
+      } catch (err) {
+        results.skipped++;
+      }
+    }
+
+    res.json({
+      success: true,
+      total_count: results.inserted,
+      total_toll: results.total_toll,
+      inserted: results.inserted,
+      skipped: results.skipped,
+      entries: results.entries,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// GET /api/import/fastag
+router.get('/fastag', authenticate, async (req, res, next) => {
+  try {
+    if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
+    const entries = await FasTagEntry.find({ company_id: req.user.company_id })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
+    const totalToll = entries.reduce((s, e) => s + (e.amount || 0), 0);
+    res.json({
+      success: true,
+      total_count: entries.length,
+      total_toll: totalToll,
+      entries,
+    });
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;

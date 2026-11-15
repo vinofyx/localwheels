@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import api from '../../api/client';
 
 const SaveIcon    = <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>;
 const SearchIcon  = <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/></svg>;
@@ -46,21 +47,33 @@ function FL({ label, required, wLabel = 'w-[110px]', children }) {
 
 export default function LHS() {
   const [form, setForm] = useState(INITIAL);
-  const [lhsNo]        = useState(1);
+  const [lhsNo, setLhsNo] = useState('1');
+  const [loading, setLoading] = useState(false);
 
   const set = e => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.vehicleNo.trim())  { toast.error('Vehicle No is required');  return; }
     if (!form.loadType)           { toast.error('Load Type is required');    return; }
     if (!form.driverName.trim())  { toast.error('Driver is required');       return; }
     if (!form.driverNo.trim())    { toast.error('Driver No is required');    return; }
     if (!form.to.trim())          { toast.error('To is required');           return; }
     if (!form.vendor.trim())      { toast.error('Vendor is required');       return; }
-    toast.success('Saved successfully');
+    
+    try {
+      setLoading(true);
+      const res = await api.post('/dispatch/lhs', form);
+      const assignedNo = res.data?.lhs_number || 'LHS-SUCCESS';
+      setLhsNo(assignedNo);
+      toast.success(`LHS ${assignedNo} saved successfully`);
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Failed to save LHS');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRefresh = () => setForm({ ...INITIAL, date: nowDate(), time: nowTime() });
@@ -78,9 +91,9 @@ export default function LHS() {
         <p className="text-red-600 text-[12px] font-medium flex-1">* Mark fields are compulsory</p>
         <h2 className="font-bold text-[15px] tracking-wide" style={{ fontVariant: 'small-caps' }}>LHS</h2>
         <div className="flex-1 flex justify-end gap-1.5">
-          <button onClick={handleSave}
-            className="flex items-center gap-1.5 bg-[#1565c0] hover:bg-[#0d47a1] text-white text-[12px] font-medium px-3 py-1.5 rounded">
-            {SaveIcon} Save
+          <button onClick={handleSave} disabled={loading}
+            className="flex items-center gap-1.5 bg-[#1565c0] hover:bg-[#0d47a1] text-white text-[12px] font-medium px-3 py-1.5 rounded disabled:opacity-50">
+            {SaveIcon} {loading ? 'Saving...' : 'Save'}
           </button>
           <button onClick={() => toast('Search')}
             className="flex items-center gap-1.5 bg-[#0288d1] hover:bg-[#0277bd] text-white text-[12px] font-medium px-3 py-1.5 rounded">

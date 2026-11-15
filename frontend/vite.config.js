@@ -27,6 +27,21 @@ export default defineConfig({
     },
   },
 
+  preview: {
+    port: 8085,
+    host: '0.0.0.0',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
+
   build: {
     // Output to frontend/dist — required for Hostinger (Root Directory: frontend, Output: dist)
     outDir: 'dist',
@@ -41,6 +56,9 @@ export default defineConfig({
             id.includes('node_modules/d3-')       ||
             id.includes('node_modules/victory')
           ) return 'charts';
+
+          if (id.includes('node_modules/@clerk/')) return 'vendor-clerk';
+          if (id.includes('node_modules/lucide-react')) return 'vendor-icons';
 
           if (id.includes('node_modules/')) return 'vendor';
 

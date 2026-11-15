@@ -87,6 +87,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
       'http://localhost:5173',
       'http://localhost:8080',
       'http://localhost:8081',
+      'http://localhost:8082',
+      'http://localhost:8083',
       'http://localhost:5000',
     ];
 
@@ -154,7 +156,7 @@ app.get('/', (req, res, next) => {
   if (IS_PROD) return next(); // hand off to express.static below
 
   const base     = `http://localhost:${process.env.PORT || 5000}`;
-  const frontend = 'http://localhost:8080';
+  const frontend = process.env.FRONTEND_URL || 'http://localhost:8081';
 
   res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -272,8 +274,8 @@ app.get('/api/health', (_req, res) => {
 // Set METRICS_TOKEN env var; scraper must send the same token.
 app.get('/api/metrics', (req, res, next) => {
   const token = process.env.METRICS_TOKEN;
-  if (IS_PROD && token && req.headers['x-metrics-token'] !== token) {
-    return res.status(404).json({ error: 'Not found' });
+  if (IS_PROD && (!token || req.headers['x-metrics-token'] !== token)) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
   next();
 }, metricsHandler);
@@ -503,7 +505,7 @@ app.use((req, res) => {
     error:   'Route not found',
     message: 'All API endpoints are under /api/.',
     hint:    `Did you mean /api${req.path}?`,
-    ...(IS_DEV && { frontend: 'http://localhost:8080' }),
+    ...(IS_DEV && { frontend: process.env.FRONTEND_URL || 'http://localhost:8081' }),
   });
 });
 

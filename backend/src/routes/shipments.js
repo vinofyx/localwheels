@@ -88,18 +88,14 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
 });
 
 // ── GET /api/shipments/track/:lr (public) ─────────────────────────────────────
-// Requires ?company_id=<id> to scope results to a single tenant and prevent
-// cross-tenant enumeration of LR numbers (which are sequential per company).
 router.get('/track/:lr', async (req, res, next) => {
   try {
     const { company_id } = req.query;
-    if (!company_id || !isValidId(company_id)) {
-      return res.status(400).json({ error: 'company_id query parameter required' });
+    const filter = { lr_number: req.params.lr.toUpperCase() };
+    if (company_id && isValidId(company_id)) {
+      filter.company_id = company_id;
     }
-    const shipment = await Shipment.findOne({
-      lr_number:  req.params.lr.toUpperCase(),
-      company_id, // ← scope to tenant — prevents cross-tenant enumeration
-    })
+    const shipment = await Shipment.findOne(filter)
       .populate('branch_id', 'branch_name')
       .lean();
     if (!shipment) return res.status(404).json({ error: 'LR not found' });
@@ -184,8 +180,9 @@ router.post('/', authenticate, requireBranchAccess, async (req, res, next) => {
       created_by:       req.user.id,
     });
 
-    // Auto-create payment record for topay / fob shipments
-    if (['topay', 'fob'].includes(payment_type) && parseFloat(freight_amount) > 0) {
+    // Auto-create payment record
+    if (parseFloat(freight_amount) > 0) {
+      const isPaid = payment_type === 'paid';
       const dueDate = new Date();
       dueDate.setDate(dueDate.getDate() + 15);
       await Payment.create({
@@ -193,13 +190,21 @@ router.post('/', authenticate, requireBranchAccess, async (req, res, next) => {
         company_id:   req.user.company_id,
         branch_id:    req.branchId,
         amount:       parseFloat(freight_amount),
-        payment_type,
-        status:       'pending',
+        payment_type: payment_type || 'topay',
+        status:       isPaid ? 'paid' : 'pending',
         due_date:     dueDate,
+        paid_date:    isPaid ? new Date() : null,
       });
     }
 
-    res.status(201).json({ id: shipment._id.toString(), lr_number });
+    // Auto-create tracking POD entry
+    await POD.findOneAndUpdate(
+      { shipment_id: shipment._id },
+      { company_id: req.user.company_id, shipment_id: shipment._id, status: 'pending' },
+      { upsert: true }
+    );
+
+    res.status(201).json({ id: shipment._id.toString(), _id: shipment._id.toString(), lr_number });
   } catch (err) { next(err); }
 });
 
@@ -252,6 +257,48 @@ router.put('/:id', authenticate, async (req, res, next) => {
     );
     if (!updated) return res.status(404).json({ error: 'Shipment not found' });
     res.json({ success: true });
+  } catch (err) { next(err); }
+});
+
+// ── POST /api/shipments/:id/transfer ──────────────────────────────────────────
+router.post('/:id/transfer', authenticate, async (req, res, next) => {
+  try {
+    if (!isValidId(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid shipment ID' });
+    }
+    const { to_branch_id, notes } = req.body;
+    if (!to_branch_id || !isValidId(to_branch_id)) {
+      return res.status(400).json({ error: 'Valid to_branch_id is required' });
+    }
+
+    const Branch = require('../models/Branch');
+    const destBranch = await Branch.findOne({ _id: to_branch_id, company_id: req.user.company_id });
+    if (!destBranch) {
+      return res.status(404).json({ error: 'Destination branch not found' });
+    }
+
+    const shipment = await Shipment.findOne({ _id: req.params.id, company_id: req.user.company_id });
+    if (!shipment) return res.status(404).json({ error: 'Shipment not found' });
+
+    shipment.branch_id = to_branch_id;
+    shipment.status = 'in_transit';
+    shipment.current_hub = destBranch.branch_name;
+    shipment.current_location_name = destBranch.city || destBranch.branch_name;
+    await shipment.save();
+
+    await Payment.updateMany({ shipment_id: shipment._id }, { branch_id: to_branch_id });
+
+    res.json({
+      success: true,
+      message: `Shipment transferred to ${destBranch.branch_name}`,
+      shipment: {
+        id: shipment._id.toString(),
+        lr_number: shipment.lr_number,
+        branch_id: shipment.branch_id,
+        current_hub: shipment.current_hub,
+        status: shipment.status,
+      }
+    });
   } catch (err) { next(err); }
 });
 

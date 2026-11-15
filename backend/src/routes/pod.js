@@ -16,8 +16,14 @@ function fmtDate(d) {
   return `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}/${dt.getFullYear()}`;
 }
 
+const fs = require('fs');
+const uploadDir = path.resolve(__dirname, '../../uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
-  destination: path.resolve(__dirname, '../../uploads'),
+  destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, `pod_${req.params.shipmentId}_${Date.now()}${path.extname(file.originalname)}`);
   },
@@ -80,6 +86,38 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
   }
 });
 
+// ── POST /api/pod ─────────────────────────────────────────────────────────────
+router.post('/', authenticate, async (req, res, next) => {
+  try {
+    const { shipment_id, receiver_name, delivery_date, remarks, delivery_status } = req.body;
+    if (!shipment_id || !isValidId(shipment_id)) {
+      return res.status(400).json({ error: 'Valid shipment_id required' });
+    }
+    const pod = await POD.findOneAndUpdate(
+      { shipment_id },
+      {
+        company_id:    req.user.company_id,
+        shipment_id,
+        status:        delivery_status === 'delivered' ? 'verified' : 'pending',
+        receiver_name,
+        delivery_date: delivery_date ? new Date(delivery_date) : new Date(),
+        remarks,
+        uploaded_by:   req.user.id,
+        uploaded_at:   new Date(),
+      },
+      { upsert: true, new: true }
+    );
+
+    if (delivery_status === 'delivered') {
+      await Shipment.findByIdAndUpdate(shipment_id, { status: 'delivered' });
+    }
+
+    res.status(201).json({ id: pod._id.toString(), _id: pod._id.toString(), pod });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // ── POST /api/pod/:shipmentId/upload ─────────────────────────────────────────
 router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
@@ -90,6 +128,7 @@ router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (r
     await POD.findOneAndUpdate(
       { shipment_id: req.params.shipmentId },
       {
+        company_id:    req.user.company_id,
         shipment_id:   req.params.shipmentId,
         status:        'uploaded',
         uploaded_file: filePath,

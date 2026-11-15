@@ -17,7 +17,6 @@ const chatSessionSchema = new mongoose.Schema({
   metadata:    { type: mongoose.Schema.Types.Mixed },
 }, { timestamps: true });
 
-chatSessionSchema.index({ session_id: 1 });
 chatSessionSchema.index({ company_id: 1, createdAt: -1 });
 chatSessionSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 }); // 30-day TTL
 

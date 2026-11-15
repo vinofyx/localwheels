@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ChatWidget from './ChatWidget';
@@ -27,6 +27,22 @@ function ClerkSignOutButton({ onLogout, className, children }) {
 
 // ─── Exact nav structure from JSON config ─────────────────────────────────────
 const NAV_MENUS = [
+  {
+    name: 'Dashboard',
+    path: '/dashboard',
+  },
+  {
+    name: 'Logistics',
+    children: [
+      { name: 'Shipments (LRs)', path: '/shipments' },
+      { name: 'Create Shipment / New LR', path: '/shipments/new' },
+      { name: 'Proof of Delivery (POD)', path: '/pod' },
+      { name: 'Payments & Collections', path: '/payments' },
+      { name: 'Dispatch Center', path: '/dispatch/center' },
+      { name: 'Track Shipment', path: '/track' },
+      { name: 'User Management', path: '/users' },
+    ],
+  },
   {
     name: 'Master',
     children: [
@@ -1113,7 +1129,13 @@ export default function Layout() {
 
       {/* ═══ PAGE CONTENT ════════════════════════════════════════════════ */}
       <main className="flex-1 overflow-y-auto">
-        <Outlet />
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <Outlet />
+        </Suspense>
       </main>
 
       {/* ═══ AI CHAT WIDGET ══════════════════════════════════════════════ */}
