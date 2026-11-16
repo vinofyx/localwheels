@@ -106,6 +106,22 @@ async function runTests() {
     assert(resRoot.body.includes('/assets/'), 'GET / body includes compiled script references');
     assert(resRoot.headers['cache-control']?.includes('no-cache'), 'index.html has no-cache header');
 
+    // 1b. Content-Security-Policy Header Verification
+    console.log('\n--- 1b. CONTENT-SECURITY-POLICY DIRECTIVE VALIDATION ---');
+    const csp = resRoot.headers['content-security-policy'] || '';
+    assert(!!csp, 'Content-Security-Policy header is present');
+    assert(csp.includes('script-src'), 'CSP contains script-src directive');
+    assert(csp.includes('https://clerk.vinofyx.com'), 'CSP script-src/connect-src permits https://clerk.vinofyx.com');
+    assert(csp.includes('https://challenges.cloudflare.com'), 'CSP permits Cloudflare Turnstile (challenges.cloudflare.com)');
+    assert(csp.includes('https://*.protect.clerk.com'), 'CSP permits Clerk abuse/fraud protection (protect.clerk.com)');
+    assert(csp.includes('worker-src'), 'CSP includes worker-src directive');
+    assert(csp.includes('blob:'), 'CSP worker-src/img-src includes blob: scheme');
+    assert(!csp.includes("frame-src 'none'"), 'CSP frame-src is NOT set to "none"');
+    assert(csp.includes('frame-src') && csp.includes('clerk.vinofyx.com'), 'CSP frame-src permits Clerk iframes');
+    assert(csp.includes("frame-ancestors 'none'"), 'CSP frame-ancestors retains clickjacking protection (\'none\')');
+    assert(!csp.includes("'unsafe-eval'"), 'CSP does NOT permit unsafe-eval');
+    assert(!csp.includes("default-src *") && !csp.includes("script-src *"), 'CSP does NOT use wildcard origin');
+
     // 2. JavaScript Asset
     if (sampleJsAsset) {
       const resJs = await request({ host, port, path: `/assets/${sampleJsAsset}`, method: 'GET' });

@@ -39,6 +39,8 @@ export function AuthProvider({ children }) {
   // ── Clerk bridge (values injected by ClerkAuthBridge via updateClerkState) ────
   const [clerkReady, setClerkReady] = useState(false);
   const [clerkIsSignedIn, setClerkIsSignedIn] = useState(false);
+  const [clerkInitError, setClerkInitError] = useState(null);
+  const [clerkTimedOut, setClerkTimedOut] = useState(false);
   const clerkGetTokenRef = useRef(null);
   const prevClerkSignedInRef = useRef(false);
 
@@ -64,7 +66,50 @@ export function AuthProvider({ children }) {
     prevClerkSignedInRef.current = isSignedIn;
 
     setClerkReady(isLoaded);
+    if (isLoaded) {
+      setClerkInitError(null);
+      setClerkTimedOut(false);
+    }
     setClerkIsSignedIn(isSignedIn);
+  }, []);
+
+  // ── Step 1b: Bounded loading timeout & error detection for Clerk SDK ─────────
+  useEffect(() => {
+    if (clerkReady) {
+      setClerkInitError(null);
+      setClerkTimedOut(false);
+      return;
+    }
+
+    const handleScriptError = (event) => {
+      const target = event.target;
+      if (
+        (target && target.tagName === 'SCRIPT' && target.src && (target.src.includes('clerk') || target.src.includes('clerk.browser.js'))) ||
+        (event.message && typeof event.message === 'string' && event.message.toLowerCase().includes('clerk'))
+      ) {
+        setClerkInitError('Authentication service (Clerk) failed to load due to policy or network restrictions.');
+        setClerkTimedOut(true);
+      }
+    };
+    window.addEventListener('error', handleScriptError, true);
+
+    const timer = setTimeout(() => {
+      if (!clerkReady) {
+        setClerkTimedOut(true);
+        setClerkInitError('Authentication service (Clerk) is taking too long to respond. The service may be unreachable or blocked.');
+      }
+    }, 8000);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('error', handleScriptError, true);
+    };
+  }, [clerkReady]);
+
+  const retryClerkInit = useCallback(() => {
+    setClerkInitError(null);
+    setClerkTimedOut(false);
+    window.location.reload();
   }, []);
 
   // ── Step 2: Auth orchestration ────────────────────────────────────────────────
@@ -201,6 +246,8 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider value={{
       // Core session state
       user, branch, authReady, clerkReady,
+      // Clerk initialization error / timeout state
+      clerkInitError, clerkTimedOut, retryClerkInit,
       // Exchange feedback (consumed by ClerkSignInPanel for UI only)
       clerkExchangeLoading, clerkExchangeError, clerkExchangeResult,
       // Actions

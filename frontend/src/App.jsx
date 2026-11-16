@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { useAuth as useClerkSession } from '@clerk/react';
 import Login from './pages/Login';
@@ -460,7 +460,7 @@ function AuthLoading() {
   );
 }
 
-function AuthError({ message, onRetry }) {
+function AuthError({ message, onRetry, showLocalLogin }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700">
       <div className="flex flex-col items-center gap-4 max-w-sm text-center px-6">
@@ -468,12 +468,24 @@ function AuthError({ message, onRetry }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 3a9 9 0 100 18A9 9 0 0012 3z" />
         </svg>
         <p className="text-white text-sm opacity-90">{message}</p>
-        <button
-          onClick={onRetry}
-          className="mt-2 px-5 py-2 rounded-lg bg-white text-blue-900 text-sm font-semibold hover:bg-blue-50 transition"
-        >
-          Retry
-        </button>
+        <div className="flex flex-col gap-2 w-full mt-2">
+          {onRetry && (
+            <button
+              onClick={onRetry}
+              className="w-full px-5 py-2 rounded-lg bg-white text-blue-900 text-sm font-semibold hover:bg-blue-50 transition shadow"
+            >
+              Retry
+            </button>
+          )}
+          {showLocalLogin && (
+            <Link
+              to="/login"
+              className="w-full px-5 py-2 rounded-lg bg-blue-800/80 hover:bg-blue-800 text-white text-sm font-semibold border border-blue-600 transition shadow text-center"
+            >
+              Continue to Local Login
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -481,10 +493,20 @@ function AuthError({ message, onRetry }) {
 
 // ── Route guards ──────────────────────────────────────────────────────────────
 function Guard({ children }) {
-  const { user, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
+  const {
+    user,
+    clerkReady,
+    clerkInitError,
+    retryClerkInit,
+    clerkExchangeLoading,
+    clerkExchangeError,
+    retryClerkExchange
+  } = useAuth();
   const { isSignedIn } = useClerkSession();
 
   if (user) return children;
+  if (clerkInitError)
+    return <AuthError message={clerkInitError} onRetry={retryClerkInit} showLocalLogin />;
   if (!clerkReady) return <AuthLoading />;
   if (isSignedIn && clerkExchangeError && !user)
     return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;
@@ -494,13 +516,24 @@ function Guard({ children }) {
 }
 
 function BranchGuard({ children }) {
-  const { user, branch, clerkReady, clerkExchangeLoading, clerkExchangeError, retryClerkExchange } = useAuth();
+  const {
+    user,
+    branch,
+    clerkReady,
+    clerkInitError,
+    retryClerkInit,
+    clerkExchangeLoading,
+    clerkExchangeError,
+    retryClerkExchange
+  } = useAuth();
   const { isSignedIn } = useClerkSession();
 
   if (user) {
     if (!branch) return <Navigate to="/select-branch" replace />;
     return children;
   }
+  if (clerkInitError)
+    return <AuthError message={clerkInitError} onRetry={retryClerkInit} showLocalLogin />;
   if (!clerkReady) return <AuthLoading />;
   if (isSignedIn && clerkExchangeError && !user)
     return <AuthError message={clerkExchangeError} onRetry={retryClerkExchange} />;

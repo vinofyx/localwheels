@@ -22,6 +22,8 @@ import toast from 'react-hot-toast';
 export default function ClerkSignInPanel() {
   const { isSignedIn } = useClerkHook();
   const {
+    clerkInitError,
+    retryClerkInit,
     clerkExchangeLoading,
     clerkExchangeError,
     clerkExchangeResult,
@@ -36,6 +38,27 @@ export default function ClerkSignInPanel() {
     toast.success(clerkExchangeResult.isNew ? 'Account created successfully.' : 'Welcome back.');
     clearClerkExchangeResult();
   }, [clerkExchangeResult, clearClerkExchangeResult]);
+
+  // Clerk initialization failure (e.g. CSP blocked, DNS unreachable, timeout)
+  if (clerkInitError) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-6 text-center">
+        <div className="w-full p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800 text-left">
+          <p className="font-semibold mb-1">Clerk SSO Unavailable</p>
+          <p className="text-xs text-amber-700">{clerkInitError}</p>
+        </div>
+        <p className="text-xs text-gray-500">
+          You can switch to the <strong className="text-gray-700">Local Login</strong> tab to sign in with your username and password.
+        </p>
+        <button
+          className="text-sm font-medium text-blue-600 hover:text-blue-700 underline"
+          onClick={retryClerkInit}
+        >
+          Retry Clerk SSO
+        </button>
+      </div>
+    );
+  }
 
   // Exchange failed — show error and allow retry.
   if (clerkExchangeError) {

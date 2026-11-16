@@ -47,6 +47,24 @@ if (!fs.existsSync(UPLOADS_DIR)) {
 const app = express();
 
 // ── Security headers ──────────────────────────────────────────────────────────
+// Helper to extract Clerk frontend domain from publishable key or environment
+const clerkOrigins = ['https://clerk.vinofyx.com'];
+if (process.env.CLERK_PUBLISHABLE_KEY) {
+  try {
+    const raw = process.env.CLERK_PUBLISHABLE_KEY.replace(/^pk_(test|live)_/, '');
+    const decoded = Buffer.from(raw, 'base64').toString('utf8').replace(/\$$/, '').trim();
+    if (decoded && !clerkOrigins.includes(`https://${decoded}`)) {
+      clerkOrigins.push(`https://${decoded}`);
+    }
+  } catch {}
+}
+if (process.env.CLERK_FRONTEND_API) {
+  const fApi = process.env.CLERK_FRONTEND_API.trim().replace(/^https?:\/\//, '');
+  if (fApi && !clerkOrigins.includes(`https://${fApi}`)) {
+    clerkOrigins.push(`https://${fApi}`);
+  }
+}
+
 app.use(helmet({
   // /uploads files are fetched by the frontend from a different origin
   crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -55,18 +73,19 @@ app.use(helmet({
   // Production: Express serves the React SPA + API on the same origin.
   //   - 'self' allows scripts/styles/fetch from the same domain.
   //   - 'unsafe-inline' needed for Clerk and some bundled component styles.
-  //   - https: in connectSrc allows Clerk's auth endpoints.
-  // Development: HTML landing page served at / — same policy applies.
+  //   - Clerk custom domain (clerk.vinofyx.com) and Cloudflare Turnstile allowed.
+  //   - frameAncestors 'none' prevents clickjacking.
   contentSecurityPolicy: {
     useDefaults: false,
     directives: {
       defaultSrc:     ["'self'"],
-      scriptSrc:      ["'self'", "'unsafe-inline'"],
+      scriptSrc:      ["'self'", "'unsafe-inline'", ...clerkOrigins, "https://challenges.cloudflare.com", "https://*.protect.clerk.com"],
       styleSrc:       ["'self'", "'unsafe-inline'"],
-      imgSrc:         ["'self'", "data:", "blob:", "https:"],
-      connectSrc:     ["'self'", "https:"],
+      imgSrc:         ["'self'", "data:", "blob:", "https://img.clerk.com", "https://images.clerk.dev", "https:"],
+      connectSrc:     ["'self'", ...clerkOrigins, "https://*.protect.clerk.com:*", "https://api.clerk.com", "https://clerk-telemetry.com", "https://challenges.cloudflare.com", "https:"],
       fontSrc:        ["'self'", "data:", "https:"],
-      frameSrc:       ["'none'"],
+      frameSrc:       ["'self'", ...clerkOrigins, "https://challenges.cloudflare.com", "https://*.protect.clerk.com"],
+      workerSrc:      ["'self'", "blob:"],
       frameAncestors: ["'none'"],
       objectSrc:      ["'none'"],
       baseUri:        ["'self'"],
