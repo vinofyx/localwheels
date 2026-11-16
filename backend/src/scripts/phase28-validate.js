@@ -96,8 +96,10 @@ async function main() {
   // ── 3. Authentication ────────────────────────────────────────────────────
   console.log('\n── 3. Authentication & JWT ────────────────────────────────────────');
   let adminToken = null;
+  const testUser = process.env.ADMIN_USERNAME || 'admin';
+  const testPass = process.env.ADMIN_PASSWORD || 'DevPass#2026';
   {
-    const r = await req('POST', '/api/auth/login', { body: { username: 'rajdhani_admin', password: 'RCS@Admin#2026' } });
+    const r = await req('POST', '/api/auth/login', { body: { username: testUser, password: testPass } });
     const ok = r.status === 200 && r.data?.token;
     record('Auth', 'Company admin login', ok, ok ? 'Token issued' : `HTTP ${r.status}: ${JSON.stringify(r.data)}`, r.ms);
     if (ok) adminToken = r.data.token;
@@ -110,7 +112,7 @@ async function main() {
     const r = await req('GET', '/api/auth/me', { token: adminToken });
     // /me returns user directly (not wrapped in {user})
     const meUser = r.data?.username ? r.data : r.data?.user;
-    record('Auth', 'JWT /me endpoint', r.status === 200 && meUser?.username === 'rajdhani_admin',
+    record('Auth', 'JWT /me endpoint', r.status === 200 && meUser?.username === testUser,
       `username=${meUser?.username}`, r.ms);
   }
   {

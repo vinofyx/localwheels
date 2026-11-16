@@ -43,7 +43,7 @@
       "section": "auth",
       "name": "GET /auth/me → 200 with token",
       "pass": true,
-      "note": "48ms, user=rajdhani_admin"
+      "note": "48ms, user=admin"
     },
     {
       "section": "auth",

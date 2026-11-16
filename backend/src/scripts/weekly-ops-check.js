@@ -15,8 +15,12 @@ const fs    = require('fs');
 const path  = require('path');
 
 const BASE       = process.env.API_URL || 'http://localhost:5000';
-const ADMIN_USER = process.env.OPS_USER || 'rajdhani_admin';
-const ADMIN_PASS = process.env.OPS_PASS || 'RCS@Admin#2026';
+const ADMIN_USER = process.env.OPS_USER || 'admin';
+const ADMIN_PASS = process.env.OPS_PASS || '';
+if (!ADMIN_PASS && process.env.NODE_ENV === 'production') {
+  console.error('❌ Error: OPS_PASS environment variable required in production');
+  process.exit(1);
+}
 const LOG_FILE   = path.join(__dirname, '../../ops-log.jsonl');
 const BRANCH_ID  = '6a46876adbb074ca5f6f7e23';
 

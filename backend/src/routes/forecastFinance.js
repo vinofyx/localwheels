@@ -1,13 +1,13 @@
-const express           = require('express');
-const router            = express.Router();
+const express = require('express');
+const router = express.Router();
 const { authenticate: auth } = require('../middleware/auth');
 const FinancialForecast = require('../models/FinancialForecast');
-const ProfitLoss        = require('../models/ProfitLoss');
-const CashFlow          = require('../models/CashFlow');
-const Anthropic         = require('@anthropic-ai/sdk');
+const ProfitLoss = require('../models/ProfitLoss');
+const CashFlow = require('../models/CashFlow');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const client = new Anthropic();
-const ok  = (res, data, msg = 'OK', status = 200) => res.status(status).json({ status: true, message: msg, data });
+const ok = (res, data, msg = 'OK', status = 200) => res.status(status).json({ status: true, message: msg, data });
 const err = (res, msg = 'Error', status = 400) => res.status(status).json({ status: false, message: msg, errors: [msg] });
 
 router.use(auth);
@@ -96,9 +96,10 @@ router.get('/:id', async (req, res) => {
 // PUT /:id
 router.put('/:id', async (req, res) => {
   try {
+    const { company_id, _id, created_by, ...safeUpdates } = req.body;
     const forecast = await FinancialForecast.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body },
+      { $set: safeUpdates },
       { new: true }
     );
     if (!forecast) return err(res, 'Not found', 404);

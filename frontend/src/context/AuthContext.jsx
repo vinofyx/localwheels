@@ -122,11 +122,12 @@ export function AuthProvider({ children }) {
       return;
     }
 
-    // ── Case B: Clerk signed-out while LW session is active → force logout ───
-    if (!clerkIsSignedIn && user) {
+    // ── Case B: Clerk signed-out while Clerk session is active → force logout ───
+    if (!clerkIsSignedIn && user && user.authProvider === 'clerk') {
       _logoutIntentRef.current = true;
       localStorage.removeItem('lw_branch');
       localStorage.removeItem('lw_token');
+      localStorage.removeItem('lw_user');
       setUser(null);
       setBranch(null);
       setClerkExchangeError(null);

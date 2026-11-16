@@ -221,3 +221,4 @@ docker build -t localwheels-frontend:latest ./frontend
 * **Branch Permissions:** `requireBranchAccess` middleware enforces branch boundaries.
 * **Input Sanitization:** Regex inputs escaped to prevent ReDoS attacks.
 * **Zero Secret Leakage:** `.env` and uploaded binary artifacts are strictly gitignored.
+

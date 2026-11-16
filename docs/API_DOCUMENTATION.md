@@ -677,3 +677,4 @@ Unauthenticated public tracking endpoint for end-customers.
 | `404` | `NOT_FOUND` | Resource ID does not exist | Verify object ID or LR tracking number |
 | `429` | `TOO_MANY_REQUESTS` | Rate limit threshold exceeded | Back off and retry after cooldown window |
 | `500` | `INTERNAL_SERVER_ERROR` | Unexpected backend runtime exception | Inspect server error logs for root cause |
+

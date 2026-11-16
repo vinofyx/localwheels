@@ -115,10 +115,13 @@ router.post('/', authenticate, requireRole('superadmin', 'super_admin'), async (
   }
 });
 
-// PUT /api/companies/mine — update company settings (admin)
+// PUT /api/companies/mine — update company settings (strictly requires authorized administrator)
 router.put('/mine', authenticate, requireRole('admin', 'superadmin', 'super_admin'), async (req, res, next) => {
   try {
-    if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
+    if (!req.user.company_id) {
+      return res.status(400).json({ error: 'No company context' });
+    }
+
     const allowed = [
       'name', 'phone', 'email', 'website', 'address', 'city', 'state', 'pincode',
       'gstin', 'pan', 'cin', 'business_type', 'industry', 'timezone', 'currency',
@@ -129,11 +132,11 @@ router.put('/mine', authenticate, requireRole('admin', 'superadmin', 'super_admi
     for (const k of allowed) {
       if (req.body[k] !== undefined) updates[k] = req.body[k];
     }
-    const company = await Company.findByIdAndUpdate(
+    const updatedCompany = await Company.findByIdAndUpdate(
       req.user.company_id, { $set: updates }, { new: true }
     );
-    if (!company) return res.status(404).json({ error: 'Company not found' });
-    res.json(company);
+    if (!updatedCompany) return res.status(404).json({ error: 'Company not found' });
+    res.json(updatedCompany);
   } catch (err) { next(err); }
 });
 
@@ -152,12 +155,17 @@ router.get('/settings', authenticate, async (req, res, next) => {
 });
 
 // PUT /api/companies/settings — update app settings
-router.put('/settings', authenticate, requireRole('admin'), async (req, res, next) => {
+router.put('/settings', authenticate, requireRole('admin', 'superadmin', 'super_admin'), async (req, res, next) => {
   try {
     if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
+    const allowed = ['smtp', 'sms', 'whatsapp', 'notifications', 'defaults'];
+    const update = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) update[k] = req.body[k];
+    }
     const settings = await AppSettings.findOneAndUpdate(
       { company_id: req.user.company_id },
-      { $set: req.body },
+      { $set: update },
       { new: true, upsert: true }
     );
     res.json({ message: 'Settings updated', settings });
@@ -179,7 +187,7 @@ router.get('/master-config/:category', authenticate, async (req, res, next) => {
 });
 
 // POST /api/companies/master-config/:category — add item to a master config list
-router.post('/master-config/:category', authenticate, requireRole('admin'), async (req, res, next) => {
+router.post('/master-config/:category', authenticate, requireRole('admin', 'superadmin', 'super_admin'), async (req, res, next) => {
   try {
     if (!req.user.company_id) return res.status(400).json({ error: 'No company context' });
     const MasterConfig = require('../models/MasterConfig');

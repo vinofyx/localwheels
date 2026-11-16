@@ -4,7 +4,8 @@ const Company  = require('../models/Company');
 const Shipment = require('../models/Shipment');
 const POD      = require('../models/POD');
 const Payment  = require('../models/Payment');
-const { authenticate, requireBranchAccess } = require('../middleware/auth');
+const { authenticate, requireBranchAccess, requireRole } = require('../middleware/auth');
+const AuditLog = require('../models/AuditLog');
 
 const router = express.Router();
 
@@ -261,7 +262,7 @@ router.put('/:id', authenticate, async (req, res, next) => {
 });
 
 // ── POST /api/shipments/:id/transfer ──────────────────────────────────────────
-router.post('/:id/transfer', authenticate, async (req, res, next) => {
+router.post('/:id/transfer', authenticate, requireRole('admin', 'superadmin', 'manager', 'operations_manager', 'staff'), async (req, res, next) => {
   try {
     if (!isValidId(req.params.id)) {
       return res.status(400).json({ error: 'Invalid shipment ID' });
@@ -280,6 +281,17 @@ router.post('/:id/transfer', authenticate, async (req, res, next) => {
     const shipment = await Shipment.findOne({ _id: req.params.id, company_id: req.user.company_id });
     if (!shipment) return res.status(404).json({ error: 'Shipment not found' });
 
+    // Branch manager/staff authorization check: user must belong to origin branch or dest branch
+    const normalizedRole = req.user.role === 'super_admin' ? 'superadmin' : req.user.role;
+    if (normalizedRole !== 'admin' && normalizedRole !== 'superadmin') {
+      const userBranches = (req.user.branch_ids && req.user.branch_ids.length ? req.user.branch_ids : [req.user.branch_id]).map(b => b ? b.toString() : '');
+      const currentBranchStr = shipment.branch_id ? shipment.branch_id.toString() : '';
+      if (!userBranches.includes(currentBranchStr)) {
+        return res.status(403).json({ error: 'Unauthorized: You can only transfer shipments from your assigned branch' });
+      }
+    }
+
+    const fromBranchId = shipment.branch_id;
     shipment.branch_id = to_branch_id;
     shipment.status = 'in_transit';
     shipment.current_hub = destBranch.branch_name;
@@ -287,6 +299,23 @@ router.post('/:id/transfer', authenticate, async (req, res, next) => {
     await shipment.save();
 
     await Payment.updateMany({ shipment_id: shipment._id }, { branch_id: to_branch_id });
+
+    // Record audit log for branch transfer
+    await AuditLog.create({
+      event_type: 'branch_transfer',
+      performed_by: req.user.id,
+      performed_by_username: req.user.username,
+      company_id: req.user.company_id,
+      branch_id: to_branch_id,
+      details: {
+        shipment_id: shipment._id,
+        lr_number: shipment.lr_number,
+        from_branch_id: fromBranchId,
+        to_branch_id,
+        notes: notes || '',
+      },
+      ip_address: req.ip,
+    });
 
     res.json({
       success: true,

@@ -1,9 +1,10 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const crypto = require('crypto');
 const POD = require('../models/POD');
 const Shipment = require('../models/Shipment');
-const { authenticate, requireBranchAccess } = require('../middleware/auth');
+const { authenticate, requireBranchAccess, requireRole } = require('../middleware/auth');
 
 const mongoose = require('mongoose');
 const router = express.Router();
@@ -25,7 +26,10 @@ if (!fs.existsSync(uploadDir)) {
 const storage = multer.diskStorage({
   destination: uploadDir,
   filename: (req, file, cb) => {
-    cb(null, `pod_${req.params.shipmentId}_${Date.now()}${path.extname(file.originalname)}`);
+    const ext = path.extname(file.originalname).toLowerCase();
+    const safeShipmentId = String(req.params.shipmentId || 'unknown').replace(/[^a-zA-Z0-9_-]/g, '');
+    const rand = crypto.randomBytes(6).toString('hex');
+    cb(null, `pod_${safeShipmentId}_${Date.now()}_${rand}${ext}`);
   },
 });
 const ALLOWED_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.pdf']);
@@ -93,8 +97,15 @@ router.post('/', authenticate, async (req, res, next) => {
     if (!shipment_id || !isValidId(shipment_id)) {
       return res.status(400).json({ error: 'Valid shipment_id required' });
     }
+
+    // Verify shipment belongs to user's company
+    const shipment = await Shipment.findOne({ _id: shipment_id, company_id: req.user.company_id });
+    if (!shipment) {
+      return res.status(404).json({ error: 'Shipment not found' });
+    }
+
     const pod = await POD.findOneAndUpdate(
-      { shipment_id },
+      { shipment_id, company_id: req.user.company_id },
       {
         company_id:    req.user.company_id,
         shipment_id,
@@ -109,7 +120,10 @@ router.post('/', authenticate, async (req, res, next) => {
     );
 
     if (delivery_status === 'delivered') {
-      await Shipment.findByIdAndUpdate(shipment_id, { status: 'delivered' });
+      await Shipment.findOneAndUpdate(
+        { _id: shipment_id, company_id: req.user.company_id },
+        { status: 'delivered' }
+      );
     }
 
     res.status(201).json({ id: pod._id.toString(), _id: pod._id.toString(), pod });
@@ -122,11 +136,18 @@ router.post('/', authenticate, async (req, res, next) => {
 router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (req, res, next) => {
   try {
     if (!isValidId(req.params.shipmentId)) return res.status(400).json({ error: 'Invalid shipment ID' });
+
+    // Validate that the shipment belongs to user's company
+    const shipment = await Shipment.findOne({ _id: req.params.shipmentId, company_id: req.user.company_id });
+    if (!shipment) {
+      return res.status(404).json({ error: 'Shipment not found' });
+    }
+
     const { receiver_name, delivery_date } = req.body;
     const filePath = req.file ? `/uploads/${req.file.filename}` : null;
 
     await POD.findOneAndUpdate(
-      { shipment_id: req.params.shipmentId },
+      { shipment_id: req.params.shipmentId, company_id: req.user.company_id },
       {
         company_id:    req.user.company_id,
         shipment_id:   req.params.shipmentId,
@@ -147,12 +168,18 @@ router.post('/:shipmentId/upload', authenticate, upload.single('file'), async (r
 });
 
 // ── PATCH /api/pod/:shipmentId/verify ────────────────────────────────────────
-router.patch('/:shipmentId/verify', authenticate, async (req, res, next) => {
+router.patch('/:shipmentId/verify', authenticate, requireRole('admin', 'superadmin', 'manager'), async (req, res, next) => {
   try {
     if (!isValidId(req.params.shipmentId)) return res.status(400).json({ error: 'Invalid shipment ID' });
+
+    // Validate shipment ownership
+    const shipment = await Shipment.findOne({ _id: req.params.shipmentId, company_id: req.user.company_id });
+    if (!shipment) return res.status(404).json({ error: 'Shipment not found' });
+
     const pod = await POD.findOneAndUpdate(
-      { shipment_id: req.params.shipmentId },
-      { status: 'verified' }
+      { shipment_id: req.params.shipmentId, company_id: req.user.company_id },
+      { status: 'verified' },
+      { new: true }
     );
     if (!pod) return res.status(404).json({ error: 'POD not found' });
     res.json({ success: true });

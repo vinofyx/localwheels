@@ -1,0 +1,8812 @@
+{
+  "count": 896,
+  "endpoints": [
+    {
+      "file": "accountsPayable.js",
+      "method": "GET",
+      "path": "/api/accounts-payable/aging",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/aging"
+    },
+    {
+      "file": "accountsPayable.js",
+      "method": "GET",
+      "path": "/api/accounts-payable/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "accountsPayable.js",
+      "method": "GET",
+      "path": "/api/accounts-payable",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "accountsPayable.js",
+      "method": "POST",
+      "path": "/api/accounts-payable",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "accountsPayable.js",
+      "method": "PUT",
+      "path": "/api/accounts-payable/:id/pay",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/pay"
+    },
+    {
+      "file": "accountsReceivable.js",
+      "method": "GET",
+      "path": "/api/accounts-receivable/aging",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/aging"
+    },
+    {
+      "file": "accountsReceivable.js",
+      "method": "GET",
+      "path": "/api/accounts-receivable/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "accountsReceivable.js",
+      "method": "GET",
+      "path": "/api/accounts-receivable/customer/:name",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/customer/:name"
+    },
+    {
+      "file": "accountsReceivable.js",
+      "method": "POST",
+      "path": "/api/accounts-receivable/reminder",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/reminder"
+    },
+    {
+      "file": "accountsReceivable.js",
+      "method": "GET",
+      "path": "/api/accounts-receivable",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/fleet/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/fleet/status"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/gps/vehicles",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/gps/vehicles"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/gps/history/:vehicle",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/gps/history/:vehicle"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/routes",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/routes"
+    },
+    {
+      "file": "ai.js",
+      "method": "POST",
+      "path": "/api/ai/routes/optimize",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/routes/optimize"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/maintenance",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/maintenance"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/drivers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/drivers"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/fuel",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/fuel"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/fuel/analytics",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/fuel/analytics"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/loads",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/loads"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/warehouse",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/warehouse"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/docs",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/docs"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/pods",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/pods"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/customer-portal",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/customer-portal"
+    },
+    {
+      "file": "ai.js",
+      "method": "POST",
+      "path": "/api/ai/chatbot",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/chatbot"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/forecast",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/notifications",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/notifications"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/analytics",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "ai.js",
+      "method": "GET",
+      "path": "/api/ai/reports",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/reports"
+    },
+    {
+      "file": "alerts.js",
+      "method": "GET",
+      "path": "/api/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "alerts.js",
+      "method": "POST",
+      "path": "/api/alerts/scan",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/scan"
+    },
+    {
+      "file": "alerts.js",
+      "method": "GET",
+      "path": "/api/alerts/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "alerts.js",
+      "method": "POST",
+      "path": "/api/alerts/:id/resolve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/resolve"
+    },
+    {
+      "file": "alerts.js",
+      "method": "POST",
+      "path": "/api/alerts/:id/read",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/read"
+    },
+    {
+      "file": "apiDocs.js",
+      "method": "GET",
+      "path": "/api/api-docs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "apiDocs.js",
+      "method": "GET",
+      "path": "/api/api-docs/openapi",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/openapi"
+    },
+    {
+      "file": "apiDocs.js",
+      "method": "GET",
+      "path": "/api/api-docs/modules/:module",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/modules/:module"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "GET",
+      "path": "/api/api-keys",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "POST",
+      "path": "/api/api-keys",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "GET",
+      "path": "/api/api-keys/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "PUT",
+      "path": "/api/api-keys/:id/revoke",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/revoke"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "POST",
+      "path": "/api/api-keys/:id/rotate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/rotate"
+    },
+    {
+      "file": "apiKeys.js",
+      "method": "DELETE",
+      "path": "/api/api-keys/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "GET",
+      "path": "/api/api-monitoring/health",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/health"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "GET",
+      "path": "/api/api-monitoring/logs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/logs"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "POST",
+      "path": "/api/api-monitoring/logs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/logs"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "GET",
+      "path": "/api/api-monitoring/usage",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/usage"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "POST",
+      "path": "/api/api-monitoring/usage/record",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/usage/record"
+    },
+    {
+      "file": "apiMonitoring.js",
+      "method": "GET",
+      "path": "/api/api-monitoring/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "approvals.js",
+      "method": "GET",
+      "path": "/api/approvals/workflows",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/workflows"
+    },
+    {
+      "file": "approvals.js",
+      "method": "POST",
+      "path": "/api/approvals/workflows",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/workflows"
+    },
+    {
+      "file": "approvals.js",
+      "method": "GET",
+      "path": "/api/approvals/requests",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/requests"
+    },
+    {
+      "file": "approvals.js",
+      "method": "GET",
+      "path": "/api/approvals/requests/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/requests/:id"
+    },
+    {
+      "file": "approvals.js",
+      "method": "POST",
+      "path": "/api/approvals/requests",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/requests"
+    },
+    {
+      "file": "approvals.js",
+      "method": "POST",
+      "path": "/api/approvals/requests/:id/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/requests/:id/approve"
+    },
+    {
+      "file": "approvals.js",
+      "method": "POST",
+      "path": "/api/approvals/requests/:id/reject",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/requests/:id/reject"
+    },
+    {
+      "file": "approvals.js",
+      "method": "GET",
+      "path": "/api/approvals/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "auth.js",
+      "method": "GET",
+      "path": "/api/auth/bootstrap-status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/bootstrap-status"
+    },
+    {
+      "file": "auth.js",
+      "method": "POST",
+      "path": "/api/auth/bootstrap-superadmin",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/bootstrap-superadmin"
+    },
+    {
+      "file": "auth.js",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/login"
+    },
+    {
+      "file": "auth.js",
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/logout"
+    },
+    {
+      "file": "auth.js",
+      "method": "POST",
+      "path": "/api/auth/clerk-exchange",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/clerk-exchange"
+    },
+    {
+      "file": "auth.js",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/me"
+    },
+    {
+      "file": "automation.js",
+      "method": "GET",
+      "path": "/api/automation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "automation.js",
+      "method": "GET",
+      "path": "/api/automation/templates",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/templates"
+    },
+    {
+      "file": "automation.js",
+      "method": "GET",
+      "path": "/api/automation/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "automation.js",
+      "method": "POST",
+      "path": "/api/automation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "automation.js",
+      "method": "PUT",
+      "path": "/api/automation/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "automation.js",
+      "method": "POST",
+      "path": "/api/automation/:id/run",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/run"
+    },
+    {
+      "file": "automation.js",
+      "method": "GET",
+      "path": "/api/automation/rules/list",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules/list"
+    },
+    {
+      "file": "automation.js",
+      "method": "POST",
+      "path": "/api/automation/rules",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules"
+    },
+    {
+      "file": "automation.js",
+      "method": "PUT",
+      "path": "/api/automation/rules/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules/:id"
+    },
+    {
+      "file": "automation.js",
+      "method": "POST",
+      "path": "/api/automation/ai-build",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-build"
+    },
+    {
+      "file": "automation.js",
+      "method": "GET",
+      "path": "/api/automation/analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/summary"
+    },
+    {
+      "file": "automationAnalytics.js",
+      "method": "GET",
+      "path": "/api/automation-analytics/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "automationAnalytics.js",
+      "method": "GET",
+      "path": "/api/automation-analytics/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "automationAnalytics.js",
+      "method": "POST",
+      "path": "/api/automation-analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "automationAnalytics.js",
+      "method": "POST",
+      "path": "/api/automation-analytics/ai-insights",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-insights"
+    },
+    {
+      "file": "automationJobs.js",
+      "method": "GET",
+      "path": "/api/automation-jobs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "automationJobs.js",
+      "method": "GET",
+      "path": "/api/automation-jobs/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "automationJobs.js",
+      "method": "PUT",
+      "path": "/api/automation-jobs/:id/cancel",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/cancel"
+    },
+    {
+      "file": "automationJobs.js",
+      "method": "GET",
+      "path": "/api/automation-jobs/stats/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/summary"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "GET",
+      "path": "/api/autonomous",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "POST",
+      "path": "/api/autonomous",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "POST",
+      "path": "/api/autonomous/ai-suggest",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-suggest"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "GET",
+      "path": "/api/autonomous/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "POST",
+      "path": "/api/autonomous/:id/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/approve"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "POST",
+      "path": "/api/autonomous/:id/reject",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/reject"
+    },
+    {
+      "file": "autonomous.js",
+      "method": "GET",
+      "path": "/api/autonomous/stats/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/overview"
+    },
+    {
+      "file": "banking.js",
+      "method": "GET",
+      "path": "/api/banking/accounts",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts"
+    },
+    {
+      "file": "banking.js",
+      "method": "POST",
+      "path": "/api/banking/accounts",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts"
+    },
+    {
+      "file": "banking.js",
+      "method": "GET",
+      "path": "/api/banking/accounts/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts/:id"
+    },
+    {
+      "file": "banking.js",
+      "method": "PUT",
+      "path": "/api/banking/accounts/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts/:id"
+    },
+    {
+      "file": "banking.js",
+      "method": "GET",
+      "path": "/api/banking/accounts/:id/transactions",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts/:id/transactions"
+    },
+    {
+      "file": "banking.js",
+      "method": "POST",
+      "path": "/api/banking/accounts/:id/transactions",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts/:id/transactions"
+    },
+    {
+      "file": "banking.js",
+      "method": "GET",
+      "path": "/api/banking/accounts/:id/balance",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accounts/:id/balance"
+    },
+    {
+      "file": "barcode.js",
+      "method": "POST",
+      "path": "/api/barcode/generate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/generate"
+    },
+    {
+      "file": "barcode.js",
+      "method": "POST",
+      "path": "/api/barcode/scan",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/scan"
+    },
+    {
+      "file": "barcode.js",
+      "method": "POST",
+      "path": "/api/barcode/bulk-generate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/bulk-generate"
+    },
+    {
+      "file": "barcode.js",
+      "method": "GET",
+      "path": "/api/barcode/lookup/:code",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/lookup/:code"
+    },
+    {
+      "file": "batteryHealth.js",
+      "method": "POST",
+      "path": "/api/battery-health/assess/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assess/:vehicleId"
+    },
+    {
+      "file": "batteryHealth.js",
+      "method": "GET",
+      "path": "/api/battery-health",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "batteryHealth.js",
+      "method": "GET",
+      "path": "/api/battery-health/:vehicleId/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/history"
+    },
+    {
+      "file": "bookings.js",
+      "method": "GET",
+      "path": "/api/bookings",
+      "handlers": [
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "bookings.js",
+      "method": "GET",
+      "path": "/api/bookings/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "bookings.js",
+      "method": "POST",
+      "path": "/api/bookings",
+      "handlers": [
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "bookings.js",
+      "method": "PATCH",
+      "path": "/api/bookings/:id/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "bookings.js",
+      "method": "PUT",
+      "path": "/api/bookings/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "branches.js",
+      "method": "GET",
+      "path": "/api/branches/user",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/user"
+    },
+    {
+      "file": "branches.js",
+      "method": "GET",
+      "path": "/api/branches",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "branches.js",
+      "method": "POST",
+      "path": "/api/branches",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "branches.js",
+      "method": "PUT",
+      "path": "/api/branches/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "branches.js",
+      "method": "DELETE",
+      "path": "/api/branches/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "branches.js",
+      "method": "GET",
+      "path": "/api/branches/users/:branchId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/users/:branchId"
+    },
+    {
+      "file": "budget.js",
+      "method": "GET",
+      "path": "/api/budget/vs-actual",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/vs-actual"
+    },
+    {
+      "file": "budget.js",
+      "method": "GET",
+      "path": "/api/budget",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "budget.js",
+      "method": "POST",
+      "path": "/api/budget",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "budget.js",
+      "method": "GET",
+      "path": "/api/budget/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "budget.js",
+      "method": "PUT",
+      "path": "/api/budget/:id/approve",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/approve"
+    },
+    {
+      "file": "budget.js",
+      "method": "POST",
+      "path": "/api/budget/:id/lines",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/lines"
+    },
+    {
+      "file": "budget.js",
+      "method": "GET",
+      "path": "/api/budget/:id/lines",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/lines"
+    },
+    {
+      "file": "budget.js",
+      "method": "PUT",
+      "path": "/api/budget/:id/lines/:line_id/actual",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/lines/:line_id/actual"
+    },
+    {
+      "file": "businessIntelligence.js",
+      "method": "POST",
+      "path": "/api/business-intelligence/query",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/query"
+    },
+    {
+      "file": "businessIntelligence.js",
+      "method": "GET",
+      "path": "/api/business-intelligence/insights",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/insights"
+    },
+    {
+      "file": "businessIntelligence.js",
+      "method": "POST",
+      "path": "/api/business-intelligence/generate-insights",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/generate-insights"
+    },
+    {
+      "file": "businessIntelligence.js",
+      "method": "GET",
+      "path": "/api/business-intelligence/recommendations",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations"
+    },
+    {
+      "file": "businessIntelligence.js",
+      "method": "POST",
+      "path": "/api/business-intelligence/insights/:id/read",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/insights/:id/read"
+    },
+    {
+      "file": "capacity.js",
+      "method": "GET",
+      "path": "/api/capacity",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "capacity.js",
+      "method": "POST",
+      "path": "/api/capacity/forecast",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "capacity.js",
+      "method": "POST",
+      "path": "/api/capacity/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "capacity.js",
+      "method": "POST",
+      "path": "/api/capacity/ai-analysis",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-analysis"
+    },
+    {
+      "file": "carbon.js",
+      "method": "GET",
+      "path": "/api/carbon",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "carbon.js",
+      "method": "POST",
+      "path": "/api/carbon",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "carbon.js",
+      "method": "GET",
+      "path": "/api/carbon/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "carbon.js",
+      "method": "POST",
+      "path": "/api/carbon/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "carbon.js",
+      "method": "POST",
+      "path": "/api/carbon/ai-recommendations",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-recommendations"
+    },
+    {
+      "file": "cashflow.js",
+      "method": "GET",
+      "path": "/api/cashflow/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "cashflow.js",
+      "method": "GET",
+      "path": "/api/cashflow/forecast",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "cashflow.js",
+      "method": "GET",
+      "path": "/api/cashflow",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "cashflow.js",
+      "method": "POST",
+      "path": "/api/cashflow/snapshot",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "GET",
+      "path": "/api/chart-of-accounts/tree",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/tree"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "GET",
+      "path": "/api/chart-of-accounts/types",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/types"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "GET",
+      "path": "/api/chart-of-accounts",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "POST",
+      "path": "/api/chart-of-accounts",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "GET",
+      "path": "/api/chart-of-accounts/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "chartOfAccounts.js",
+      "method": "PUT",
+      "path": "/api/chart-of-accounts/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "chat.js",
+      "method": "POST",
+      "path": "/api/chat",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "GET",
+      "path": "/api/collaboration/rooms",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rooms"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "POST",
+      "path": "/api/collaboration/rooms",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rooms"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "GET",
+      "path": "/api/collaboration/rooms/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rooms/:id"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "POST",
+      "path": "/api/collaboration/rooms/:id/messages",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rooms/:id/messages"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "GET",
+      "path": "/api/collaboration/tasks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tasks"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "POST",
+      "path": "/api/collaboration/tasks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tasks"
+    },
+    {
+      "file": "collaboration.js",
+      "method": "PUT",
+      "path": "/api/collaboration/tasks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tasks/:id"
+    },
+    {
+      "file": "companies.js",
+      "method": "GET",
+      "path": "/api/companies",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "companies.js",
+      "method": "GET",
+      "path": "/api/companies/mine",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/mine"
+    },
+    {
+      "file": "companies.js",
+      "method": "GET",
+      "path": "/api/companies/setup-status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/setup-status"
+    },
+    {
+      "file": "companies.js",
+      "method": "POST",
+      "path": "/api/companies",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "companies.js",
+      "method": "PUT",
+      "path": "/api/companies/mine",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/mine"
+    },
+    {
+      "file": "companies.js",
+      "method": "GET",
+      "path": "/api/companies/settings",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/settings"
+    },
+    {
+      "file": "companies.js",
+      "method": "PUT",
+      "path": "/api/companies/settings",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/settings"
+    },
+    {
+      "file": "companies.js",
+      "method": "GET",
+      "path": "/api/companies/master-config/:category",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/master-config/:category"
+    },
+    {
+      "file": "companies.js",
+      "method": "POST",
+      "path": "/api/companies/master-config/:category",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/master-config/:category"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "complaints.js",
+      "method": "GET",
+      "path": "/api/complaints/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "complaints.js",
+      "method": "GET",
+      "path": "/api/complaints/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "complaints.js",
+      "method": "GET",
+      "path": "/api/complaints",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "complaints.js",
+      "method": "GET",
+      "path": "/api/complaints/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "complaints.js",
+      "method": "PUT",
+      "path": "/api/complaints/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assign"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/escalate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/escalate"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/resolve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/resolve"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/reopen",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/reopen"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/comment",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/comment"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/upload",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/upload"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/feedback",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/feedback"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/:id/suggest-reply",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/suggest-reply"
+    },
+    {
+      "file": "complaints.js",
+      "method": "POST",
+      "path": "/api/complaints/sla/check",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sla/check"
+    },
+    {
+      "file": "connectors.js",
+      "method": "GET",
+      "path": "/api/connectors/catalog",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/catalog"
+    },
+    {
+      "file": "connectors.js",
+      "method": "GET",
+      "path": "/api/connectors",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "connectors.js",
+      "method": "POST",
+      "path": "/api/connectors",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "connectors.js",
+      "method": "GET",
+      "path": "/api/connectors/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "connectors.js",
+      "method": "PUT",
+      "path": "/api/connectors/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "connectors.js",
+      "method": "POST",
+      "path": "/api/connectors/:id/sync",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/sync"
+    },
+    {
+      "file": "connectors.js",
+      "method": "POST",
+      "path": "/api/connectors/:id/test",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/test"
+    },
+    {
+      "file": "connectors.js",
+      "method": "DELETE",
+      "path": "/api/connectors/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "connectors.js",
+      "method": "GET",
+      "path": "/api/connectors/:id/conflicts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/conflicts"
+    },
+    {
+      "file": "connectors.js",
+      "method": "PUT",
+      "path": "/api/connectors/:id/conflicts/:cid/resolve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/conflicts/:cid/resolve"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "GET",
+      "path": "/api/control-tower/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "GET",
+      "path": "/api/control-tower/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "POST",
+      "path": "/api/control-tower/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "PUT",
+      "path": "/api/control-tower/alerts/:id/resolve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts/:id/resolve"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "GET",
+      "path": "/api/control-tower/events",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/events"
+    },
+    {
+      "file": "controlTower.js",
+      "method": "GET",
+      "path": "/api/control-tower/live-feed",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/live-feed"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "GET",
+      "path": "/api/cost-centers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "GET",
+      "path": "/api/cost-centers/summary",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/summary"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "POST",
+      "path": "/api/cost-centers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "GET",
+      "path": "/api/cost-centers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "PUT",
+      "path": "/api/cost-centers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "DELETE",
+      "path": "/api/cost-centers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "costCenters.js",
+      "method": "GET",
+      "path": "/api/cost-centers/:id/expenses",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/expenses"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "POST",
+      "path": "/api/customer/complaints",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/complaints"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "GET",
+      "path": "/api/customer/complaints",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "GET",
+      "path": "/api/customer/complaints/:id",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints/:id"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "POST",
+      "path": "/api/customer/complaints/:id/reply",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints/:id/reply"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "POST",
+      "path": "/api/customer/complaints/:id/upload",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints/:id/upload"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "POST",
+      "path": "/api/customer/complaints/:id/rating",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints/:id/rating"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "POST",
+      "path": "/api/customer/complaints/:id/reopen",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints/:id/reopen"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "GET",
+      "path": "/api/customer/timeline",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/timeline"
+    },
+    {
+      "file": "customerPortal.js",
+      "method": "GET",
+      "path": "/api/customer/satisfaction",
+      "handlers": [
+        "requirePhone",
+        "<anonymous>"
+      ],
+      "routePath": "/satisfaction"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/shipments",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shipments"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/tracking/:lr",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tracking/:lr"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/pods",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/pods"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/complaints",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/complaints"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/invoices",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/invoices"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "POST",
+      "path": "/api/customer-portal/booking-request",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/booking-request"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "POST",
+      "path": "/api/customer-portal/ai-assistant",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-assistant"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "GET",
+      "path": "/api/customer-portal/settings",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/settings"
+    },
+    {
+      "file": "customerPortalP15.js",
+      "method": "PUT",
+      "path": "/api/customer-portal/settings",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/settings"
+    },
+    {
+      "file": "customers.js",
+      "method": "GET",
+      "path": "/api/customers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "customers.js",
+      "method": "GET",
+      "path": "/api/customers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "customers.js",
+      "method": "POST",
+      "path": "/api/customers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "customers.js",
+      "method": "PUT",
+      "path": "/api/customers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "customers.js",
+      "method": "DELETE",
+      "path": "/api/customers/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "dashboard.js",
+      "method": "GET",
+      "path": "/api/dashboard",
+      "handlers": [
+        "authenticate",
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "dashboardPreferences.js",
+      "method": "GET",
+      "path": "/api/dashboard-preferences",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "dashboardPreferences.js",
+      "method": "PUT",
+      "path": "/api/dashboard-preferences",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "decisionEngine.js",
+      "method": "GET",
+      "path": "/api/decision-engine",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "decisionEngine.js",
+      "method": "POST",
+      "path": "/api/decision-engine/generate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/generate"
+    },
+    {
+      "file": "decisionEngine.js",
+      "method": "PUT",
+      "path": "/api/decision-engine/:id/accept",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/accept"
+    },
+    {
+      "file": "decisionEngine.js",
+      "method": "PUT",
+      "path": "/api/decision-engine/:id/reject",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/reject"
+    },
+    {
+      "file": "decisionEngine.js",
+      "method": "GET",
+      "path": "/api/decision-engine/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "demand.js",
+      "method": "GET",
+      "path": "/api/demand",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "demand.js",
+      "method": "POST",
+      "path": "/api/demand/forecast",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "demand.js",
+      "method": "POST",
+      "path": "/api/demand/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "demand.js",
+      "method": "POST",
+      "path": "/api/demand/ai-forecast",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-forecast"
+    },
+    {
+      "file": "developerPortal.js",
+      "method": "GET",
+      "path": "/api/developer-portal/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/overview"
+    },
+    {
+      "file": "developerPortal.js",
+      "method": "GET",
+      "path": "/api/developer-portal/quickstart",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/quickstart"
+    },
+    {
+      "file": "developerPortal.js",
+      "method": "GET",
+      "path": "/api/developer-portal/sdk",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sdk"
+    },
+    {
+      "file": "developerPortal.js",
+      "method": "GET",
+      "path": "/api/developer-portal/changelog",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/changelog"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "GET",
+      "path": "/api/digital-twin",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "POST",
+      "path": "/api/digital-twin",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "GET",
+      "path": "/api/digital-twin/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "PUT",
+      "path": "/api/digital-twin/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "POST",
+      "path": "/api/digital-twin/:id/sync",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/sync"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "POST",
+      "path": "/api/digital-twin/:id/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/snapshot"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "GET",
+      "path": "/api/digital-twin/stats/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/overview"
+    },
+    {
+      "file": "digitalTwin.js",
+      "method": "DELETE",
+      "path": "/api/digital-twin/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "GET",
+      "path": "/api/digital-workers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "GET",
+      "path": "/api/digital-workers/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "POST",
+      "path": "/api/digital-workers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "PUT",
+      "path": "/api/digital-workers/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "POST",
+      "path": "/api/digital-workers/:id/activate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/activate"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "POST",
+      "path": "/api/digital-workers/:id/deactivate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/deactivate"
+    },
+    {
+      "file": "digitalWorkers.js",
+      "method": "GET",
+      "path": "/api/digital-workers/stats/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/overview"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/lhs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/lhs"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/lhs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/lhs"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/touching-lr",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/touching-lr"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/touching-lr",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/touching-lr"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/queue",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/queue"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/queue/add",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/queue/add"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/optimize",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/optimize"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/create",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/create"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/assign-driver",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assign-driver"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/assign-vehicle",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assign-vehicle"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/generate-manifest",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/generate-manifest"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/manifests",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/manifests"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/manifests/:number",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/manifests/:number"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/start-trip",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/start-trip"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/complete-trip",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/complete-trip"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/report-issue",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/report-issue"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/recalculate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recalculate"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/live",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/live"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/calendar",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/calendar"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/trips",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/trips/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/:id"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/plans",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "PATCH",
+      "path": "/api/dispatch/checklist/:trip_id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/checklist/:trip_id"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/acknowledge",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/acknowledge"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/replan",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/replan"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/impact",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/impact"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/impact",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/impact"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/performance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/performance"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/shifts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shifts"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/shifts/start",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shifts/start"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/shifts/:id/handover",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shifts/:id/handover"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "POST",
+      "path": "/api/dispatch/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/approve"
+    },
+    {
+      "file": "dispatch.js",
+      "method": "GET",
+      "path": "/api/dispatch/approvals",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/approvals"
+    },
+    {
+      "file": "docks.js",
+      "method": "GET",
+      "path": "/api/docks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "docks.js",
+      "method": "GET",
+      "path": "/api/docks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "docks.js",
+      "method": "POST",
+      "path": "/api/docks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "docks.js",
+      "method": "PUT",
+      "path": "/api/docks/:id/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assign"
+    },
+    {
+      "file": "docks.js",
+      "method": "PUT",
+      "path": "/api/docks/:id/release",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/release"
+    },
+    {
+      "file": "docks.js",
+      "method": "PUT",
+      "path": "/api/docks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "docks.js",
+      "method": "GET",
+      "path": "/api/docks/timeline/today",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/timeline/today"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/summary"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/by-type",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/by-type"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/by-status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/by-status"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/trend",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trend"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/ocr-accuracy",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ocr-accuracy"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "GET",
+      "path": "/api/document-analytics/validation-summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/validation-summary"
+    },
+    {
+      "file": "documentAnalytics.js",
+      "method": "POST",
+      "path": "/api/document-analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "POST",
+      "path": "/api/document-approval/:docId/ai-review",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/ai-review"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "POST",
+      "path": "/api/document-approval/:docId/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/approve"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "POST",
+      "path": "/api/document-approval/:docId/reject",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/reject"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "POST",
+      "path": "/api/document-approval/:docId/escalate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/escalate"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "POST",
+      "path": "/api/document-approval/:docId/request-correction",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/request-correction"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "GET",
+      "path": "/api/document-approval/:docId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId"
+    },
+    {
+      "file": "documentApproval.js",
+      "method": "GET",
+      "path": "/api/document-approval",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/folders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/folders"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/folders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/folders"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/upload",
+      "handlers": [
+        "authenticate",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/upload"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/upload/bulk",
+      "handlers": [
+        "authenticate",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/upload/bulk"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "documents.js",
+      "method": "PUT",
+      "path": "/api/documents/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/:id/favorite",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/favorite"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/:id/archive",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/archive"
+    },
+    {
+      "file": "documents.js",
+      "method": "DELETE",
+      "path": "/api/documents/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/:id/restore",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/restore"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/:id/versions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/versions"
+    },
+    {
+      "file": "documents.js",
+      "method": "POST",
+      "path": "/api/documents/:id/version",
+      "handlers": [
+        "authenticate",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/version"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/:id/audit",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/audit"
+    },
+    {
+      "file": "documents.js",
+      "method": "GET",
+      "path": "/api/documents/:id/download",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/download"
+    },
+    {
+      "file": "documentSearch.js",
+      "method": "GET",
+      "path": "/api/document-search",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "documentSearch.js",
+      "method": "GET",
+      "path": "/api/document-search/suggestions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/suggestions"
+    },
+    {
+      "file": "documentSearch.js",
+      "method": "GET",
+      "path": "/api/document-search/expiry-alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/expiry-alerts"
+    },
+    {
+      "file": "documentSearch.js",
+      "method": "GET",
+      "path": "/api/document-search/duplicates",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/duplicates"
+    },
+    {
+      "file": "documentValidation.js",
+      "method": "POST",
+      "path": "/api/document-validation/:docId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId"
+    },
+    {
+      "file": "documentValidation.js",
+      "method": "GET",
+      "path": "/api/document-validation/:docId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId"
+    },
+    {
+      "file": "documentValidation.js",
+      "method": "GET",
+      "path": "/api/document-validation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/trips",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/trips/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/:id"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/trips/start",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/start"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/trips/pause",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/pause"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/trips/resume",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/resume"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/trips/complete",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trips/complete"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/location",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/location"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/pod",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/pod"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/incident",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/incident"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/sos",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sos"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/performance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/performance"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/documents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/documents"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/documents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/documents"
+    },
+    {
+      "file": "driver.js",
+      "method": "POST",
+      "path": "/api/driver/voice",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/voice"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/incidents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/incidents"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/notifications",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/notifications"
+    },
+    {
+      "file": "driver.js",
+      "method": "PATCH",
+      "path": "/api/driver/notifications/:id/read",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/notifications/:id/read"
+    },
+    {
+      "file": "driver.js",
+      "method": "GET",
+      "path": "/api/driver/sos",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sos"
+    },
+    {
+      "file": "driver.js",
+      "method": "PATCH",
+      "path": "/api/driver/sos/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sos/:id"
+    },
+    {
+      "file": "driverBehaviour.js",
+      "method": "POST",
+      "path": "/api/driver-behaviour/analyze/:driverId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analyze/:driverId"
+    },
+    {
+      "file": "driverBehaviour.js",
+      "method": "GET",
+      "path": "/api/driver-behaviour",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "driverBehaviour.js",
+      "method": "GET",
+      "path": "/api/driver-behaviour/leaderboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/leaderboard"
+    },
+    {
+      "file": "driverBehaviour.js",
+      "method": "GET",
+      "path": "/api/driver-behaviour/:driverId/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:driverId/history"
+    },
+    {
+      "file": "drivers.js",
+      "method": "GET",
+      "path": "/api/drivers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "drivers.js",
+      "method": "GET",
+      "path": "/api/drivers/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "drivers.js",
+      "method": "POST",
+      "path": "/api/drivers",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "drivers.js",
+      "method": "PUT",
+      "path": "/api/drivers/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "drivers.js",
+      "method": "PATCH",
+      "path": "/api/drivers/:id/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "drivers.js",
+      "method": "DELETE",
+      "path": "/api/drivers/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "engineHealth.js",
+      "method": "POST",
+      "path": "/api/engine-health/assess/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assess/:vehicleId"
+    },
+    {
+      "file": "engineHealth.js",
+      "method": "GET",
+      "path": "/api/engine-health",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "engineHealth.js",
+      "method": "GET",
+      "path": "/api/engine-health/:vehicleId/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/history"
+    },
+    {
+      "file": "events.js",
+      "method": "GET",
+      "path": "/api/events",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "events.js",
+      "method": "POST",
+      "path": "/api/events",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "events.js",
+      "method": "GET",
+      "path": "/api/events/subscriptions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/subscriptions"
+    },
+    {
+      "file": "events.js",
+      "method": "POST",
+      "path": "/api/events/subscriptions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/subscriptions"
+    },
+    {
+      "file": "events.js",
+      "method": "DELETE",
+      "path": "/api/events/subscriptions/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/subscriptions/:id"
+    },
+    {
+      "file": "events.js",
+      "method": "GET",
+      "path": "/api/events/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "executive.js",
+      "method": "GET",
+      "path": "/api/executive/kpis",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/kpis"
+    },
+    {
+      "file": "executive.js",
+      "method": "GET",
+      "path": "/api/executive/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/summary"
+    },
+    {
+      "file": "executive.js",
+      "method": "POST",
+      "path": "/api/executive/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "executive.js",
+      "method": "GET",
+      "path": "/api/executive/trend",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/trend"
+    },
+    {
+      "file": "executive.js",
+      "method": "GET",
+      "path": "/api/executive/branch-performance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/branch-performance"
+    },
+    {
+      "file": "executiveCockpit.js",
+      "method": "GET",
+      "path": "/api/executive-cockpit/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "executiveCockpit.js",
+      "method": "GET",
+      "path": "/api/executive-cockpit/ceo",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ceo"
+    },
+    {
+      "file": "executiveCockpit.js",
+      "method": "GET",
+      "path": "/api/executive-cockpit/coo",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/coo"
+    },
+    {
+      "file": "executiveCockpit.js",
+      "method": "GET",
+      "path": "/api/executive-cockpit/cfo",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/cfo"
+    },
+    {
+      "file": "executiveCockpit.js",
+      "method": "GET",
+      "path": "/api/executive-cockpit/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "executiveSimulation.js",
+      "method": "GET",
+      "path": "/api/executive-simulation/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "executiveSimulation.js",
+      "method": "GET",
+      "path": "/api/executive-simulation/kpis",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/kpis"
+    },
+    {
+      "file": "executiveSimulation.js",
+      "method": "POST",
+      "path": "/api/executive-simulation/copilot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/copilot"
+    },
+    {
+      "file": "executiveSimulation.js",
+      "method": "POST",
+      "path": "/api/executive-simulation/recommendations",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations"
+    },
+    {
+      "file": "executiveSimulation.js",
+      "method": "GET",
+      "path": "/api/executive-simulation/financial-impact",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/financial-impact"
+    },
+    {
+      "file": "faq.js",
+      "method": "GET",
+      "path": "/api/faq",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "faq.js",
+      "method": "GET",
+      "path": "/api/faq/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "faq.js",
+      "method": "POST",
+      "path": "/api/faq/:id/helpful",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/helpful"
+    },
+    {
+      "file": "faq.js",
+      "method": "POST",
+      "path": "/api/faq",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "faq.js",
+      "method": "PUT",
+      "path": "/api/faq/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "faq.js",
+      "method": "DELETE",
+      "path": "/api/faq/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "faq.js",
+      "method": "GET",
+      "path": "/api/faq/admin/all",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/admin/all"
+    },
+    {
+      "file": "financeAnalytics.js",
+      "method": "GET",
+      "path": "/api/finance-analytics/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "financeAnalytics.js",
+      "method": "GET",
+      "path": "/api/finance-analytics/trends",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/trends"
+    },
+    {
+      "file": "financeAnalytics.js",
+      "method": "GET",
+      "path": "/api/finance-analytics/cashflow-summary",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/cashflow-summary"
+    },
+    {
+      "file": "financeAnalytics.js",
+      "method": "GET",
+      "path": "/api/finance-analytics/top-customers",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/top-customers"
+    },
+    {
+      "file": "financeAnalytics.js",
+      "method": "GET",
+      "path": "/api/finance-analytics/payment-modes",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/payment-modes"
+    },
+    {
+      "file": "financeCopilot.js",
+      "method": "POST",
+      "path": "/api/finance-copilot/chat",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/chat"
+    },
+    {
+      "file": "financeCopilot.js",
+      "method": "POST",
+      "path": "/api/finance-copilot/analyze",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/analyze"
+    },
+    {
+      "file": "financeCopilot.js",
+      "method": "POST",
+      "path": "/api/finance-copilot/forecast",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/profit-loss",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/profit-loss"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "POST",
+      "path": "/api/financial-reports/profit-loss/generate",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/profit-loss/generate"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/trial-balance/latest",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/trial-balance/latest"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "POST",
+      "path": "/api/financial-reports/trial-balance/generate",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/trial-balance/generate"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/balance-sheet",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/balance-sheet"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/aging-summary",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/aging-summary"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/revenue-by-branch",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/revenue-by-branch"
+    },
+    {
+      "file": "financialReports.js",
+      "method": "GET",
+      "path": "/api/financial-reports/expense-by-category",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/expense-by-category"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "GET",
+      "path": "/api/expenses/stats",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "GET",
+      "path": "/api/expenses/categories",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/categories"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "POST",
+      "path": "/api/expenses/categories",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/categories"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "GET",
+      "path": "/api/expenses",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "POST",
+      "path": "/api/expenses",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "GET",
+      "path": "/api/expenses/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "PUT",
+      "path": "/api/expenses/:id/approve",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/approve"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "PUT",
+      "path": "/api/expenses/:id/reject",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/reject"
+    },
+    {
+      "file": "finExpenses.js",
+      "method": "PUT",
+      "path": "/api/expenses/:id/pay",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/pay"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "GET",
+      "path": "/api/fin-invoices/stats",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "GET",
+      "path": "/api/fin-invoices/customer/:name",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/customer/:name"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "GET",
+      "path": "/api/fin-invoices",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "POST",
+      "path": "/api/fin-invoices",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "GET",
+      "path": "/api/fin-invoices/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "PUT",
+      "path": "/api/fin-invoices/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "PUT",
+      "path": "/api/fin-invoices/:id/cancel",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/cancel"
+    },
+    {
+      "file": "finInvoices.js",
+      "method": "PUT",
+      "path": "/api/fin-invoices/:id/mark-paid",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/mark-paid"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "GET",
+      "path": "/api/fin-payments/stats",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "GET",
+      "path": "/api/fin-payments/vendor",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/vendor"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "POST",
+      "path": "/api/fin-payments/vendor",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/vendor"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "GET",
+      "path": "/api/fin-payments/vendor/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/vendor/:id"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "GET",
+      "path": "/api/fin-payments",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "POST",
+      "path": "/api/fin-payments",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "GET",
+      "path": "/api/fin-payments/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "finPayments.js",
+      "method": "PUT",
+      "path": "/api/fin-payments/:id/allocate",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/allocate"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/available",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/available"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/maintenance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/maintenance"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/health",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/health"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "fleet.js",
+      "method": "PUT",
+      "path": "/api/fleet/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "fleet.js",
+      "method": "DELETE",
+      "path": "/api/fleet/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/documents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/documents"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/vendors",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/vendors"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/parts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/parts"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assign"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/release",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/release"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/maintenance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/maintenance"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/maintenance/auto-schedule",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/maintenance/auto-schedule"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/fuel",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fuel"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/documents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/documents"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/inspection",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/inspection"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/:id/health-check",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/health-check"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/:id/predictive-maintenance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/predictive-maintenance"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:id/fuel-history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/fuel-history"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:id/assignments",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assignments"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:id/expenses",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/expenses"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:vehicleId/tyres",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/tyres"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/:vehicleId/tyres",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/tyres"
+    },
+    {
+      "file": "fleet.js",
+      "method": "PUT",
+      "path": "/api/fleet/tyres/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tyres/:id"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/tyres/:id/rotate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tyres/:id/rotate"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/vendors",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/vendors"
+    },
+    {
+      "file": "fleet.js",
+      "method": "PUT",
+      "path": "/api/fleet/vendors/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/vendors/:id"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/parts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/parts"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/parts/:id/reserve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/parts/:id/reserve"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:vehicleId/ev-charging",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/ev-charging"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/:vehicleId/ev-charging",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/ev-charging"
+    },
+    {
+      "file": "fleet.js",
+      "method": "POST",
+      "path": "/api/fleet/:vehicleId/validate-odometer",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/validate-odometer"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/forecast/budget",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecast/budget"
+    },
+    {
+      "file": "fleet.js",
+      "method": "GET",
+      "path": "/api/fleet/:vehicleId/lifecycle",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/lifecycle"
+    },
+    {
+      "file": "forecast.js",
+      "method": "GET",
+      "path": "/api/forecast/revenue",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/revenue"
+    },
+    {
+      "file": "forecast.js",
+      "method": "GET",
+      "path": "/api/forecast/shipments",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shipments"
+    },
+    {
+      "file": "forecast.js",
+      "method": "GET",
+      "path": "/api/forecast/all",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/all"
+    },
+    {
+      "file": "forecast.js",
+      "method": "GET",
+      "path": "/api/forecast/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "GET",
+      "path": "/api/forecast-finance",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "GET",
+      "path": "/api/forecast-finance/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "POST",
+      "path": "/api/forecast-finance",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "POST",
+      "path": "/api/forecast-finance/ai-forecast",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/ai-forecast"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "GET",
+      "path": "/api/forecast-finance/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "forecastFinance.js",
+      "method": "PUT",
+      "path": "/api/forecast-finance/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "fuelIntelligence.js",
+      "method": "POST",
+      "path": "/api/fuel-intelligence/analyze/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analyze/:vehicleId"
+    },
+    {
+      "file": "fuelIntelligence.js",
+      "method": "GET",
+      "path": "/api/fuel-intelligence",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "fuelIntelligence.js",
+      "method": "GET",
+      "path": "/api/fuel-intelligence/theft-alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/theft-alerts"
+    },
+    {
+      "file": "fuelIntelligence.js",
+      "method": "GET",
+      "path": "/api/fuel-intelligence/fleet-summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fleet-summary"
+    },
+    {
+      "file": "gateway.js",
+      "method": "GET",
+      "path": "/api/gateway",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "gateway.js",
+      "method": "POST",
+      "path": "/api/gateway",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "gateway.js",
+      "method": "GET",
+      "path": "/api/gateway/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "gateway.js",
+      "method": "PUT",
+      "path": "/api/gateway/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "gateway.js",
+      "method": "DELETE",
+      "path": "/api/gateway/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "gateway.js",
+      "method": "GET",
+      "path": "/api/gateway/stats/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/overview"
+    },
+    {
+      "file": "generalLedger.js",
+      "method": "GET",
+      "path": "/api/general-ledger/trial-balance",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/trial-balance"
+    },
+    {
+      "file": "generalLedger.js",
+      "method": "POST",
+      "path": "/api/general-ledger/post",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/post"
+    },
+    {
+      "file": "generalLedger.js",
+      "method": "GET",
+      "path": "/api/general-ledger/account/:account_id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/account/:account_id"
+    },
+    {
+      "file": "generalLedger.js",
+      "method": "GET",
+      "path": "/api/general-ledger",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "import.js",
+      "method": "GET",
+      "path": "/api/import/template/:entity",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/template/:entity"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/customers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/customers"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/vehicles",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/vehicles"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/drivers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/drivers"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/inventory",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/inventory"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/chart-of-accounts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/chart-of-accounts"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/opening-balance",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/opening-balance"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/suppliers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/suppliers"
+    },
+    {
+      "file": "import.js",
+      "method": "POST",
+      "path": "/api/import/fastag",
+      "handlers": [
+        "authenticate",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/fastag"
+    },
+    {
+      "file": "import.js",
+      "method": "GET",
+      "path": "/api/import/fastag",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fastag"
+    },
+    {
+      "file": "inbound.js",
+      "method": "GET",
+      "path": "/api/inbound",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "inbound.js",
+      "method": "GET",
+      "path": "/api/inbound/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "inbound.js",
+      "method": "POST",
+      "path": "/api/inbound",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "inbound.js",
+      "method": "PUT",
+      "path": "/api/inbound/:id/arrive",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/arrive"
+    },
+    {
+      "file": "inbound.js",
+      "method": "PUT",
+      "path": "/api/inbound/:id/receive",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/receive"
+    },
+    {
+      "file": "inbound.js",
+      "method": "PUT",
+      "path": "/api/inbound/:id/complete",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/complete"
+    },
+    {
+      "file": "inbound.js",
+      "method": "PUT",
+      "path": "/api/inbound/:id/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "incidents.js",
+      "method": "GET",
+      "path": "/api/incidents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "incidents.js",
+      "method": "GET",
+      "path": "/api/incidents/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "incidents.js",
+      "method": "POST",
+      "path": "/api/incidents",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "incidents.js",
+      "method": "PUT",
+      "path": "/api/incidents/:id/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assign"
+    },
+    {
+      "file": "incidents.js",
+      "method": "PUT",
+      "path": "/api/incidents/:id/resolve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/resolve"
+    },
+    {
+      "file": "incidents.js",
+      "method": "POST",
+      "path": "/api/incidents/:id/comments",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/comments"
+    },
+    {
+      "file": "incidents.js",
+      "method": "GET",
+      "path": "/api/incidents/stats/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/summary"
+    },
+    {
+      "file": "integrationAnalytics.js",
+      "method": "GET",
+      "path": "/api/integration-analytics/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "integrationAnalytics.js",
+      "method": "GET",
+      "path": "/api/integration-analytics/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "integrationAnalytics.js",
+      "method": "POST",
+      "path": "/api/integration-analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "integrationAnalytics.js",
+      "method": "POST",
+      "path": "/api/integration-analytics/ai-insights",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-insights"
+    },
+    {
+      "file": "integrations.js",
+      "method": "GET",
+      "path": "/api/integrations/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "integrations.js",
+      "method": "GET",
+      "path": "/api/integrations/jobs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs"
+    },
+    {
+      "file": "integrations.js",
+      "method": "GET",
+      "path": "/api/integrations/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts"
+    },
+    {
+      "file": "integrations.js",
+      "method": "POST",
+      "path": "/api/integrations/alerts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts"
+    },
+    {
+      "file": "integrations.js",
+      "method": "PUT",
+      "path": "/api/integrations/alerts/:id/acknowledge",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/alerts/:id/acknowledge"
+    },
+    {
+      "file": "integrations.js",
+      "method": "GET",
+      "path": "/api/integrations/external-systems",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/external-systems"
+    },
+    {
+      "file": "integrations.js",
+      "method": "POST",
+      "path": "/api/integrations/external-systems",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/external-systems"
+    },
+    {
+      "file": "integrations.js",
+      "method": "GET",
+      "path": "/api/integrations/sync-history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/sync-history"
+    },
+    {
+      "file": "inventory.js",
+      "method": "GET",
+      "path": "/api/inventory",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "inventory.js",
+      "method": "GET",
+      "path": "/api/inventory/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "inventory.js",
+      "method": "POST",
+      "path": "/api/inventory",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "inventory.js",
+      "method": "PUT",
+      "path": "/api/inventory/:id/adjust",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/adjust"
+    },
+    {
+      "file": "inventory.js",
+      "method": "PUT",
+      "path": "/api/inventory/:id/transfer",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/transfer"
+    },
+    {
+      "file": "inventory.js",
+      "method": "POST",
+      "path": "/api/inventory/cycle-count",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/cycle-count"
+    },
+    {
+      "file": "inventory.js",
+      "method": "GET",
+      "path": "/api/inventory/movements/recent",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/movements/recent"
+    },
+    {
+      "file": "inventory.js",
+      "method": "DELETE",
+      "path": "/api/inventory/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "invoices.js",
+      "method": "GET",
+      "path": "/api/invoices",
+      "handlers": [
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "invoices.js",
+      "method": "GET",
+      "path": "/api/invoices/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "invoices.js",
+      "method": "POST",
+      "path": "/api/invoices",
+      "handlers": [
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "invoices.js",
+      "method": "PATCH",
+      "path": "/api/invoices/:id/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "invoices.js",
+      "method": "DELETE",
+      "path": "/api/invoices/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "iot.js",
+      "method": "POST",
+      "path": "/api/iot/register",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/register"
+    },
+    {
+      "file": "iot.js",
+      "method": "POST",
+      "path": "/api/iot/heartbeat",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/heartbeat"
+    },
+    {
+      "file": "iot.js",
+      "method": "GET",
+      "path": "/api/iot/devices",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/devices"
+    },
+    {
+      "file": "iot.js",
+      "method": "GET",
+      "path": "/api/iot/devices/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/devices/:id"
+    },
+    {
+      "file": "iot.js",
+      "method": "PUT",
+      "path": "/api/iot/devices/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/devices/:id"
+    },
+    {
+      "file": "iot.js",
+      "method": "POST",
+      "path": "/api/iot/devices/:id/rotate-key",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/devices/:id/rotate-key"
+    },
+    {
+      "file": "iot.js",
+      "method": "GET",
+      "path": "/api/iot/offline",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/offline"
+    },
+    {
+      "file": "journal.js",
+      "method": "GET",
+      "path": "/api/journal/stats",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "journal.js",
+      "method": "GET",
+      "path": "/api/journal",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "journal.js",
+      "method": "POST",
+      "path": "/api/journal",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "journal.js",
+      "method": "GET",
+      "path": "/api/journal/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "journal.js",
+      "method": "PUT",
+      "path": "/api/journal/:id/post",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/post"
+    },
+    {
+      "file": "journal.js",
+      "method": "PUT",
+      "path": "/api/journal/:id/reverse",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/reverse"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "GET",
+      "path": "/api/knowledge/search",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/search"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "GET",
+      "path": "/api/knowledge",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "GET",
+      "path": "/api/knowledge/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "POST",
+      "path": "/api/knowledge",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "PUT",
+      "path": "/api/knowledge/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "DELETE",
+      "path": "/api/knowledge/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "knowledge.js",
+      "method": "POST",
+      "path": "/api/knowledge/:id/helpful",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/helpful"
+    },
+    {
+      "file": "leads.js",
+      "method": "GET",
+      "path": "/api/leads/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "leads.js",
+      "method": "GET",
+      "path": "/api/leads",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "leads.js",
+      "method": "POST",
+      "path": "/api/leads",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "leads.js",
+      "method": "GET",
+      "path": "/api/leads/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "leads.js",
+      "method": "PUT",
+      "path": "/api/leads/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "leads.js",
+      "method": "DELETE",
+      "path": "/api/leads/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "leads.js",
+      "method": "POST",
+      "path": "/api/leads/score",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/score"
+    },
+    {
+      "file": "leads.js",
+      "method": "POST",
+      "path": "/api/leads/qualify",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/qualify"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/request",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/request"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "GET",
+      "path": "/api/live-agent/session/:sessionId",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/session/:sessionId"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/session/:sessionId/message",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/session/:sessionId/message"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/session/:sessionId/rate",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/session/:sessionId/rate"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "GET",
+      "path": "/api/live-agent/queue",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/queue"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/accept/:sessionId",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/accept/:sessionId"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/reply/:sessionId",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/reply/:sessionId"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "GET",
+      "path": "/api/live-agent/session/:sessionId/full",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/session/:sessionId/full"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "POST",
+      "path": "/api/live-agent/close/:sessionId",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/close/:sessionId"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "GET",
+      "path": "/api/live-agent/me",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/me"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "PATCH",
+      "path": "/api/live-agent/me/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/me/status"
+    },
+    {
+      "file": "liveAgent.js",
+      "method": "GET",
+      "path": "/api/live-agent/history",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "liveOperations.js",
+      "method": "GET",
+      "path": "/api/live-operations/vehicles",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/vehicles"
+    },
+    {
+      "file": "liveOperations.js",
+      "method": "GET",
+      "path": "/api/live-operations/drivers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/drivers"
+    },
+    {
+      "file": "liveOperations.js",
+      "method": "GET",
+      "path": "/api/live-operations/shipments",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/shipments"
+    },
+    {
+      "file": "liveOperations.js",
+      "method": "GET",
+      "path": "/api/live-operations/warehouse-capacity",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/warehouse-capacity"
+    },
+    {
+      "file": "liveOperations.js",
+      "method": "GET",
+      "path": "/api/live-operations/kpi-wall",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/kpi-wall"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "POST",
+      "path": "/api/maintenance-ai/predict/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/predict/:vehicleId"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "POST",
+      "path": "/api/maintenance-ai/predict-fleet",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/predict-fleet"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "POST",
+      "path": "/api/maintenance-ai/schedule/:predictionId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/schedule/:predictionId"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "GET",
+      "path": "/api/maintenance-ai/predictions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/predictions"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "GET",
+      "path": "/api/maintenance-ai/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "maintenanceAi.js",
+      "method": "POST",
+      "path": "/api/maintenance-ai/analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/snapshot"
+    },
+    {
+      "file": "notifications.js",
+      "method": "GET",
+      "path": "/api/notifications",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "notifications.js",
+      "method": "PATCH",
+      "path": "/api/notifications/:id/read",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/read"
+    },
+    {
+      "file": "notifications.js",
+      "method": "POST",
+      "path": "/api/notifications/read-all",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/read-all"
+    },
+    {
+      "file": "notifications.js",
+      "method": "DELETE",
+      "path": "/api/notifications/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "notifications.js",
+      "method": "DELETE",
+      "path": "/api/notifications",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "oauthRoutes.js",
+      "method": "POST",
+      "path": "/api/oauth/token",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/token"
+    },
+    {
+      "file": "oauthRoutes.js",
+      "method": "POST",
+      "path": "/api/oauth/revoke",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/revoke"
+    },
+    {
+      "file": "oauthRoutes.js",
+      "method": "GET",
+      "path": "/api/oauth/tokens",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tokens"
+    },
+    {
+      "file": "oauthRoutes.js",
+      "method": "GET",
+      "path": "/api/oauth/scopes",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/scopes"
+    },
+    {
+      "file": "ocr.js",
+      "method": "GET",
+      "path": "/api/ocr/jobs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs"
+    },
+    {
+      "file": "ocr.js",
+      "method": "GET",
+      "path": "/api/ocr/jobs/:jobId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs/:jobId"
+    },
+    {
+      "file": "ocr.js",
+      "method": "GET",
+      "path": "/api/ocr/queue",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/queue"
+    },
+    {
+      "file": "ocr.js",
+      "method": "POST",
+      "path": "/api/ocr/:docId/reprocess",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/reprocess"
+    },
+    {
+      "file": "ocr.js",
+      "method": "GET",
+      "path": "/api/ocr/:docId/result",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/result"
+    },
+    {
+      "file": "ocr.js",
+      "method": "POST",
+      "path": "/api/ocr/:docId/cancel",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:docId/cancel"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "GET",
+      "path": "/api/opportunities/pipeline",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/pipeline"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "GET",
+      "path": "/api/opportunities",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "POST",
+      "path": "/api/opportunities",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "PUT",
+      "path": "/api/opportunities/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "DELETE",
+      "path": "/api/opportunities/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "opportunities.js",
+      "method": "POST",
+      "path": "/api/opportunities/convert",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/convert"
+    },
+    {
+      "file": "outbound.js",
+      "method": "GET",
+      "path": "/api/outbound",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "outbound.js",
+      "method": "GET",
+      "path": "/api/outbound/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "outbound.js",
+      "method": "POST",
+      "path": "/api/outbound",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "outbound.js",
+      "method": "PUT",
+      "path": "/api/outbound/:id/allocate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/allocate"
+    },
+    {
+      "file": "outbound.js",
+      "method": "PUT",
+      "path": "/api/outbound/:id/generate-picklist",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/generate-picklist"
+    },
+    {
+      "file": "outbound.js",
+      "method": "PUT",
+      "path": "/api/outbound/:id/pick",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/pick"
+    },
+    {
+      "file": "outbound.js",
+      "method": "PUT",
+      "path": "/api/outbound/:id/dispatch",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/dispatch"
+    },
+    {
+      "file": "outbound.js",
+      "method": "GET",
+      "path": "/api/outbound/:id/manifest",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/manifest"
+    },
+    {
+      "file": "payments.js",
+      "method": "GET",
+      "path": "/api/payments",
+      "handlers": [
+        "authenticate",
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "payments.js",
+      "method": "PATCH",
+      "path": "/api/payments/:id/collect",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/collect"
+    },
+    {
+      "file": "pod.js",
+      "method": "GET",
+      "path": "/api/pod",
+      "handlers": [
+        "authenticate",
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "pod.js",
+      "method": "POST",
+      "path": "/api/pod",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "pod.js",
+      "method": "POST",
+      "path": "/api/pod/:shipmentId/upload",
+      "handlers": [
+        "authenticate",
+        "multerMiddleware",
+        "<anonymous>"
+      ],
+      "routePath": "/:shipmentId/upload"
+    },
+    {
+      "file": "pod.js",
+      "method": "PATCH",
+      "path": "/api/pod/:shipmentId/verify",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:shipmentId/verify"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "GET",
+      "path": "/api/purchase-orders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "GET",
+      "path": "/api/purchase-orders/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "POST",
+      "path": "/api/purchase-orders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "PUT",
+      "path": "/api/purchase-orders/:id/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/approve"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "PUT",
+      "path": "/api/purchase-orders/:id/receive",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/receive"
+    },
+    {
+      "file": "purchaseOrders.js",
+      "method": "GET",
+      "path": "/api/purchase-orders/analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/summary"
+    },
+    {
+      "file": "quotes.js",
+      "method": "POST",
+      "path": "/api/quotes/estimate",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/estimate"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/rules",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules"
+    },
+    {
+      "file": "quotes.js",
+      "method": "PUT",
+      "path": "/api/quotes/rules",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/fuel-price",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fuel-price"
+    },
+    {
+      "file": "quotes.js",
+      "method": "POST",
+      "path": "/api/quotes/fuel-price",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fuel-price"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/discounts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/discounts"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/rules/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/rules/history"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/customer-pricing",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/customer-pricing"
+    },
+    {
+      "file": "quotes.js",
+      "method": "POST",
+      "path": "/api/quotes/customer-pricing",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/customer-pricing"
+    },
+    {
+      "file": "quotes.js",
+      "method": "PATCH",
+      "path": "/api/quotes/customer-pricing/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/customer-pricing/:id"
+    },
+    {
+      "file": "quotes.js",
+      "method": "GET",
+      "path": "/api/quotes/:number",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:number"
+    },
+    {
+      "file": "quotes.js",
+      "method": "POST",
+      "path": "/api/quotes",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "quotes.js",
+      "method": "PATCH",
+      "path": "/api/quotes/:number/convert",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:number/convert"
+    },
+    {
+      "file": "quotes.js",
+      "method": "PATCH",
+      "path": "/api/quotes/:number/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:number/status"
+    },
+    {
+      "file": "quotes.js",
+      "method": "POST",
+      "path": "/api/quotes/:number/discount",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:number/discount"
+    },
+    {
+      "file": "quotes.js",
+      "method": "PATCH",
+      "path": "/api/quotes/discounts/:id/action",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/discounts/:id/action"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "GET",
+      "path": "/api/reconciliation/unreconciled/:account_id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/unreconciled/:account_id"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "GET",
+      "path": "/api/reconciliation",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "POST",
+      "path": "/api/reconciliation",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "GET",
+      "path": "/api/reconciliation/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "PUT",
+      "path": "/api/reconciliation/:id/match",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/match"
+    },
+    {
+      "file": "reconciliation.js",
+      "method": "PUT",
+      "path": "/api/reconciliation/:id/complete",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/complete"
+    },
+    {
+      "file": "recovery.js",
+      "method": "GET",
+      "path": "/api/recovery/plans",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans"
+    },
+    {
+      "file": "recovery.js",
+      "method": "POST",
+      "path": "/api/recovery/plans",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans"
+    },
+    {
+      "file": "recovery.js",
+      "method": "GET",
+      "path": "/api/recovery/plans/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans/:id"
+    },
+    {
+      "file": "recovery.js",
+      "method": "POST",
+      "path": "/api/recovery/plans/:id/activate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans/:id/activate"
+    },
+    {
+      "file": "recovery.js",
+      "method": "POST",
+      "path": "/api/recovery/plans/:id/test",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/plans/:id/test"
+    },
+    {
+      "file": "recovery.js",
+      "method": "GET",
+      "path": "/api/recovery/executions",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/executions"
+    },
+    {
+      "file": "recovery.js",
+      "method": "PUT",
+      "path": "/api/recovery/executions/:id/checkpoint",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/executions/:id/checkpoint"
+    },
+    {
+      "file": "recovery.js",
+      "method": "GET",
+      "path": "/api/recovery/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "reports.js",
+      "method": "GET",
+      "path": "/api/reports",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "reports.js",
+      "method": "POST",
+      "path": "/api/reports/generate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/generate"
+    },
+    {
+      "file": "reports.js",
+      "method": "GET",
+      "path": "/api/reports/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "reports.js",
+      "method": "GET",
+      "path": "/api/reports/:id/export",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/export"
+    },
+    {
+      "file": "reports.js",
+      "method": "DELETE",
+      "path": "/api/reports/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "rfid.js",
+      "method": "GET",
+      "path": "/api/rfid/readers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/readers"
+    },
+    {
+      "file": "rfid.js",
+      "method": "POST",
+      "path": "/api/rfid/read",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/read"
+    },
+    {
+      "file": "rfid.js",
+      "method": "POST",
+      "path": "/api/rfid/inventory-count",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/inventory-count"
+    },
+    {
+      "file": "rfid.js",
+      "method": "POST",
+      "path": "/api/rfid/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "risk.js",
+      "method": "GET",
+      "path": "/api/risk",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "risk.js",
+      "method": "POST",
+      "path": "/api/risk",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "risk.js",
+      "method": "PUT",
+      "path": "/api/risk/:id/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "risk.js",
+      "method": "POST",
+      "path": "/api/risk/ai-assess",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-assess"
+    },
+    {
+      "file": "risk.js",
+      "method": "GET",
+      "path": "/api/risk/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "GET",
+      "path": "/api/risk-simulation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "POST",
+      "path": "/api/risk-simulation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "POST",
+      "path": "/api/risk-simulation/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "POST",
+      "path": "/api/risk-simulation/heatmap",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/heatmap"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "POST",
+      "path": "/api/risk-simulation/ai-assess",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-assess"
+    },
+    {
+      "file": "riskSimulation.js",
+      "method": "PUT",
+      "path": "/api/risk-simulation/:id/mitigate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/mitigate"
+    },
+    {
+      "file": "routeExpenseRoutes.js",
+      "method": "POST",
+      "path": "/api/route-expenses",
+      "handlers": [
+        "createRouteExpense"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "routeExpenseRoutes.js",
+      "method": "GET",
+      "path": "/api/route-expenses",
+      "handlers": [
+        "getAllRouteExpenses"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "routeExpenseRoutes.js",
+      "method": "GET",
+      "path": "/api/route-expenses/:id",
+      "handlers": [
+        "getRouteExpenseById"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "routeExpenseRoutes.js",
+      "method": "PUT",
+      "path": "/api/route-expenses/:id",
+      "handlers": [
+        "updateRouteExpense"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "routeExpenseRoutes.js",
+      "method": "DELETE",
+      "path": "/api/route-expenses/:id",
+      "handlers": [
+        "deleteRouteExpense"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/optimize",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/optimize"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/live-map",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/live-map"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/candidates/vehicles",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/candidates/vehicles"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/candidates/drivers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/candidates/drivers"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/learning",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/learning"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/risk",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/risk"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/fatigue",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fatigue"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/docks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/docks"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/fuel-stations",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fuel-stations"
+    },
+    {
+      "file": "routes.js",
+      "method": "GET",
+      "path": "/api/routes/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/recalculate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recalculate"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/assign-vehicle",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assign-vehicle"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/assign-driver",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assign-driver"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/:id/start",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/start"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/:id/complete",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/complete"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/reoptimize",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/reoptimize"
+    },
+    {
+      "file": "routes.js",
+      "method": "POST",
+      "path": "/api/routes/docks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/docks"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/forecast",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "sales.js",
+      "method": "POST",
+      "path": "/api/sales/proposal",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/proposal"
+    },
+    {
+      "file": "sales.js",
+      "method": "POST",
+      "path": "/api/sales/followup",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/followup"
+    },
+    {
+      "file": "sales.js",
+      "method": "POST",
+      "path": "/api/sales/meeting",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/meeting"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/meetings",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/meetings"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/tasks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tasks"
+    },
+    {
+      "file": "sales.js",
+      "method": "PUT",
+      "path": "/api/sales/tasks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/tasks/:id"
+    },
+    {
+      "file": "sales.js",
+      "method": "GET",
+      "path": "/api/sales/proposals",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/proposals"
+    },
+    {
+      "file": "sales.js",
+      "method": "POST",
+      "path": "/api/sales/copilot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/copilot"
+    },
+    {
+      "file": "salesOrders.js",
+      "method": "GET",
+      "path": "/api/sales-orders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "salesOrders.js",
+      "method": "GET",
+      "path": "/api/sales-orders/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "salesOrders.js",
+      "method": "POST",
+      "path": "/api/sales-orders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "salesOrders.js",
+      "method": "PUT",
+      "path": "/api/sales-orders/:id/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "salesOrders.js",
+      "method": "GET",
+      "path": "/api/sales-orders/analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/summary"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "GET",
+      "path": "/api/scenarios",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "GET",
+      "path": "/api/scenarios/library",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/library"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "POST",
+      "path": "/api/scenarios",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "POST",
+      "path": "/api/scenarios/from-template",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/from-template"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "GET",
+      "path": "/api/scenarios/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "PUT",
+      "path": "/api/scenarios/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "POST",
+      "path": "/api/scenarios/:id/ai-analyse",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/ai-analyse"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "GET",
+      "path": "/api/scenarios/recommendations/all",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations/all"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "PUT",
+      "path": "/api/scenarios/recommendations/:id/accept",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations/:id/accept"
+    },
+    {
+      "file": "scenarios.js",
+      "method": "GET",
+      "path": "/api/scenarios/optimizations/list",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/optimizations/list"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "GET",
+      "path": "/api/scheduler",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "GET",
+      "path": "/api/scheduler/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "POST",
+      "path": "/api/scheduler",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "PUT",
+      "path": "/api/scheduler/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "POST",
+      "path": "/api/scheduler/:id/run-now",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/run-now"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "DELETE",
+      "path": "/api/scheduler/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "scheduler.js",
+      "method": "GET",
+      "path": "/api/scheduler/stats/overview",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/overview"
+    },
+    {
+      "file": "shipments.js",
+      "method": "GET",
+      "path": "/api/shipments",
+      "handlers": [
+        "authenticate",
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "shipments.js",
+      "method": "GET",
+      "path": "/api/shipments/track/:lr",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/track/:lr"
+    },
+    {
+      "file": "shipments.js",
+      "method": "GET",
+      "path": "/api/shipments/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "shipments.js",
+      "method": "POST",
+      "path": "/api/shipments",
+      "handlers": [
+        "authenticate",
+        "requireBranchAccess",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "shipments.js",
+      "method": "PATCH",
+      "path": "/api/shipments/:id/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "shipments.js",
+      "method": "PUT",
+      "path": "/api/shipments/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "shipments.js",
+      "method": "POST",
+      "path": "/api/shipments/:id/transfer",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/transfer"
+    },
+    {
+      "file": "simulation.js",
+      "method": "GET",
+      "path": "/api/simulation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "simulation.js",
+      "method": "POST",
+      "path": "/api/simulation",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "simulation.js",
+      "method": "GET",
+      "path": "/api/simulation/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "simulation.js",
+      "method": "POST",
+      "path": "/api/simulation/ai-generate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-generate"
+    },
+    {
+      "file": "simulation.js",
+      "method": "GET",
+      "path": "/api/simulation/stats/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/summary"
+    },
+    {
+      "file": "simulationAnalytics.js",
+      "method": "GET",
+      "path": "/api/simulation-analytics/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "simulationAnalytics.js",
+      "method": "GET",
+      "path": "/api/simulation-analytics/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "simulationAnalytics.js",
+      "method": "POST",
+      "path": "/api/simulation-analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "simulationAnalytics.js",
+      "method": "POST",
+      "path": "/api/simulation-analytics/ai-insights",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/ai-insights"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "GET",
+      "path": "/api/suppliers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "GET",
+      "path": "/api/suppliers/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "POST",
+      "path": "/api/suppliers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "PUT",
+      "path": "/api/suppliers/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "POST",
+      "path": "/api/suppliers/:id/approve",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/approve"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "POST",
+      "path": "/api/suppliers/:id/scorecard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/scorecard"
+    },
+    {
+      "file": "suppliers.js",
+      "method": "GET",
+      "path": "/api/suppliers/analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/summary"
+    },
+    {
+      "file": "supportAnalytics.js",
+      "method": "GET",
+      "path": "/api/support-analytics/overview",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/overview"
+    },
+    {
+      "file": "supportAnalytics.js",
+      "method": "GET",
+      "path": "/api/support-analytics/agents",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/agents"
+    },
+    {
+      "file": "sustainability.js",
+      "method": "GET",
+      "path": "/api/sustainability",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "sustainability.js",
+      "method": "POST",
+      "path": "/api/sustainability/score",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/score"
+    },
+    {
+      "file": "sustainability.js",
+      "method": "GET",
+      "path": "/api/sustainability/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "sustainability.js",
+      "method": "GET",
+      "path": "/api/sustainability/targets",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/targets"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "GET",
+      "path": "/api/sync/jobs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "POST",
+      "path": "/api/sync/jobs",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "GET",
+      "path": "/api/sync/jobs/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/jobs/:id"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "GET",
+      "path": "/api/sync/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "GET",
+      "path": "/api/sync/conflicts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/conflicts"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "PUT",
+      "path": "/api/sync/conflicts/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/conflicts/:id"
+    },
+    {
+      "file": "syncRoutes.js",
+      "method": "GET",
+      "path": "/api/sync/stats",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats"
+    },
+    {
+      "file": "tasks.js",
+      "method": "GET",
+      "path": "/api/tasks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "tasks.js",
+      "method": "GET",
+      "path": "/api/tasks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "tasks.js",
+      "method": "POST",
+      "path": "/api/tasks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "tasks.js",
+      "method": "PUT",
+      "path": "/api/tasks/:id/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assign"
+    },
+    {
+      "file": "tasks.js",
+      "method": "PUT",
+      "path": "/api/tasks/:id/start",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/start"
+    },
+    {
+      "file": "tasks.js",
+      "method": "PUT",
+      "path": "/api/tasks/:id/complete",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/complete"
+    },
+    {
+      "file": "tasks.js",
+      "method": "PUT",
+      "path": "/api/tasks/:id/item-done",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/item-done"
+    },
+    {
+      "file": "tax.js",
+      "method": "GET",
+      "path": "/api/tax/transactions",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/transactions"
+    },
+    {
+      "file": "tax.js",
+      "method": "POST",
+      "path": "/api/tax/transactions",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/transactions"
+    },
+    {
+      "file": "tax.js",
+      "method": "GET",
+      "path": "/api/tax/gst-returns",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/gst-returns"
+    },
+    {
+      "file": "tax.js",
+      "method": "POST",
+      "path": "/api/tax/gst-returns",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/gst-returns"
+    },
+    {
+      "file": "tax.js",
+      "method": "PUT",
+      "path": "/api/tax/gst-returns/:id/file",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/gst-returns/:id/file"
+    },
+    {
+      "file": "tax.js",
+      "method": "GET",
+      "path": "/api/tax/tds",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/tds"
+    },
+    {
+      "file": "tax.js",
+      "method": "POST",
+      "path": "/api/tax/tds",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/tds"
+    },
+    {
+      "file": "tax.js",
+      "method": "GET",
+      "path": "/api/tax/dashboard",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "POST",
+      "path": "/api/telemetry",
+      "handlers": [
+        "deviceAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "POST",
+      "path": "/api/telemetry/batch",
+      "handlers": [
+        "deviceAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/batch"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "POST",
+      "path": "/api/telemetry/simulate",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/simulate"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "GET",
+      "path": "/api/telemetry/live/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/live/:vehicleId"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "GET",
+      "path": "/api/telemetry/history/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/history/:vehicleId"
+    },
+    {
+      "file": "telemetry.js",
+      "method": "GET",
+      "path": "/api/telemetry/fleet-snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fleet-snapshot"
+    },
+    {
+      "file": "tracking.js",
+      "method": "GET",
+      "path": "/api/tracking/search",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/search"
+    },
+    {
+      "file": "tracking.js",
+      "method": "GET",
+      "path": "/api/tracking/dispatcher",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dispatcher"
+    },
+    {
+      "file": "tracking.js",
+      "method": "GET",
+      "path": "/api/tracking/:lr",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:lr"
+    },
+    {
+      "file": "tracking.js",
+      "method": "GET",
+      "path": "/api/tracking/:lr/eta",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:lr/eta"
+    },
+    {
+      "file": "tracking.js",
+      "method": "POST",
+      "path": "/api/tracking/:shipmentId/gps",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:shipmentId/gps"
+    },
+    {
+      "file": "tracking.js",
+      "method": "PATCH",
+      "path": "/api/tracking/:shipmentId/status",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:shipmentId/status"
+    },
+    {
+      "file": "tracking.js",
+      "method": "POST",
+      "path": "/api/tracking/:shipmentId/event",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:shipmentId/event"
+    },
+    {
+      "file": "tracking.js",
+      "method": "GET",
+      "path": "/api/tracking/events/:shipmentId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/events/:shipmentId"
+    },
+    {
+      "file": "tyreHealth.js",
+      "method": "POST",
+      "path": "/api/tyre-health/assess/:vehicleId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/assess/:vehicleId"
+    },
+    {
+      "file": "tyreHealth.js",
+      "method": "GET",
+      "path": "/api/tyre-health",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "tyreHealth.js",
+      "method": "GET",
+      "path": "/api/tyre-health/:vehicleId/history",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:vehicleId/history"
+    },
+    {
+      "file": "tyreHealth.js",
+      "method": "POST",
+      "path": "/api/tyre-health/fleet-assess",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/fleet-assess"
+    },
+    {
+      "file": "users.js",
+      "method": "GET",
+      "path": "/api/users",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "users.js",
+      "method": "POST",
+      "path": "/api/users",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "users.js",
+      "method": "PUT",
+      "path": "/api/users/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "users.js",
+      "method": "DELETE",
+      "path": "/api/users/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "GET",
+      "path": "/api/vehicles",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "GET",
+      "path": "/api/vehicles/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "POST",
+      "path": "/api/vehicles",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "PUT",
+      "path": "/api/vehicles/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "PATCH",
+      "path": "/api/vehicles/:id/status",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id/status"
+    },
+    {
+      "file": "vehicles.js",
+      "method": "DELETE",
+      "path": "/api/vehicles/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "vendors-p15.js",
+      "method": "GET",
+      "path": "/api/vendors-p15",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "vendors-p15.js",
+      "method": "GET",
+      "path": "/api/vendors-p15/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "vendors-p15.js",
+      "method": "POST",
+      "path": "/api/vendors-p15/:id/contracts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/contracts"
+    },
+    {
+      "file": "vendors-p15.js",
+      "method": "GET",
+      "path": "/api/vendors-p15/contracts/all",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/contracts/all"
+    },
+    {
+      "file": "vendors-p15.js",
+      "method": "GET",
+      "path": "/api/vendors-p15/analytics/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics/summary"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/session/start",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/session/start"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/session/end",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/session/end"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/transcribe",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/transcribe"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/respond",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/respond"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/transfer",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/transfer"
+    },
+    {
+      "file": "voice.js",
+      "method": "GET",
+      "path": "/api/voice/history",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/history"
+    },
+    {
+      "file": "voice.js",
+      "method": "POST",
+      "path": "/api/voice/feedback",
+      "handlers": [
+        "optionalAuth",
+        "<anonymous>"
+      ],
+      "routePath": "/feedback"
+    },
+    {
+      "file": "voice.js",
+      "method": "GET",
+      "path": "/api/voice/analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analytics"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "POST",
+      "path": "/api/warehouse-ai/suggest-bin",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/suggest-bin"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "POST",
+      "path": "/api/warehouse-ai/picking-route",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/picking-route"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "POST",
+      "path": "/api/warehouse-ai/analyze",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/analyze"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "POST",
+      "path": "/api/warehouse-ai/forecast",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecast"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "GET",
+      "path": "/api/warehouse-ai/recommendations",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "PUT",
+      "path": "/api/warehouse-ai/recommendations/:id/action",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/recommendations/:id/action"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "GET",
+      "path": "/api/warehouse-ai/heatmap",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/heatmap"
+    },
+    {
+      "file": "warehouse-ai.js",
+      "method": "GET",
+      "path": "/api/warehouse-ai/labour-optimization",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/labour-optimization"
+    },
+    {
+      "file": "warehouse-analytics.js",
+      "method": "POST",
+      "path": "/api/warehouse-analytics/snapshot",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/snapshot"
+    },
+    {
+      "file": "warehouse-analytics.js",
+      "method": "GET",
+      "path": "/api/warehouse-analytics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "warehouse-analytics.js",
+      "method": "GET",
+      "path": "/api/warehouse-analytics/dashboard",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/dashboard"
+    },
+    {
+      "file": "warehouse-analytics.js",
+      "method": "GET",
+      "path": "/api/warehouse-analytics/inventory-turnover",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/inventory-turnover"
+    },
+    {
+      "file": "warehouse-analytics.js",
+      "method": "GET",
+      "path": "/api/warehouse-analytics/forecasts",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/forecasts"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses/:id",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "PUT",
+      "path": "/api/warehouses/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "DELETE",
+      "path": "/api/warehouses/:id",
+      "handlers": [
+        "<anonymous>",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses/:wid/zones",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/zones"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses/:wid/zones",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/zones"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "PUT",
+      "path": "/api/warehouses/:wid/zones/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/zones/:id"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses/:wid/racks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/racks"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses/:wid/racks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/racks"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses/:wid/bins",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/bins"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses/:wid/bins",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/bins"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses/:wid/bins/bulk",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/bins/bulk"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "GET",
+      "path": "/api/warehouses/:wid/workers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/workers"
+    },
+    {
+      "file": "warehouses.js",
+      "method": "POST",
+      "path": "/api/warehouses/:wid/workers",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:wid/workers"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "GET",
+      "path": "/api/webhooks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "GET",
+      "path": "/api/webhooks/events",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/events"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "POST",
+      "path": "/api/webhooks",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "GET",
+      "path": "/api/webhooks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "PUT",
+      "path": "/api/webhooks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "POST",
+      "path": "/api/webhooks/:id/test",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/test"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "POST",
+      "path": "/api/webhooks/:id/retry/:deliveryId",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/retry/:deliveryId"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "DELETE",
+      "path": "/api/webhooks/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "webhooks.js",
+      "method": "GET",
+      "path": "/api/webhooks/deliveries/recent",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/deliveries/recent"
+    },
+    {
+      "file": "whatsapp.js",
+      "method": "GET",
+      "path": "/api/whatsapp/webhook",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/webhook"
+    },
+    {
+      "file": "whatsapp.js",
+      "method": "POST",
+      "path": "/api/whatsapp/webhook",
+      "handlers": [
+        "<anonymous>"
+      ],
+      "routePath": "/webhook"
+    },
+    {
+      "file": "whatsapp.js",
+      "method": "POST",
+      "path": "/api/whatsapp/send",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/send"
+    },
+    {
+      "file": "workorders.js",
+      "method": "GET",
+      "path": "/api/workorders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "workorders.js",
+      "method": "POST",
+      "path": "/api/workorders",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "workorders.js",
+      "method": "GET",
+      "path": "/api/workorders/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "workorders.js",
+      "method": "PUT",
+      "path": "/api/workorders/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "workorders.js",
+      "method": "POST",
+      "path": "/api/workorders/:id/assign",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/assign"
+    },
+    {
+      "file": "workorders.js",
+      "method": "POST",
+      "path": "/api/workorders/:id/close",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/close"
+    },
+    {
+      "file": "workorders.js",
+      "method": "GET",
+      "path": "/api/workorders/stats/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/summary"
+    },
+    {
+      "file": "workshops.js",
+      "method": "GET",
+      "path": "/api/workshops",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "workshops.js",
+      "method": "POST",
+      "path": "/api/workshops",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/"
+    },
+    {
+      "file": "workshops.js",
+      "method": "GET",
+      "path": "/api/workshops/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "workshops.js",
+      "method": "PUT",
+      "path": "/api/workshops/:id",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id"
+    },
+    {
+      "file": "workshops.js",
+      "method": "POST",
+      "path": "/api/workshops/:id/mechanics",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/mechanics"
+    },
+    {
+      "file": "workshops.js",
+      "method": "PUT",
+      "path": "/api/workshops/:id/mechanics/:mechanicId/availability",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/:id/mechanics/:mechanicId/availability"
+    },
+    {
+      "file": "workshops.js",
+      "method": "GET",
+      "path": "/api/workshops/stats/summary",
+      "handlers": [
+        "authenticate",
+        "<anonymous>"
+      ],
+      "routePath": "/stats/summary"
+    }
+  ],
+  "errors": []
+}

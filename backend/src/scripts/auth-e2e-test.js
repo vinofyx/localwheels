@@ -15,8 +15,14 @@ require('dotenv').config();
 const https = require('http');
 
 const BASE = `http://localhost:${process.env.PORT || 5000}/api`;
-const ADMIN_USER = { username: 'rajdhani_admin', password: 'RCS@Admin#2026' };
-const SUPER_USER = { username: 'superadmin', password: 'LW@SuperAdmin#2026!' };
+const ADMIN_USER = {
+  username: process.env.TEST_ADMIN_USERNAME || 'admin',
+  password: process.env.TEST_ADMIN_PASSWORD || 'LocalWheels@Dev#2026',
+};
+const SUPER_USER = {
+  username: process.env.TEST_SUPERADMIN_USERNAME || 'superadmin',
+  password: process.env.TEST_SUPERADMIN_PASSWORD || 'LocalWheels@Super#2026',
+};
 
 let passed = 0;
 let failed = 0;

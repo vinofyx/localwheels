@@ -52,9 +52,10 @@ router.post('/', auth, async (req, res) => {
 
 router.put('/:id', auth, async (req, res) => {
   try {
+    const { company_id, _id, created_by, ...safeUpdates } = req.body;
     const wf = await AutomationWorkflow.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true }
+      { $set: safeUpdates }, { new: true }
     );
     if (!wf) return err(res, 'Not found', 404);
     ok(res, wf, 'Workflow updated');
@@ -120,9 +121,10 @@ router.post('/rules', auth, async (req, res) => {
 
 router.put('/rules/:id', auth, async (req, res) => {
   try {
+    const { company_id, _id, created_by, ...safeUpdates } = req.body;
     const rule = await AutomationRule.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true }
+      { $set: safeUpdates }, { new: true }
     );
     if (!rule) return err(res, 'Not found', 404);
     ok(res, rule, 'Rule updated');

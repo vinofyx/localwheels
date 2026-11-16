@@ -4,9 +4,48 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Company = require('../models/Company');
 const { authenticate } = require('../middleware/auth');
+const { bootstrapSuperAdmin, getBootstrapStatus } = require('../services/adminBootstrap');
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'localwheels-dev-secret-key-change-in-production-123456';
+
+// ── GET /api/auth/bootstrap-status ──────────────────────────────────────────
+router.get('/bootstrap-status', async (_req, res, next) => {
+  try {
+    const status = await getBootstrapStatus();
+    res.json(status);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ── POST /api/auth/bootstrap-superadmin ──────────────────────────────────────
+router.post('/bootstrap-superadmin', async (req, res, next) => {
+  try {
+    const { bootstrap_secret, username, password, email, full_name, company_name } = req.body;
+    const ip_address = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+    const result = await bootstrapSuperAdmin({
+      secret: bootstrap_secret,
+      username,
+      password,
+      email,
+      full_name,
+      company_name,
+      ip_address,
+    });
+
+    res.status(201).json(result);
+  } catch (err) {
+    if (err.message.includes('Invalid bootstrap secret')) {
+      return res.status(403).json({ error: err.message });
+    }
+    if (err.message.includes('already') || err.message.includes('disabled') || err.message.includes('locked')) {
+      return res.status(409).json({ error: err.message });
+    }
+    res.status(400).json({ error: err.message });
+  }
+});
 
 // ── POST /api/auth/login (Standard / Legacy JWT Login) ─────────────────────────
 router.post('/login', async (req, res, next) => {
@@ -18,11 +57,14 @@ router.post('/login', async (req, res, next) => {
 
     const user = await User.findOne({
       username: username.toLowerCase().trim(),
-      is_active: true,
     });
 
     if (!user || !user.password) {
       return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    if (user.is_active === false) {
+      return res.status(403).json({ error: 'Account has been deactivated' });
     }
 
     const isValid = await bcrypt.compare(password, user.password);
@@ -31,9 +73,9 @@ router.post('/login', async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { id: user._id.toString(), username: user.username, role: user.role, company_id: user.company_id },
+      { id: user._id.toString(), username: user.username, role: user.role, company_id: user.company_id, authTime: Date.now() },
       JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '7d', algorithm: 'HS256' }
     );
 
     await User.findByIdAndUpdate(user._id, { lastLogin: new Date() });
@@ -60,8 +102,25 @@ router.post('/login', async (req, res, next) => {
 });
 
 // ── POST /api/auth/logout ─────────────────────────────────────────────────────
-router.post('/logout', (req, res) => {
-  res.json({ success: true, message: 'Logged out successfully' });
+router.post('/logout', async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.slice(7);
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
+        const userId = decoded.id || decoded._id || decoded.sub;
+        if (userId) {
+          await User.findByIdAndUpdate(userId, { lastLogoutAt: new Date() });
+        }
+      } catch {
+        // Token might already be expired or invalid
+      }
+    }
+    res.json({ success: true, message: 'Logged out successfully' });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // Lazy-initialised singletons — created once, reused across requests
@@ -214,16 +273,20 @@ router.post('/clerk-exchange', async (req, res, next) => {
     // ── 5. Auto-create LW user (first-time Clerk login, no existing account) ─
     let isNewUser = false;
     if (!lwUser) {
-      const companies = await Company.find({ is_active: true }).select('_id').lean();
+      const companies = await Company.find({ is_active: true }).select('_id setup_completed').lean();
       const defaultCompanyId = companies.length === 1 ? companies[0]._id : null;
 
       const username = await deriveUsername(canonicalEmail);
+
+      // Secure role assignment: all new Clerk signups strictly default to 'staff'.
+      // Administrative roles require explicit provisioning by an existing administrator or bootstrap.
+      const initialRole = 'staff';
 
       lwUser = await User.create({
         username,
         email:         canonicalEmail,
         full_name:     clerkFullName || username,
-        role:          'staff',
+        role:          initialRole,
         is_active:     true,
         company_id:    defaultCompanyId,
         clerkId:       clerkUserId,
@@ -232,6 +295,13 @@ router.post('/clerk-exchange', async (req, res, next) => {
         lastLogin:     new Date(),
       });
       isNewUser = true;
+    } else if (!lwUser.company_id) {
+      // Connect unassigned returning user to the single active company if one exists
+      const companies = await Company.find({ is_active: true }).select('_id').lean();
+      if (companies.length === 1) {
+        await User.findByIdAndUpdate(lwUser._id, { company_id: companies[0]._id });
+        lwUser.company_id = companies[0]._id;
+      }
     }
 
     if (!lwUser.is_active) {

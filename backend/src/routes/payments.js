@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Payment = require('../models/Payment');
-const { authenticate, requireBranchAccess } = require('../middleware/auth');
+const { authenticate, requireBranchAccess, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
 const ObjId    = id => new mongoose.Types.ObjectId(id);
@@ -66,15 +66,24 @@ router.get('/', authenticate, requireBranchAccess, async (req, res, next) => {
 });
 
 // ── PATCH /api/payments/:id/collect ──────────────────────────────────────────
-router.patch('/:id/collect', authenticate, async (req, res, next) => {
+router.patch('/:id/collect', authenticate, requireRole('admin', 'superadmin', 'manager', 'staff'), async (req, res, next) => {
   try {
     if (!isValidId(req.params.id)) return res.status(400).json({ error: 'Invalid payment ID' });
+
+    const query = { _id: req.params.id, company_id: req.user.company_id };
+    const normalizedRole = req.user.role === 'super_admin' ? 'superadmin' : req.user.role;
+    if (normalizedRole !== 'admin' && normalizedRole !== 'superadmin' && req.user.branch_id) {
+      const allowedBranches = req.user.branch_ids && req.user.branch_ids.length ? req.user.branch_ids : [req.user.branch_id];
+      query.branch_id = { $in: allowedBranches };
+    }
+
     const updated = await Payment.findOneAndUpdate(
-      { _id: req.params.id, company_id: req.user.company_id },
-      { status: 'paid', paid_date: new Date() }
+      query,
+      { status: 'paid', paid_date: new Date() },
+      { new: true }
     );
-    if (!updated) return res.status(404).json({ error: 'Payment not found' });
-    res.json({ success: true });
+    if (!updated) return res.status(404).json({ error: 'Payment not found or unauthorized branch' });
+    res.json({ success: true, payment: updated });
   } catch (err) {
     next(err);
   }

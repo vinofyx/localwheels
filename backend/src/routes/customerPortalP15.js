@@ -127,9 +127,10 @@ router.get('/settings', auth, async (req, res) => {
 
 router.put('/settings', auth, async (req, res) => {
   try {
+    const { company_id, _id, customer_email, ...safeUpdates } = req.body;
     const settings = await CustomerPortalSettings.findOneAndUpdate(
       { company_id: req.user.company_id, customer_email: req.user.email },
-      { $set: req.body }, { new: true, upsert: true }
+      { $set: safeUpdates }, { new: true, upsert: true }
     );
     ok(res, settings, 'Settings updated');
   } catch (e) { err(res, e.message, 500); }

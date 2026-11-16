@@ -105,7 +105,7 @@
       "category": "Auth",
       "name": "JWT /me endpoint",
       "status": "PASS",
-      "detail": "username=rajdhani_admin",
+      "detail": "username=admin",
       "ms": 55
     },
     {

@@ -81,8 +81,8 @@ const COMPANY = {
   financial_year_start: 'April',
   brand_name:     'Rajdhani Cargo',
   primary_color:  '#c0392b',
-  admin_username: 'rajdhani_admin',
-  admin_password: 'RCS@Admin#2026',
+  admin_username: process.env.SEED_ADMIN_USERNAME || 'admin',
+  admin_password: process.env.SEED_ADMIN_PASSWORD || 'ChangeMeOnFirstLogin#2026',
   admin_email:    'admin@rajdhanicargo.in',
   admin_name:     'Suresh Kumar Sharma',
 };

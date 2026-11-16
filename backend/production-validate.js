@@ -20,11 +20,13 @@ const fs    = require('fs');
 const args     = process.argv.slice(2);
 const DEV_MODE = args.includes('--dev');
 const posArgs  = args.filter(a => a !== '--dev');
-const [BASE_URL, USERNAME, PASSWORD] = posArgs;
+const BASE_URL = posArgs[0] || process.env.VALIDATE_BASE_URL || 'http://localhost:5000';
+const USERNAME = posArgs[1] || process.env.VALIDATE_USERNAME || process.env.ADMIN_USERNAME || (DEV_MODE ? 'admin' : '');
+const PASSWORD = posArgs[2] || process.env.VALIDATE_PASSWORD || process.env.ADMIN_PASSWORD || (DEV_MODE ? 'admin' : '');
 
 if (!BASE_URL || !USERNAME || !PASSWORD) {
-  console.error('Usage: node production-validate.js <backend-url> <username> <password> [--dev]');
-  console.error('  e.g. node production-validate.js https://localwheels.vinofyx.com admin Pass --dev');
+  console.error('Usage: node production-validate.js [backend-url] [username] [password] [--dev]');
+  console.error('  Alternatively provide VALIDATE_BASE_URL, VALIDATE_USERNAME, and VALIDATE_PASSWORD via environment variables.');
   process.exit(1);
 }
 

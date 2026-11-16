@@ -58,12 +58,21 @@ router.post('/', requireRole('admin', 'superadmin'), async (req, res) => {
 // PUT /api/drivers/:id
 router.put('/:id', requireRole('admin', 'superadmin'), async (req, res) => {
   try {
+    const allowed = [
+      'name', 'phone', 'alternate_phone', 'license_number', 'license_expiry', 'address', 'city',
+      'emergency_contact', 'date_of_joining', 'branch_id', 'status', 'current_vehicle_id',
+    ];
+    const update = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) update[key] = req.body[key];
+    }
+
     const d = await Driver.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true, runValidators: true }
+      { $set: update }, { new: true, runValidators: true }
     );
     if (!d) return err(res, 'Driver not found', 404);
-    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Driver', resource_id: d._id, resource_ref: d.name, changes: req.body, req });
+    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Driver', resource_id: d._id, resource_ref: d.name, changes: update, req });
     ok(res, d, 'Driver updated');
   } catch (e) { err(res, e.message, 500); }
 });

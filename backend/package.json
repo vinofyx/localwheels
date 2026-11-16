@@ -8,6 +8,7 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
+    "build": "node -e \"console.log('LocalWheels Express backend ready (no compilation step required)')\"",
     "start": "node src/index.js",
     "dev": "node --watch-path=src --use-system-ca src/index.js",
     "seed": "node src/db/seed.js",
@@ -15,7 +16,7 @@
     "smoke": "node smoke-test.js",
     "smoke:dev": "node smoke-test.js http://localhost:5000 --dev",
     "validate": "node production-validate.js",
-    "validate:dev": "node production-validate.js http://localhost:5000 rajdhani_admin RCS@Admin#2026 --dev"
+    "validate:dev": "node production-validate.js http://localhost:5000 --dev"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",
@@ -30,7 +31,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.23.1",
     "morgan": "^1.10.1",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.5.0",
     "puppeteer-core": "^25.17.0"
   },
   "devDependencies": {

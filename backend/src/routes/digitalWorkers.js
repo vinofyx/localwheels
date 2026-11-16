@@ -33,9 +33,10 @@ router.post('/', auth, async (req, res) => {
 
 router.put('/:id', auth, async (req, res) => {
   try {
+    const { company_id, _id, created_by, ...safeUpdates } = req.body;
     const worker = await DigitalWorker.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true }
+      { $set: safeUpdates }, { new: true }
     );
     if (!worker) return err(res, 'Not found', 404);
     ok(res, worker, 'Worker updated');

@@ -146,6 +146,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── Static file uploads ───────────────────────────────────────────────────────
+// Protect private document vault from unauthenticated static browsing
+app.use('/uploads/documents', (_req, res) => {
+  res.status(403).json({ error: 'Direct access to documents directory is forbidden. Use /api/documents/:id/download' });
+});
 app.use('/uploads', express.static(UPLOADS_DIR));
 
 // ── Root / API-index (dev only) ───────────────────────────────────────────────
@@ -475,8 +479,15 @@ app.use('/api/finance-copilot',    require('./routes/financeCopilot'));
 //   /index.html   → served as static file (no-cache)
 //   /* (any path) → SPA fallback: serves index.html so React Router handles it
 if (IS_PROD) {
-  const FRONTEND_DIST = path.join(__dirname, '../../frontend/dist');
-  if (fs.existsSync(FRONTEND_DIST)) {
+  const candidateDirs = [
+    path.join(__dirname, '../../frontend/dist'),
+    path.join(__dirname, '../../'), // Hostinger: when index.html is located in public_html above backend/
+    path.join(__dirname, '../dist'),
+    path.join(__dirname, '../public'),
+  ];
+  const FRONTEND_DIST = candidateDirs.find(d => fs.existsSync(path.join(d, 'index.html')));
+
+  if (FRONTEND_DIST) {
     app.use(express.static(FRONTEND_DIST, {
       etag: true,
       setHeaders(res, filePath) {
@@ -492,7 +503,7 @@ if (IS_PROD) {
       res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
     });
   } else {
-    console.warn('⚠️  frontend/dist not found — React app will not be served.');
+    console.warn('⚠️  frontend dist index.html not found — React app will not be served.');
     console.warn('   Run: cd frontend && npm install && npm run build');
   }
 }
@@ -529,8 +540,14 @@ app.use((err, req, res, _next) => {
   if (err.message?.startsWith('CORS:')) {
     return res.status(403).json({ error: err.message });
   }
-  // Multer file-type error
-  if (err.message?.startsWith('Invalid file type')) {
+  // Multer errors (file size limit, unexpected field, invalid file type/extension)
+  if (err.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({ error: 'File size exceeds allowed limit' });
+    }
+    return res.status(400).json({ error: err.message || 'File upload error' });
+  }
+  if (err.message?.startsWith('Invalid file type') || err.message?.startsWith('Disallowed file')) {
     return res.status(400).json({ error: err.message });
   }
 
@@ -575,20 +592,32 @@ function shutdown(signal) {
 }
 
 // ── Start server ──────────────────────────────────────────────────────────────
-const PORT = parseInt(process.env.PORT, 10) || 5000;
+const rawPort = process.env.PORT;
 let server;
 
 initRedis().catch(() => {});
 
 connectDB()
   .then(() => {
-    server = app.listen(PORT, '0.0.0.0', () => {
-      console.log(`\n✅ LocalWheels API  →  http://0.0.0.0:${PORT}`);
-      console.log(`   Health check     →  http://0.0.0.0:${PORT}/api/health`);
-      console.log(`   Environment      :  ${process.env.NODE_ENV || 'development'}`);
-      console.log(`   Allowed origins  :  ${allowedOrigins.join(', ')}`);
-      console.log(`   Rate limits      :  login=10/15min  api=300/15min\n`);
-    });
+    if (rawPort && isNaN(rawPort)) {
+      // Unix domain socket (CloudLinux / LiteSpeed / Phusion Passenger socket mode)
+      server = app.listen(rawPort, () => {
+        console.log(`\n✅ LocalWheels API listening on socket: ${rawPort}`);
+        console.log(`   Environment      :  ${process.env.NODE_ENV || 'development'}`);
+        console.log(`   Allowed origins  :  ${allowedOrigins.join(', ')}`);
+        console.log(`   Rate limits      :  login=10/15min  api=300/15min\n`);
+      });
+    } else {
+      // Standard TCP port
+      const PORT = parseInt(rawPort, 10) || 5000;
+      server = app.listen(PORT, '0.0.0.0', () => {
+        console.log(`\n✅ LocalWheels API  →  http://0.0.0.0:${PORT}`);
+        console.log(`   Health check     →  http://0.0.0.0:${PORT}/api/health`);
+        console.log(`   Environment      :  ${process.env.NODE_ENV || 'development'}`);
+        console.log(`   Allowed origins  :  ${allowedOrigins.join(', ')}`);
+        console.log(`   Rate limits      :  login=10/15min  api=300/15min\n`);
+      });
+    }
 
     process.on('SIGTERM', () => shutdown('SIGTERM'));
     process.on('SIGINT',  () => shutdown('SIGINT'));

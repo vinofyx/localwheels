@@ -61,9 +61,10 @@ router.post('/', requireRole('admin', 'superadmin', 'manager'), async (req, res)
 // PUT /api/faq/:id
 router.put('/:id', requireRole('admin', 'superadmin', 'manager'), async (req, res) => {
   try {
+    const { company_id, _id, created_by, ...safeUpdates } = req.body;
     const faq = await FAQ.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true, runValidators: true }
+      { $set: safeUpdates }, { new: true, runValidators: true }
     );
     if (!faq) return err(res, 'FAQ not found', 404);
     ok(res, faq, 'FAQ updated');

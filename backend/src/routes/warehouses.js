@@ -49,12 +49,18 @@ router.post('/', requireRole('admin', 'superadmin'), async (req, res) => {
 // PUT /api/warehouses/:id
 router.put('/:id', requireRole('admin', 'superadmin'), async (req, res) => {
   try {
+    const allowed = ['name', 'branch_id', 'address', 'city', 'state', 'pincode', 'capacity_sqft', 'manager_name', 'manager_phone'];
+    const update = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) update[key] = req.body[key];
+    }
+
     const w = await Warehouse.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true, runValidators: true }
+      { $set: update }, { new: true, runValidators: true }
     );
     if (!w) return err(res, 'Warehouse not found', 404);
-    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Warehouse', resource_id: w._id, resource_ref: w.name, changes: req.body, req });
+    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Warehouse', resource_id: w._id, resource_ref: w.name, changes: update, req });
     ok(res, w, 'Warehouse updated');
   } catch (e) { err(res, e.message, 500); }
 });
@@ -95,7 +101,16 @@ router.post('/:wid/zones', authenticate, async (req, res) => {
 // PUT /api/warehouses/:wid/zones/:id
 router.put('/:wid/zones/:id', authenticate, async (req, res) => {
   try {
-    const zone = await WarehouseZone.findOneAndUpdate({ _id: req.params.id, warehouse_id: req.params.wid, company_id: req.user.company_id }, { $set: req.body }, { new: true });
+    const allowed = ['zone_code', 'zone_name', 'zone_type', 'area_sqm', 'temperature_min', 'temperature_max', 'max_weight_tons', 'is_active'];
+    const update = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) update[k] = req.body[k];
+    }
+    const zone = await WarehouseZone.findOneAndUpdate(
+      { _id: req.params.id, warehouse_id: req.params.wid, company_id: req.user.company_id },
+      { $set: update },
+      { new: true }
+    );
     if (!zone) return err(res, 'Zone not found', 404);
     ok(res, zone);
   } catch (e) { err(res, e.message, 500); }

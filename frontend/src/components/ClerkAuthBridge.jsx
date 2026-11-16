@@ -28,11 +28,17 @@ export default function ClerkAuthBridge({ children }) {
     // a fresh Clerk token to every outgoing API request.
     setClerkTokenGetter(getToken);
 
+    const localUserStr = localStorage.getItem('lw_user');
+    let isLocalSession = false;
+    try {
+      if (localUserStr && JSON.parse(localUserStr)?.authProvider === 'local') isLocalSession = true;
+    } catch {}
+
     if (isSignedIn && typeof getToken === 'function') {
       getToken().then(t => {
-        if (t) localStorage.setItem('lw_token', t);
+        if (!isLocalSession && t) localStorage.setItem('lw_token', t);
       }).catch(() => {});
-    } else if (!isSignedIn) {
+    } else if (!isSignedIn && !isLocalSession) {
       localStorage.removeItem('lw_token');
     }
 

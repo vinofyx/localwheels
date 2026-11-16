@@ -15,11 +15,27 @@ export function setClerkTokenGetter(fn) {
   _clerkGetToken = fn;
 }
 
-// Attach Clerk session token to every request.
-// The /auth/clerk-exchange call sets its own Authorization header explicitly
-// and that takes priority (cfg.headers.Authorization is already set → we skip).
+// Attach session token to every request.
+// Respects local JWT login vs Clerk SSO login without cross-contamination.
 api.interceptors.request.use(async cfg => {
   if (!cfg.headers.Authorization) {
+    const localToken = localStorage.getItem('lw_token');
+    const localUserStr = localStorage.getItem('lw_user');
+    let isLocalSession = false;
+    try {
+      if (localUserStr) {
+        const u = JSON.parse(localUserStr);
+        if (u && u.authProvider === 'local') isLocalSession = true;
+      }
+    } catch {}
+
+    // If active local JWT session exists, use local token
+    if (isLocalSession && localToken && localToken !== 'null' && localToken !== 'undefined') {
+      cfg.headers.Authorization = `Bearer ${localToken}`;
+      return cfg;
+    }
+
+    // Otherwise, check Clerk SSO token if available
     if (_clerkGetToken) {
       try {
         const token = await _clerkGetToken();
@@ -32,7 +48,8 @@ api.interceptors.request.use(async cfg => {
         // Clerk not ready or session ended
       }
     }
-    const localToken = localStorage.getItem('lw_token');
+
+    // Fallback to stored token
     if (localToken && localToken !== 'null' && localToken !== 'undefined') {
       cfg.headers.Authorization = `Bearer ${localToken}`;
     }

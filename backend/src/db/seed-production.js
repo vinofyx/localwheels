@@ -6,9 +6,9 @@
  *
  * Required env vars (in backend/.env or environment):
  *   MONGODB_URI          — production Atlas connection string
- *   SEED_COMPANY_NAME    — e.g. "Rajdhani Cargo Services Pvt Ltd"
- *   SEED_ADMIN_USERNAME  — e.g. "rajdhani_admin"
- *   SEED_ADMIN_EMAIL     — e.g. "admin@rajdhanicargoservices.com"
+ *   SEED_COMPANY_NAME    — e.g. "Acme Logistics Pvt Ltd"
+ *   SEED_ADMIN_USERNAME  — e.g. "acme_admin"
+ *   SEED_ADMIN_EMAIL     — e.g. "admin@acmelogistics.com"
  *   SEED_ADMIN_PASSWORD  — strong password (min 12 chars)
  *
  * This script is IDEMPOTENT — safe to re-run; skips records that already exist.

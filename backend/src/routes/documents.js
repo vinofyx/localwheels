@@ -26,17 +26,32 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadDir),
   filename:    (_req, file, cb) => {
-    const ext  = path.extname(file.originalname);
+    const ext  = path.extname(file.originalname).toLowerCase();
     const safe = crypto.randomBytes(12).toString('hex');
     cb(null, `${Date.now()}_${safe}${ext}`);
   },
 });
+const ALLOWED_MIME_TYPES = new Set([
+  'application/pdf',
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff', 'image/bmp', 'image/heic',
+  'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'text/plain', 'text/csv',
+]);
+
 const upload = multer({
   storage,
   limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB
   fileFilter: (_req, file, cb) => {
-    const allowed = /pdf|jpg|jpeg|png|webp|gif|tiff|bmp|heic|doc|docx|xls|xlsx/i;
-    cb(null, allowed.test(path.extname(file.originalname)));
+    const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
+    const allowedExts = /^(pdf|jpg|jpeg|png|webp|gif|tiff|bmp|heic|doc|docx|xls|xlsx|txt|csv)$/i;
+    if (!allowedExts.test(ext)) {
+      return cb(new Error('Disallowed file extension'));
+    }
+    if (file.mimetype && !ALLOWED_MIME_TYPES.has(file.mimetype.toLowerCase()) && file.mimetype !== 'application/octet-stream') {
+      return cb(new Error('Disallowed file MIME type'));
+    }
+    cb(null, true);
   },
 });
 
@@ -526,7 +541,38 @@ router.get('/:id/download', auth, async (req, res) => {
 
     const filePath = doc.file_path;
     if (!filePath || !fs.existsSync(filePath)) return res.status(404).json({ error: 'File not on disk' });
-    res.download(filePath, doc.original_name);
+
+    // Robust path-relative containment & symlink check:
+    // 1. Resolve canonical real paths (dereferencing any symbolic links)
+    const safeUploadDir = fs.existsSync(uploadDir) ? fs.realpathSync(uploadDir) : path.resolve(uploadDir);
+    let resolved;
+    try {
+      resolved = fs.realpathSync(filePath);
+    } catch {
+      resolved = path.resolve(filePath);
+    }
+
+    // 2. Compute relative path from safeUploadDir to resolved path
+    const rel = path.relative(safeUploadDir, resolved);
+
+    // 3. Robust containment verification:
+    //    - rel must be non-empty (cannot be the root upload directory itself)
+    //    - rel must not start with '..' (cannot escape upwards or sideways to sibling directories)
+    //    - rel must not be absolute (cross-drive access on Windows)
+    //    - resolved path must start with safeUploadDir + path.sep
+    const isContained = Boolean(
+      rel &&
+      !rel.startsWith('..') &&
+      !path.isAbsolute(rel) &&
+      (resolved === safeUploadDir || resolved.startsWith(safeUploadDir + path.sep))
+    );
+
+    if (!isContained) {
+      return res.status(403).json({ error: 'Access denied: Invalid file path' });
+    }
+
+    const safeName = path.basename(doc.original_name || 'document').replace(/[\r\n"']/g, '_');
+    res.download(resolved, safeName);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 

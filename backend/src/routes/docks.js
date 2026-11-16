@@ -85,9 +85,15 @@ router.put('/:id/release', auth, async (req, res) => {
 // PUT /api/docks/:id — general update
 router.put('/:id', auth, async (req, res) => {
   try {
+    const allowed = ['dock_number', 'dock_name', 'dock_type', 'dock_size', 'equipment', 'status', 'is_active'];
+    const update = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) update[key] = req.body[key];
+    }
+
     const dock = await Dock.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true }
+      { $set: update }, { new: true }
     );
     if (!dock) return res.status(404).json({ error: 'Not found' });
     res.json({ dock });

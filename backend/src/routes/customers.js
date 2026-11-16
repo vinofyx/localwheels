@@ -53,13 +53,19 @@ router.post('/', async (req, res) => {
 // PUT /api/customers/:id
 router.put('/:id', async (req, res) => {
   try {
+    const allowed = ['name', 'phone', 'email', 'address', 'city', 'state', 'pincode', 'gst_number', 'customer_type', 'credit_limit', 'credit_days', 'notes'];
+    const update = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) update[key] = req.body[key];
+    }
+
     const c = await Customer.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     if (!c) return err(res, 'Customer not found', 404);
-    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Customer', resource_id: c._id, resource_ref: c.name, changes: req.body, req });
+    await audit.log({ company_id: req.user.company_id, user: req.user, action: 'UPDATE', resource: 'Customer', resource_id: c._id, resource_ref: c.name, changes: update, req });
     ok(res, c, 'Customer updated');
   } catch (e) { err(res, e.message, 500); }
 });

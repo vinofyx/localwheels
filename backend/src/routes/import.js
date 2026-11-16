@@ -1,5 +1,6 @@
 const express = require('express');
 const multer  = require('multer');
+const path    = require('path');
 const bcrypt  = require('bcryptjs');
 const { authenticate, requireRole } = require('../middleware/auth');
 const Customer   = require('../models/Customer');
@@ -10,7 +11,27 @@ const ChartOfAccount = require('../models/ChartOfAccount');
 const FasTagEntry = require('../models/FasTagEntry');
 
 const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    const allowedMimes = new Set([
+      'text/csv',
+      'text/plain',
+      'application/csv',
+      'application/vnd.ms-excel',
+      'application/octet-stream',
+    ]);
+    if (ext !== '.csv' && ext !== '.txt') {
+      return cb(new Error('Invalid file type. Only CSV files (.csv) are allowed'));
+    }
+    if (file.mimetype && !allowedMimes.has(file.mimetype.toLowerCase())) {
+      return cb(new Error('Invalid file type. Only CSV files are allowed'));
+    }
+    cb(null, true);
+  },
+});
 
 // ── Minimal CSV parser (handles quoted fields) ─────────────────────────────────
 function parseCSV(buffer) {

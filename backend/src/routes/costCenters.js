@@ -67,9 +67,14 @@ router.get('/:id', async (req, res) => {
 // PUT /:id — update
 router.put('/:id', async (req, res) => {
   try {
+    const allowed = ['name', 'code', 'department', 'manager_id', 'budget', 'currency', 'status', 'description'];
+    const update = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) update[k] = req.body[k];
+    }
     const center = await CostCenter.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body },
+      { $set: update },
       { new: true }
     );
     if (!center) return err(res, 'Not found', 404);

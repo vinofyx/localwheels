@@ -278,9 +278,19 @@ router.post('/', auth, async (req, res) => {
 // ─── PUT /api/fleet/:id ───────────────────────────────────────────────────────
 router.put('/:id', auth, async (req, res) => {
   try {
+    const allowed = [
+      'vehicle_number', 'vehicle_type', 'fuel_type', 'capacity_tonnes', 'odometer_km',
+      'assigned_driver_id', 'assigned_branch_id', 'status', 'insurance_expiry',
+      'puc_expiry', 'fitness_expiry', 'national_permit_expiry', 'gps_device_id',
+      'make', 'model', 'manufacturing_year', 'maintenance_interval_km',
+    ];
+    const update = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) update[k] = req.body[k];
+    }
     const vehicle = await FleetVehicle.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body },
+      { $set: update },
       { new: true, runValidators: true }
     );
     if (!vehicle) return res.status(404).json({ error: 'Vehicle not found' });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../../api/client';
+import { useAuth } from '../../context/AuthContext';
 
 const STEPS = [
   { id: 1, label: 'Company Info',    icon: '🏢' },
@@ -26,6 +27,8 @@ function Field({ label, required, children }) {
 
 export default function SetupWizard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isAdmin = user && ['admin', 'superadmin', 'super_admin'].includes(user.role);
   const [step, setStep] = useState(1);
   const [saving, setSaving] = useState(false);
 
@@ -81,6 +84,10 @@ export default function SetupWizard() {
   }, []);
 
   async function saveStep(nextStep) {
+    if (user && !isAdmin) {
+      toast.error('Only authorized administrators can save company setup.');
+      return;
+    }
     setSaving(true);
     try {
       // Build payload for current step
@@ -131,6 +138,24 @@ export default function SetupWizard() {
         <div className="text-3xl font-bold text-[#0b8fd3] mb-1">LocalWheels</div>
         <p className="text-gray-500 text-sm">Let's set up your company in a few quick steps</p>
       </div>
+
+      {/* Non-admin notice */}
+      {user && !isAdmin && (
+        <div className="w-full max-w-3xl mb-6 p-4 bg-amber-50 border border-amber-300 rounded-lg text-amber-800 text-sm flex items-center justify-between shadow-sm">
+          <div>
+            <p className="font-semibold text-amber-900">Administrator Permissions Required</p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              Initial setup must be configured by an authorized administrator. You are signed in as <span className="font-mono font-medium">{user.username}</span> ({user.role}).
+            </p>
+          </div>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="ml-4 px-3 py-1.5 bg-amber-600 text-white rounded text-xs font-semibold hover:bg-amber-700 transition"
+          >
+            Go to Dashboard
+          </button>
+        </div>
+      )}
 
       {/* Progress steps */}
       <div className="flex items-center gap-0 mb-8 w-full max-w-3xl overflow-x-auto pb-2">
@@ -433,8 +458,9 @@ export default function SetupWizard() {
           </button>
           <button
             onClick={() => saveStep(step + 1)}
-            disabled={saving}
+            disabled={saving || (user && !isAdmin)}
             className="px-6 py-2 bg-[#0b8fd3] hover:bg-[#0a7ab8] text-white rounded text-sm font-medium disabled:opacity-60"
+            title={user && !isAdmin ? 'Administrator permissions required to save setup' : ''}
           >
             {saving ? 'Saving…' : step === 6 ? '🚀 Go Live' : 'Next →'}
           </button>

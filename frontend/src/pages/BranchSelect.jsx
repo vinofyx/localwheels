@@ -18,7 +18,7 @@ function ClerkSignOutLink({ onLogout, className }) {
 }
 
 export default function BranchSelect() {
-  const { selectBranch, logout, checkSetupStatus } = useAuth();
+  const { user, selectBranch, logout, checkSetupStatus } = useAuth();
   const navigate = useNavigate();
   const [branches, setBranches] = useState([]);
   const [loading, setLoading]   = useState(true);
@@ -42,9 +42,13 @@ export default function BranchSelect() {
     const branch = branches.find(b => String(b._id) === selected);
     if (!branch) return toast.error('Please select a branch');
     selectBranch(branch);
-    // Redirect to setup wizard if this company hasn't completed setup
-    const setupRedirect = await checkSetupStatus();
-    navigate(setupRedirect || '/dashboard');
+    // Only administrators are redirected to company setup wizard
+    const isAdmin = user && ['admin', 'superadmin', 'super_admin'].includes(user.role);
+    if (isAdmin) {
+      const setupRedirect = await checkSetupStatus();
+      if (setupRedirect) return navigate(setupRedirect);
+    }
+    navigate('/dashboard');
   }
 
   return (

@@ -55,9 +55,14 @@ router.post('/', auth, async (req, res) => {
 // PUT /api/suppliers/:id
 router.put('/:id', auth, async (req, res) => {
   try {
+    const allowed = ['name', 'category', 'contact_person', 'email', 'phone', 'address', 'city', 'state', 'country', 'tax_id', 'payment_terms', 'status'];
+    const update = {};
+    for (const k of allowed) {
+      if (req.body[k] !== undefined) update[k] = req.body[k];
+    }
     const supplier = await Supplier.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true, runValidators: true }
+      { $set: update }, { new: true, runValidators: true }
     );
     if (!supplier) return err(res, 'Supplier not found', 404);
     ok(res, supplier, 'Supplier updated');

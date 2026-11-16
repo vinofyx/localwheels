@@ -115,9 +115,18 @@ router.patch('/:id/status', async (req, res) => {
 // PUT /api/bookings/:id
 router.put('/:id', async (req, res) => {
   try {
+    const allowed = [
+      'sender_name', 'sender_phone', 'sender_address', 'pickup_address', 'pickup_date',
+      'receiver_name', 'receiver_phone', 'receiver_address', 'destination',
+      'goods_description', 'estimated_weight', 'estimated_packages', 'service_type',
+    ];
+    const update = {};
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) update[key] = req.body[key];
+    }
     const b = await Booking.findOneAndUpdate(
       { _id: req.params.id, company_id: req.user.company_id },
-      { $set: req.body }, { new: true, runValidators: true }
+      { $set: update }, { new: true, runValidators: true }
     );
     if (!b) return err(res, 'Booking not found', 404);
     ok(res, b, 'Booking updated');

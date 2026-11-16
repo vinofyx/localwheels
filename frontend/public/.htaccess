@@ -4,6 +4,12 @@ Options +FollowSymLinks -Indexes
 RewriteEngine On
 RewriteBase /
 
+# ── API & Uploads Pass-Through ────────────────────────────────────────────────
+# Do not rewrite /api or /uploads to index.html; let LiteSpeed / Node.js handle them
+RewriteCond %{REQUEST_URI} ^/api [NC,OR]
+RewriteCond %{REQUEST_URI} ^/uploads [NC]
+RewriteRule ^ - [L]
+
 # SPA fallback — serve index.html for every route React Router handles
 # (page refresh, direct URL access, browser back/forward)
 RewriteCond %{REQUEST_FILENAME} !-f

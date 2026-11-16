@@ -1,21 +1,63 @@
 const mongoose = require('mongoose');
 
 const auditLogSchema = new mongoose.Schema({
-  company_id:   { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
-  user_id:      { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  username:     { type: String },
-  action:       { type: String, required: true }, // CREATE, UPDATE, DELETE, LOGIN, STATUS_CHANGE
-  resource:     { type: String, required: true }, // Shipment, User, Branch, Payment, etc.
-  resource_id:  { type: mongoose.Schema.Types.ObjectId },
-  resource_ref: { type: String },
-  changes:      { type: mongoose.Schema.Types.Mixed },
-  ip_address:   { type: String },
-  user_agent:   { type: String },
+  event_type: {
+    type: String,
+    required: true,
+    enum: [
+      'admin_bootstrap',
+      'admin_created',
+      'user_created',
+      'role_changed',
+      'user_deactivated',
+      'user_activated',
+      'branch_transfer',
+      'security_violation',
+      'privilege_escalation_attempt',
+      'password_change',
+    ],
+    index: true,
+  },
+  performed_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  performed_by_username: {
+    type: String,
+    default: 'system',
+  },
+  target_user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  target_username: {
+    type: String,
+    default: null,
+  },
+  company_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+    default: null,
+    index: true,
+  },
+  branch_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Branch',
+    default: null,
+  },
+  details: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  ip_address: {
+    type: String,
+    default: null,
+  },
 }, { timestamps: true });
 
 auditLogSchema.index({ company_id: 1, createdAt: -1 });
-auditLogSchema.index({ company_id: 1, resource: 1, createdAt: -1 });
-auditLogSchema.index({ user_id: 1, createdAt: -1 });
-auditLogSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 90 }); // 90-day TTL
+auditLogSchema.index({ event_type: 1, createdAt: -1 });
 
 module.exports = mongoose.model('AuditLog', auditLogSchema);
