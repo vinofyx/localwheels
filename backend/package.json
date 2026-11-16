@@ -8,7 +8,8 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "build": "node -e \"console.log('LocalWheels Express backend ready (no compilation step required)')\"",
+    "build": "node build-production.js",
+    "verify:build": "node verify-public-build.js",
     "start": "node src/index.js",
     "dev": "node --watch-path=src --use-system-ca src/index.js",
     "seed": "node src/db/seed.js",

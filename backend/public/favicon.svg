@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0b8fd3"/>
+  <!-- truck body -->
+  <rect x="3" y="12" width="17" height="11" rx="2" fill="white"/>
+  <!-- cab -->
+  <path d="M20 15 L27 15 L29 19 L29 23 L20 23 Z" fill="white"/>
+  <!-- cab window -->
+  <rect x="21" y="16" width="6" height="4" rx="1" fill="#0b8fd3"/>
+  <!-- wheels -->
+  <circle cx="8"  cy="25" r="3" fill="#0b8fd3"/>
+  <circle cx="8"  cy="25" r="1.5" fill="white"/>
+  <circle cx="24" cy="25" r="3" fill="#0b8fd3"/>
+  <circle cx="24" cy="25" r="1.5" fill="white"/>
+</svg>

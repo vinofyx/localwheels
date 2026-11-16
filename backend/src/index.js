@@ -480,10 +480,10 @@ app.use('/api/finance-copilot',    require('./routes/financeCopilot'));
 //   /* (any path) → SPA fallback: serves index.html so React Router handles it
 if (IS_PROD) {
   const candidateDirs = [
+    path.join(__dirname, '../public'), // Primary: Hostinger deployment with backend/public
     path.join(__dirname, '../../frontend/dist'),
     path.join(__dirname, '../../'), // Hostinger: when index.html is located in public_html above backend/
     path.join(__dirname, '../dist'),
-    path.join(__dirname, '../public'),
   ];
   const FRONTEND_DIST = candidateDirs.find(d => fs.existsSync(path.join(d, 'index.html')));
 
@@ -499,7 +499,11 @@ if (IS_PROD) {
       },
     }));
     // SPA fallback: React Router handles all non-file client-side routes
-    app.get('*', (_req, res) => {
+    // Ensure API routes and uploads are never intercepted by SPA fallback
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) {
+        return next();
+      }
       res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
     });
   } else {
