@@ -129,7 +129,7 @@ export function AuthProvider({ children }) {
       _exchangeInFlight.current = true;
       setClerkExchangeLoading(true);
 
-      getToken()
+      getToken({ skipCache: true })
         .then(token => {
           if (!token) throw new Error('No Clerk token available');
           return api.post('/auth/clerk-exchange', {}, {
@@ -235,6 +235,7 @@ export function AuthProvider({ children }) {
 
   const retryClerkExchange = useCallback(() => {
     setClerkExchangeError(null);
+    _exchangeInFlight.current = false;
     setRetryCount(c => c + 1);
   }, []);
 

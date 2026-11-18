@@ -125,34 +125,17 @@ router.post('/logout', async (req, res, next) => {
 
 // Lazy-initialised singletons — created once, reused across requests
 let _clerkClient = null;
-let _verifyToken  = null;
 
 function getClerkClient() {
   if (!_clerkClient) {
     const { createClerkClient } = require('@clerk/backend');
-    _clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+    const secretKey = (process.env.CLERK_SECRET_KEY || '').trim();
+    _clerkClient = createClerkClient({ secretKey });
   }
   return _clerkClient;
 }
 
-function getVerifyToken() {
-  if (!_verifyToken) {
-    _verifyToken = require('@clerk/backend').verifyToken;
-  }
-  return _verifyToken;
-}
-
-// Origins allowed to produce valid Clerk session tokens.
-const CLERK_AUTHORIZED_PARTIES = process.env.CLERK_AUTHORIZED_PARTIES
-  ? process.env.CLERK_AUTHORIZED_PARTIES.split(',').map(s => s.trim())
-  : [
-      'http://localhost:5173',
-      'http://localhost:8080',
-      'http://localhost:8081',
-      'http://localhost:8082',
-      'http://localhost:8083',
-      'http://localhost:3000',
-    ];
+const { verifyClerkSessionToken } = require('../utils/clerkAuth');
 
 // Derive a unique username from an email address
 async function deriveUsername(email) {
@@ -184,36 +167,49 @@ async function deriveUsername(email) {
 router.post('/clerk-exchange', async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization || '';
-    const clerkToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+    const clerkToken = authHeader.startsWith('Bearer ')
+      ? authHeader.slice(7).trim()
+      : ((req.body?.token || req.body?.clerkToken || '') + '').trim() || null;
+
     if (!clerkToken || clerkToken === 'null' || clerkToken === 'undefined') {
       return res.status(401).json({ error: 'Clerk session token required' });
     }
 
-    if (!process.env.CLERK_SECRET_KEY) {
+    const secretKey = (process.env.CLERK_SECRET_KEY || '').trim();
+    const jwtKey = (process.env.CLERK_JWT_KEY || '').trim();
+
+    if (!secretKey && !jwtKey) {
       return res.status(503).json({ error: 'Clerk is not configured on this server' });
     }
 
-    const clerk       = getClerkClient();
-    const verifyToken = getVerifyToken();
+    const clerk = getClerkClient();
 
     // ── 1. Verify Clerk JWT server-side ──────────────────────────────────────
     let clerkUserId;
     try {
-      const payload = await verifyToken(clerkToken, {
-        secretKey:         process.env.CLERK_SECRET_KEY,
-        authorizedParties: CLERK_AUTHORIZED_PARTIES,
-      });
+      const payload = await verifyClerkSessionToken(clerkToken, req);
       clerkUserId = payload.sub;
-    } catch {
-      return res.status(401).json({ error: 'Unable to verify Clerk session. Please sign in again.' });
+    } catch (err) {
+      console.error('❌ [clerk-exchange] Token verification failed:', {
+        message: err.message,
+        reason:  err.reason || '',
+        code:    err.code || '',
+        action:  err.action || '',
+      });
+      return res.status(401).json({
+        error: 'Unable to verify Clerk session. Please sign in again.',
+        code: err.code || 'CLERK_TOKEN_VERIFICATION_FAILED',
+        details: IS_DEV ? err.message : undefined,
+      });
     }
 
     // ── 2. Fetch canonical Clerk profile (server-side — never trust client) ─
     let clerkUser;
     try {
       clerkUser = await clerk.users.getUser(clerkUserId);
-    } catch {
-      return res.status(401).json({ error: 'Unable to load Clerk user profile.' });
+    } catch (err) {
+      console.error('❌ [clerk-exchange] clerk.users.getUser failed for clerkUserId:', clerkUserId, err?.message);
+      return res.status(502).json({ error: 'Failed to retrieve profile from Clerk. Please try again.' });
     }
 
     const primaryEmail = clerkUser.emailAddresses?.find(

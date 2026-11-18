@@ -1,19 +1,9 @@
-const { verifyToken } = require('@clerk/backend');
+const { verifyClerkSessionToken } = require('../utils/clerkAuth');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const JWT_SECRET = process.env.JWT_SECRET || 'localwheels-dev-secret-key-change-in-production-123456';
-
-// Authorized origins for Clerk token verification in development.
-const DEV_AUTHORIZED_PARTIES = [
-  'http://localhost:5173',
-  'http://localhost:8080',
-  'http://localhost:8081',
-  'http://localhost:8082',
-  'http://localhost:8083',
-  'http://localhost:3000',
-];
 
 // Verify a Clerk JWT or local JWT and load the matching LocalWheels user.
 // Sets req.user = { id, _id, username, full_name, name, role, company_id, branch_id, branch_ids, driver_id }
@@ -75,25 +65,19 @@ async function authenticate(req, res, next) {
     // Not a valid local JWT or expired — proceed to check Clerk
   }
 
-  // 2. If not local JWT, verify via Clerk if CLERK_SECRET_KEY is configured
-  if (!process.env.CLERK_SECRET_KEY) {
+  // 2. If not local JWT, verify via Clerk if CLERK_SECRET_KEY or CLERK_JWT_KEY is configured
+  const hasClerkSecret = Boolean((process.env.CLERK_SECRET_KEY || '').trim());
+  const hasClerkJwtKey = Boolean((process.env.CLERK_JWT_KEY || '').trim());
+  if (!hasClerkSecret && !hasClerkJwtKey) {
     return res.status(401).json({ error: 'Invalid or expired session. Please sign in again.' });
   }
 
   let clerkUserId;
   try {
-    const authorizedParties = IS_PROD
-      ? (process.env.CLERK_AUTHORIZED_PARTIES
-          ? process.env.CLERK_AUTHORIZED_PARTIES.split(',').map(s => s.trim())
-          : undefined)
-      : DEV_AUTHORIZED_PARTIES;
-
-    const payload = await verifyToken(token, {
-      secretKey: process.env.CLERK_SECRET_KEY,
-      authorizedParties,
-    });
+    const payload = await verifyClerkSessionToken(token, req);
     clerkUserId = payload.sub;
-  } catch {
+  } catch (err) {
+    console.error('❌ [auth:authenticate] Clerk token verification failed:', err.message);
     return res.status(401).json({ error: 'Invalid or expired session. Please sign in again.' });
   }
 

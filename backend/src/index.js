@@ -34,6 +34,21 @@ if (IS_PROD) {
   // Warn (not fatal) if Clerk is not configured — /api/auth/clerk-exchange will return 503
   if (!process.env.CLERK_SECRET_KEY) {
     console.warn('⚠️  CLERK_SECRET_KEY is not set — Clerk SSO unavailable. Legacy JWT login still works.');
+  } else {
+    const pubKey = process.env.CLERK_PUBLISHABLE_KEY || '';
+    const secKey = process.env.CLERK_SECRET_KEY || '';
+    const pubIsLive = pubKey.startsWith('pk_live_');
+    const pubIsTest = pubKey.startsWith('pk_test_');
+    const secIsLive = secKey.startsWith('sk_live_');
+    const secIsTest = secKey.startsWith('sk_test_');
+
+    if (pubIsLive && secIsTest) {
+      console.error('❌ [Clerk Configuration Mismatch] CLERK_PUBLISHABLE_KEY is a LIVE key (pk_live_...) but CLERK_SECRET_KEY is a TEST key (sk_test_...). Live tokens cannot be verified with a test secret key!');
+    } else if (pubIsTest && secIsLive) {
+      console.error('❌ [Clerk Configuration Mismatch] CLERK_PUBLISHABLE_KEY is a TEST key (pk_test_...) but CLERK_SECRET_KEY is a LIVE key (sk_live_...). Test tokens cannot be verified with a live secret key!');
+    } else if (IS_PROD && secIsTest) {
+      console.warn('⚠️ [Clerk Configuration Notice] CLERK_SECRET_KEY in production is a development TEST key (sk_test_...). In production mode with custom domain (clerk.vinofyx.com), a live production key (sk_live_...) from the Clerk production instance is required.');
+    }
   }
 }
 
