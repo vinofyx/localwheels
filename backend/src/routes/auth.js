@@ -212,40 +212,82 @@ router.post('/clerk-exchange', async (req, res, next) => {
       return res.status(502).json({ error: 'Failed to retrieve profile from Clerk. Please try again.' });
     }
 
-    const primaryEmail = clerkUser.emailAddresses?.find(
+    // Resolve target email: prioritize verified primary email, or match against verified secondary
+    let targetEmailObj = clerkUser.emailAddresses?.find(
       e => e.id === clerkUser.primaryEmailAddressId
-    )?.emailAddress || clerkUser.emailAddresses?.[0]?.emailAddress;
+    ) || clerkUser.emailAddresses?.[0];
 
-    if (!primaryEmail) {
-      return res.status(400).json({ error: 'Your Clerk account has no verified email address.' });
+    // If primary email does not match an existing user, check if another verified email on this Clerk user matches
+    if (targetEmailObj && clerkUser.emailAddresses?.length > 1) {
+      const primaryCanonical = (targetEmailObj.emailAddress || '').toLowerCase().trim();
+      const primaryExists = await User.exists({ email: primaryCanonical, is_active: true });
+      if (!primaryExists) {
+        const matchingVerified = clerkUser.emailAddresses.find(
+          e => e.verification?.status === 'verified' && e.id !== targetEmailObj.id
+        );
+        if (matchingVerified) {
+          const matchCanonical = (matchingVerified.emailAddress || '').toLowerCase().trim();
+          if (await User.exists({ email: matchCanonical, is_active: true })) {
+            targetEmailObj = matchingVerified;
+          }
+        }
+      }
     }
 
-    const emailVerified = clerkUser.emailAddresses?.find(
-      e => e.emailAddress === primaryEmail
-    )?.verification?.status === 'verified';
+    const primaryEmail = targetEmailObj?.emailAddress;
+    if (!primaryEmail) {
+      return res.status(400).json({ error: 'Your Clerk account has no email address.' });
+    }
 
-    const canonicalEmail = primaryEmail.toLowerCase();
+    const emailVerified = targetEmailObj?.verification?.status === 'verified';
+
+    // Strict security enforcement: reject unverified email addresses
+    if (!emailVerified) {
+      console.warn(`⚠️ [clerk-exchange] Rejected unverified email attempt for: ${primaryEmail} (clerkId: ${clerkUserId})`);
+      return res.status(403).json({
+        error: 'Your email address is not verified with Clerk. Please verify your email before signing in.',
+        code: 'EMAIL_NOT_VERIFIED',
+      });
+    }
+
+    const canonicalEmail = primaryEmail.toLowerCase().trim();
     const clerkFullName  = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || null;
 
     // ── 3. Find by clerkId (returning user, fastest path) ────────────────────
     let lwUser = await User.findOne({ clerkId: clerkUserId });
 
-    // ── 4. Find by email (existing LW user — auto-link clerkId) ─────────────
+    // ── 4. Find by email (existing LW user — account linking & migration) ───
     if (!lwUser) {
-      lwUser = await User.findOne({ email: canonicalEmail, is_active: true });
+      // Find candidate users by canonical email, sorted deterministically
+      const matchingUsers = await User.find({ email: canonicalEmail, is_active: true })
+        .sort({ lastLogin: -1, createdAt: 1 });
 
-      if (lwUser) {
-        // Prevent account hijacking: if this user already has a DIFFERENT clerkId, reject
-        if (lwUser.clerkId && lwUser.clerkId !== clerkUserId) {
+      if (matchingUsers.length > 0) {
+        lwUser = matchingUsers[0];
+
+        // Ensure no other LocalWheels user already has this clerkUserId
+        const conflict = await User.findOne({ clerkId: clerkUserId, _id: { $ne: lwUser._id } });
+        if (conflict) {
+          console.error(`❌ [clerk-exchange] Conflict: clerkId ${clerkUserId} is already linked to user ${conflict._id} (${conflict.email})`);
           return res.status(409).json({
-            error: 'This email is already linked to a different Clerk account. Contact your administrator.',
+            error: 'This Clerk account is already linked to a different LocalWheels account. Contact your administrator.',
+            code: 'CLERK_ACCOUNT_CONFLICT',
           });
+        }
+
+        // Secure account linking / migration:
+        // Since emailVerified is strictly verified by Clerk / Google OAuth, and canonicalEmail matches,
+        // it is safe to link (or migrate from a previous dev/test clerkId) to the active clerkUserId.
+        if (lwUser.clerkId && lwUser.clerkId !== clerkUserId) {
+          console.warn(`🔄 [clerk-exchange] Securely migrating verified user ${canonicalEmail} from previous clerkId (${lwUser.clerkId}) to new clerkId (${clerkUserId}).`);
+        } else {
+          console.log(`🔗 [clerk-exchange] Linking verified user ${canonicalEmail} to clerkId (${clerkUserId}).`);
         }
 
         await User.findByIdAndUpdate(lwUser._id, {
           clerkId:       clerkUserId,
           authProvider:  'clerk',
-          emailVerified,
+          emailVerified: true,
           lastLogin:     new Date(),
           ...(clerkFullName && !lwUser.full_name ? { full_name: clerkFullName } : {}),
         });
@@ -256,11 +298,12 @@ router.post('/clerk-exchange', async (req, res, next) => {
       if (lwUser.email && lwUser.email.toLowerCase() !== canonicalEmail) {
         return res.status(409).json({
           error: 'Clerk email address has changed. Contact your administrator to update your account.',
+          code: 'EMAIL_CHANGED_CONFLICT',
         });
       }
       await User.findByIdAndUpdate(lwUser._id, {
         lastLogin:     new Date(),
-        emailVerified,
+        emailVerified: true,
         ...(clerkFullName && !lwUser.full_name ? { full_name: clerkFullName } : {}),
       });
       lwUser = await User.findById(lwUser._id);
