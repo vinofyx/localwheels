@@ -140,44 +140,17 @@ app.use(cors({
 // Dev: coloured dev format; Prod: combined (Apache-style) for log aggregators
 app.use(morgan(IS_PROD ? 'combined' : 'dev'));
 
-// ── Global API rate limiter ───────────────────────────────────────────────────
-// 300 requests per 15 minutes per IP — protects all /api/* routes from abuse
-const apiLimiter = rateLimit({
-  windowMs:          15 * 60 * 1000,
-  max:               300,
-  standardHeaders:   true,  // X-RateLimit-* headers
-  legacyHeaders:     false,
-  message:           { error: 'Too many requests. Please try again later.' },
-  skip:              (req) => IS_DEV, // no global limit in dev
-});
+// ── Rate Limiters & NoSQL Injection Protection ────────────────────────────────
+const { apiLimiter, chatLimiter } = require('./middleware/rateLimiter');
+const { mongoSanitize } = require('./middleware/sanitize');
+
 app.use('/api', apiLimiter);
-
-// ── Login-specific rate limiter ───────────────────────────────────────────────
-// 10 attempts per 15 minutes per IP — stricter than the global limiter
-const loginLimiter = rateLimit({
-  windowMs:        15 * 60 * 1000,
-  max:             10,
-  standardHeaders: true,   // X-RateLimit-* response headers
-  legacyHeaders:   false,
-  message:         { error: 'Too many login attempts. Try again in 15 minute(s).' },
-  skip:            () => IS_DEV,  // no login limit in dev — default keyGenerator handles IPv6
-});
-
-// ── Chat rate limiter ─────────────────────────────────────────────────────────
-// Tighter limit on the public AI chatbot to prevent Anthropic API cost abuse.
-// Each chat request can trigger up to 4 upstream calls (tool-use loop).
-const chatLimiter = rateLimit({
-  windowMs:        15 * 60 * 1000,
-  max:             30,
-  standardHeaders: true,
-  legacyHeaders:   false,
-  message:         { error: 'Too many chat requests. Please wait before sending more messages.' },
-});
 
 app.use(compression());
 app.use(metricsMiddleware);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(mongoSanitize);
 
 // ── Static file uploads ───────────────────────────────────────────────────────
 // Protect private document vault from unauthenticated static browsing

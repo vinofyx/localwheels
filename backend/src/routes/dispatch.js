@@ -957,7 +957,10 @@ router.patch('/checklist/:trip_id', auth, async (req, res) => {
 
     // If loading complete — update trip status
     if (overall_status === 'complete') {
-      await Trip.updateOne({ _id: req.params.trip_id }, { status: 'loading' });
+      await Trip.updateOne(
+        { _id: req.params.trip_id, company_id: req.user.company_id },
+        { status: 'loading' }
+      );
       await DispatchQueue.updateMany(
         { trip_id: req.params.trip_id, company_id: req.user.company_id },
         { status: 'loading' }

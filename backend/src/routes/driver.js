@@ -718,7 +718,12 @@ router.get('/notifications', auth, async (req, res) => {
 // ── PATCH /api/driver/notifications/:id/read ──────────────────────────────────
 router.patch('/notifications/:id/read', auth, async (req, res) => {
   try {
-    await DriverNotification.findByIdAndUpdate(req.params.id, { is_read: true, read_at: new Date() });
+    const driverId = await resolveDriverId(req);
+    const filter = { _id: req.params.id, company_id: req.user.company_id };
+    if (driverId) filter.driver_id = driverId;
+
+    const notif = await DriverNotification.findOneAndUpdate(filter, { is_read: true, read_at: new Date() }, { new: true });
+    if (!notif) return res.status(404).json({ error: 'Notification not found' });
     res.json({ success: true });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Company = require('../models/Company');
 const { authenticate } = require('../middleware/auth');
+const { loginLimiter } = require('../middleware/rateLimiter');
 const { bootstrapSuperAdmin, getBootstrapStatus } = require('../services/adminBootstrap');
 
 const router = express.Router();
@@ -48,11 +49,14 @@ router.post('/bootstrap-superadmin', async (req, res, next) => {
 });
 
 // ── POST /api/auth/login (Standard / Legacy JWT Login) ─────────────────────────
-router.post('/login', async (req, res, next) => {
+router.post('/login', loginLimiter, async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, password } = req.body || {};
     if (!username || !password) {
       return res.status(400).json({ error: 'username and password required' });
+    }
+    if (typeof username !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ error: 'username and password must be valid strings' });
     }
 
     const user = await User.findOne({
@@ -164,7 +168,7 @@ async function deriveUsername(email) {
 //   5. Else auto-create a new LW user from the Clerk profile (first-time Clerk login)
 //   6. Return the user profile — NO LocalWheels JWT is issued.
 //      All subsequent API requests carry the Clerk session token directly.
-router.post('/clerk-exchange', async (req, res, next) => {
+router.post('/clerk-exchange', loginLimiter, async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization || '';
     const clerkToken = authHeader.startsWith('Bearer ')

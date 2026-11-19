@@ -201,11 +201,16 @@ router.put('/:id', auth, async (req, res) => {
 
     const prevStage = existing.stage;
     const updates   = { ...req.body };
+    delete updates.company_id; // prevent tenant reassignment
 
     if (updates.stage === 'won' && prevStage !== 'won') updates.won_date = new Date();
     if (updates.stage === 'lost' && prevStage !== 'lost') updates.lost_date = new Date();
 
-    const lead = await Lead.findByIdAndUpdate(req.params.id, updates, { new: true });
+    const lead = await Lead.findOneAndUpdate(
+      { _id: req.params.id, company_id: req.user.company_id },
+      updates,
+      { new: true }
+    );
 
     if (updates.stage && updates.stage !== prevStage) {
       await logActivity(req.user.company_id, lead._id, 'stage_change',

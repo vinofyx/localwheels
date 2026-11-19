@@ -85,9 +85,14 @@ router.put('/:id', auth, async (req, res) => {
     if (!existing) return res.status(404).json({ error: 'Opportunity not found' });
 
     const updates = { ...req.body };
+    delete updates.company_id; // prevent tenant reassignment
     if (updates.stage === 'won' && existing.stage !== 'won') updates.actual_close_date = new Date();
 
-    const opp = await Opportunity.findByIdAndUpdate(req.params.id, updates, { new: true });
+    const opp = await Opportunity.findOneAndUpdate(
+      { _id: req.params.id, company_id: req.user.company_id },
+      updates,
+      { new: true }
+    );
 
     if (updates.stage && updates.stage !== existing.stage) {
       await SalesActivity.create({

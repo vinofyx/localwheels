@@ -328,7 +328,14 @@ router.post('/customer-pricing', authenticate, async (req, res) => {
 
 router.patch('/customer-pricing/:id', authenticate, async (req, res) => {
   try {
-    const doc = await CustomerPricing.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updates = { ...req.body };
+    delete updates.company_id; // prevent cross-tenant ownership reassignment
+
+    const doc = await CustomerPricing.findOneAndUpdate(
+      { _id: req.params.id, company_id: req.user.company_id },
+      updates,
+      { new: true }
+    );
     if (!doc) return err(res, 'Not found', 404);
     ok(res, doc, 'Customer pricing rule updated');
   } catch (e) { err(res, e.message, 500); }
@@ -600,7 +607,7 @@ router.patch('/discounts/:id/action', authenticate, async (req, res) => {
     const { action, note } = req.body;
     if (!['approved', 'rejected'].includes(action)) return err(res, "action must be 'approved' or 'rejected'");
 
-    const dr = await DiscountRequest.findById(req.params.id);
+    const dr = await DiscountRequest.findOne({ _id: req.params.id, company_id: req.user.company_id });
     if (!dr) return err(res, 'Discount request not found', 404);
     if (!['pending_manager', 'pending_regional'].includes(dr.status))
       return err(res, `Cannot act on a request already ${dr.status}`);
